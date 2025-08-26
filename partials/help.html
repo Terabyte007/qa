@@ -1,0 +1,106 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+        <div class="hd">
+            Result Checking Guidelines
+        </div>
+        
+        <div class="cnt_vl" style="margin-top:20px; font-size:14px;">
+            
+            <div id="mainp_quote" style="">
+                <ul class="side_mnu_cnt" style="">
+                    <li class="side_mnu" ng-class="{active_mnu:login_info}"><a href="" ng-click="openLoginInfoDv()">How to Check My Result</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:biodata_info}"><a href="" ng-click="openBioDataInfoDv()">How to ...</a></li>
+                </ul>
+            </div>
+            
+        	<div id="mainp_note" style="">
+            	<div ng-show="login_info">
+                    <div class="m-body" style="width:100%; float:left;" ng-if = "steps.step1">
+                	<h4>We assume you have logged in to the portal at this point</h4>
+                    	<p><button class="btn btn-success" ng-click = "goto(2)" >Next <i>>></i></button></p>
+                    </div>
+                    
+                    <div class="m-body" style="width:100%; float:left;" ng-if = "steps.step2">
+                	<h4><span style="font-weight:bold">Step 1.&nbsp;</span> Select My Result OR Available Result Menu</h4>
+                    	<div>
+                        	<img src="images/RMS-Help/help-part2.jpg"  />
+                        
+                        </div>
+                    	<p><button class="btn btn-primary" ng-click = "goto(1)" ><i><</i>Previous </button><button style="margin-left:20px" class="btn btn-success" ng-click = "goto(3)" >Next <i>>></i></button></p>
+                    </div>
+                    
+                    
+                    <div class="m-body" style="width:100%; float:left;" ng-if = "steps.step3">
+                	<h4><span style="font-weight:bold">Step 2.&nbsp;</span>Filter the Session's Result you want to view by:</h4>
+                    <ol>
+                    	<li>Selecting Select List (the item enclosed in red) </li>
+                    	<li>Clicking the filter button (the item enclosed in green)</li>
+                    </ol>
+                    
+                    	<div style="margin-bottom:20px">
+                        	<img src="images/RMS-Help/help-part3.jpg"  />
+                        
+                        </div>
+                    	<p><button class="btn btn-primary" ng-click = "goto(2)" ><i><<</i>Previous </button><button style="margin-left:20px" class="btn btn-success" ng-click = "goto(4)" >Next <i>>></i></button></p>
+                    </div>
+                   
+                    <div class="m-body" style="width:100%; float:left;" ng-if = "steps.step4">
+                	<h4><span style="font-weight:bold">Step 3.&nbsp;</span>View the details of your score</h4>
+                    	<div style="margin-bottom:20px">
+                        	<img src="images/RMS-Help/help-part4.jpg"  />
+                        
+                        </div>
+                    	<p><button class="btn btn-primary" ng-click = "goto(3)"><i><<</i>Previous </button><button style="margin-left:20px" class="btn btn-success" ng-click = "goto(5)" >Next <i>>></i></button></p>
+                    </div>
+                    
+                    
+                    <div class="m-body" style="width:100%; float:left;" ng-if = "steps.step5">
+                	<h4><span style="font-weight:bold">Step 4.&nbsp;</span>Sample of the Detailed Score</h4>
+                    	<div style="margin-bottom:20px">
+                        	<img src="images/RMS-Help/help-part5.jpg"  />
+                        
+                        </div>
+                    	<p><button class="btn btn-primary" ng-click = "goto(4)"><i><<</i>Previous </button></p>
+                    </div>
+
+
+                </div>
+                
+            	<div ng-show="biodata_info">
+                	<h4>How to </h4>
+                    <div class="m-body" style="width:100%; float:left;">
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{modalHeader}}</h3>
+        </div>
+        <div class="modal-body">
+            <span ng-bind-html="modalDisplay"></span>
+        </div>
+        <div class="modal-footer">
+            <button class="m-btn blue" ng-click="ok()">OK</button>
+        </div>
+    </script>
+
+<script type="text/ng-template" id="dialogContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{modalHeader}}</h3>
+        </div>
+        <div class="modal-body">
+            <span ng-bind-html="modalDisplay"></span>
+        </div>
+        <div class="modal-footer">
+            <button class="m-btn" ng-click="cancel()">Cancel</button>
+            <button class="m-btn blue" ng-click="ok(form_values)" style="margin-right:20px;">OK</button>
+        </div>
+    </script>

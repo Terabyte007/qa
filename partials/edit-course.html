@@ -1,0 +1,97 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+        <div class="hd">
+            Add New Student
+        </div>
+        
+        
+        <div class="cnt_vl" style="margin-top:20px; font-size:14px;">
+            <div id="mainp_quote" style="">
+                <ul class="side_mnu_cnt" style="">
+                    <li class="side_mnu" ng-class="{active_mnu:edit_single}"><a href="" ng-click="openEditSingleDv()">Edit Single Course</a></li>
+                    <!--<li class="side_mnu" ng-class="{active_mnu:add_multiple}"><a href="" ng-click="openAddMultipleDv()">Add Multiple (Bulk) Students</a></li>-->
+                </ul>
+            </div>
+            
+        	<div id="mainp_note" class="hme_lcnt_dv" style="position:relative; width:600px; float:left;">
+                <div ng-if="part_one">
+                <div ng-if="edit_single">
+                    <h4 style="color:#006">Edit Single Course</h4>
+                    <div style=" width:415px; text-align:left; min-width:415px; margin-bottom:10px">
+                        <form>
+                            <div class="search" style=" box-shadow:2px 2px 10px black; padding-bottom:0px">
+                                <input style="width:200px; height:35px; border:none; font-size:18px; margin-left:5px" placeholder="Course Code" 
+                                    class="search" ng-model="searchbox" />
+                                <button class="btn btn-primary" style="float:right; margin:0px; height: 35px; width:100px; border-bottom-right-radius:7px;
+                                     border-top-right-radius:7px" ng-disabled = "searchbox ==''" ng-click = "searchbutton(searchbox)">
+                                    <i>Search</i>
+                                    
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                <!--begining of the table for data display-->
+                <table class="table table-striped">
+                <tr ng-show="courses.length==0"><td style="vertical-align:middle;"><i class="fa fa-ban fa-2x"></i>&nbsp;&nbsp;No data found</td></tr>
+                
+                <tr ng-show = "courses.length > 0"><th>Course Code</th><th>Course Title</th><th>Unit</th><th>Action</th></tr>
+            
+                <tr ng-repeat="c in courses" >
+                    <td>{{c.course_title}}</td><td>{{c.course_code}}</td><td>{{c.course_unit}}</td>
+                    <td style="width:100px">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-primary fa fa-edit" ng-click="edit_details(c);"></button>
+                          <button type="button" class="btn btn-danger fa fa-trash-o" ng-click="delete_course(c);"></button>
+                        </div>
+                    </td>
+                </tr>
+                </table>
+	            <!--end of the table for data display-->
+                
+            </div>
+            </div>
+            <!---->
+            <div ng-if="part_two">
+                    <h4 style="color:#006">Edit Single Course</h4>
+                    <div style=" width:415px; text-align:left; min-width:415px; margin-bottom:10px">
+                    <form id="editDetailsForm" name="editDetailsForm">
+                       <div class="update-field">
+                                <label>Course Code:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="edit_data.course_code" placeholder="Course Code" readonly="readonly" required />
+                       </div> 
+                       <div class="update-field">
+                                <label>Course Title:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="edit_data.course_title" placeholder="Course Title" required />
+                       </div>
+                       <div class="update-field">
+                                <label>Course Unit:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="edit_data.course_unit" placeholder="Course Unit" required />
+                       </div> 
+                    <div class="update-field">
+                                <button class="m-btn green" ng-click="saveEdit(edit_data)" data-ng-disabled="editDetailsForm.$invalid">Update Course</button>
+                                <span ng-show="updating" style="line-height:30px;margin-top:10px;float:left;">
+                                	<img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" /><span style="font-weight:bold">saving...</span>
+                            	</span>
+                                
+                                <div style="position:relative">
+                					<toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+               					 </div>
+                            </div>
+                        </form>
+                        <div style="display:block">
+                                    <p>
+                                    <a href="" class="green" ng-click = "cancel_edit()">Search For Course</a>
+                                    </p>
+                        </div>
+                    </div>
+                
+                
+            </div>
+            <!---->
+            
+            
+        </div>
+    </div>
+
+    
+</div>

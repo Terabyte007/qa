@@ -1,0 +1,38 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; height:400px; width:100%;">
+    <div id="hme_cnt_dv" class="l1 tp_cnt_dv">
+        <div >
+            <h3 style="color:blue; margin:15px ">New Session Initialization</h3>
+        </div>
+        <div style="color:black; font-size:18px; margin:10px 15px">
+                <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+        </div>
+        <!--<div style="width:250px">
+        	<table width="100%" style="width:100%; color:black; margin:15px" border="0">
+            	<tr><td><button class="btn btn-warning btn-sm " ng-click = "undo_create_session()" ng-disabled = "new_session_creation_counter == 0" style="width:100%"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;Undo</button></td><td><button class="btn btn-warning btn-sm" ng-click = "create_session()" >Create new session<i class="glyphicon glyphicon-share-alt"></i></button><button class="btn btn-warning btn-sm" ng-click = "commit_session()" ng-disabled = "new_session_creation_counter == 0" >commit</button>
+                </td></tr>
+            	<tr ng-repeat = "ses in sessions" ng-class="{faint1:my_ranges[$index]==1,faint2:my_ranges[$index]==2,faint3:my_ranges[$index]==3,faint4:my_ranges[$index]==4,faint5:my_ranges[$index]==5}">
+                	<td  style="text-align:center;" ><i class="glyphicon glyphicon-play"></i></td><td style="padding-left:10px">{{ses.session}}</td>
+                </tr>
+            </table>
+        </div>-->
+        <div>
+        	<div style="margin:15px">
+            <div class="update-field">
+                <label>Select Academic Session:</label>
+                <select  class="m-wrap"  ng-model="selected_option">
+                    
+                    <option value="" >--Select Session--</option>
+                    <option ng-repeat = "sess in sessions"  value="{{sess.session}}">{{sess.session}}</option>
+                </select><button class="btn btn-primary" ng-click = "commit_session()" ng-disabled = "selected_option == ''" >Commit</button>
+            </div>
+            </div>
+            <div style="color:black; margin:15px; font-size:17px">
+            	<p>
+                	The new session is {{new_session}}&nbsp;.Select a session and the commit button will be enabled. Commit the session and it will become the current session.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+</div>

@@ -1,0 +1,113 @@
+
+<div style="margin:auto; margin-top:0; margin-bottom:0px;  width:100%; border:solid 1px black">
+<div  style="color:black; padding:20px">
+<h3 style="margin:20px auto; text-align:center; font-weight:bold">Download Assessment</h3>
+            <div>
+                    <toaster-container toaster-options="{'time-out': 5000, 'position-class':'toast-top-full-width'}">
+            </div>
+
+<div style=" border:1px solid black">
+
+    <div style="margin-top:10px; padding:10px">
+        <div style="margin:0px">
+            <p style="text-align:center; margin-top:-30px; border:solid 1px black; background-color:white; width:300px; float:right; 
+               padding:2px; font-weight:bold">Set Parameters for New Download 
+            </p>
+        </div>
+        
+        <div style="font-weight:bold; margin-right:10px" ng-if = "donwload_parameters.download_type != ''">Type of Download</div>
+            <div>
+                <select  ng-model = "donwload_parameters.download_type" style="height:25px; width:200px; font-size:16px" >
+                    <option selected value="">--Select Download Type--</option>
+                    <option  value="Individual Lecturer" > Individual Lecturer </option>
+                    <option  value="All Lecturers" > All Lecturers </option>
+                </select>
+            </div>
+        </div>
+    
+        <div style="margin:10px">
+            <div style="font-weight:bold; margin-left:0px; margin-right:10px" ng-if = "donwload_parameters.lecturer_info != ''">Name of Lecturer</div>
+            <div style="" ng-if = "donwload_parameters.download_type == 'Individual Lecturer'">
+                <select ng-model="donwload_parameters.lecturer_info" 
+                     ng-options="lect as lect.name for lect in lecturers" 
+                     style="height:25px; width:200px; font-size:16px">
+                     <option value = "">-- Choose Lecturer --</option>
+                </select> 
+            </div>
+        </div>
+    
+        <div>
+            <div  style="margin:10px">
+                <button class="btn btn-primary btn-sm" ng-disabled ="(donwload_parameters.download_type =='Individual Lecturer' && 
+                  donwload_parameters.lecturer_info =='') || donwload_parameters.download_type ==''" ng-click = "donwload_pdf()">
+                 Generate &nbsp;PDF Assessment for&nbsp;<span>{{donwload_parameters.download_type}}</span>
+                 </button>
+            </div>
+        
+        </div>
+    
+    </div>
+<!--Existing downloads --> 
+    <hr style="margin-top:5px; border:1px solid black" />
+    <div style="background-color: whitesmoke; padding:20px" >
+        <h4 style="text-align:center; background-color:black; height:35px; color:white; padding:5px; width:50%; margin:10px auto; font-weight:bold">
+        Available Downloads for {{session.session}}</h4>
+        <div>
+            <div>
+                <label>Download Type</label>
+            </div>
+            <div >
+                <select ng-model = "type_of_download" style="width:300px; height:30px">
+                    <option value="">[ Select Download Type ]</option>
+                    <option value="individual">Individual Assessment</option>
+                    <option value="all_lecturers">Departmental Assessment (All the staff)</option>
+                </select>
+            </div>
+        </div>
+        <div ng-if = "type_of_download == 'individual'"><!--Individual download -->
+        	<div ng-if = "assessments_download.length > 0"> <!--record returned -->
+                <h5 style="font-weight:bold">Individual Assessments</h5>
+                <div ng-repeat = "assessment in assessments_download" style="border-bottom: solid 2px #CCCCCC; margin-top:20px; margin-bottom:5px; width:50%">
+                    
+                    <div> <a ng-href="documents/{{assessment.href}}" style="font-size:16px; font-weight:bolder; color: #069">
+                        {{assessment.course_code}}&nbsp;Assessment <i class="glyphicon glyphicon-save" style="margin-left:10px"></i>
+                        </a>
+                        <span style="margin:2px; padding:0px; font-size:10px">This assessment was generated on {{assessment.transaction_time}}</span>
+                    </div>
+                    
+                </div>
+            </div> <!--end of records returned -->
+            <div ng-if = "assessments_download.length == 0"> <!--No record rerturned -->
+            	<p style="margin:3px; font-weight:bold">No individual donwload is available </p>
+            </div><!--End of no record returned -->
+        </div><!--End of individual download-->
+        
+        <div ng-if = "type_of_download == 'all_lecturers'"><!--All lecturers download -->
+        	<div ng-if = "departmental_download.length > 0"> <!--record returned -->
+                <h5 style="font-weight:bold">Departmental Assessments</h5>
+                <div ng-repeat = "assessment in departmental_download" style="border-bottom: solid 1px #CCCCCC; margin-top:20px; width:50%">
+                    <p style="margin:2px; padding:0px; font-size:10px">This assessment was generated on {{assessment.transaction_time}}</p>
+                    <a ng-href="documents/{{assessment.href}}" style="font-size:16px; font-weight:bolder; color: #069">
+                       {{assessment.course_code}}&nbsp;Assessment
+                        <i class="glyphicon glyphicon-save" style="margin-left:10px"></i>
+                    </a>
+                    
+                </div>
+            </div> <!--end of records returned -->
+            <div ng-if = "departmental_download.length == 0 ||departmental_download.length == undefined "> <!--No record rerturned -->
+            	<p style="margin:3px; font-weight:bold">No departmental donwload is available </p>
+            </div><!--End of no record returned -->
+
+        </div><!--End of All lecturers download -->
+
+    
+    </div>
+    
+    
+<!-- End of Existing downloads --> 
+
+
+
+</div>
+
+</div>

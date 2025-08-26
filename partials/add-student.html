@@ -1,0 +1,193 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+        <div class="hd">
+            Add New Student
+        </div>
+        
+        
+        <div class="cnt_vl" style="margin-top:20px; font-size:14px;">
+            <div id="mainp_quote" style="">
+                <ul class="side_mnu_cnt" style="">
+                    <li class="side_mnu" ng-class="{active_mnu:add_single}"><a href="" ng-click="openAddSingleDv()">Add Single Student</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:add_multiple}"><a href="" ng-click="openAddMultipleDv()">Add Multiple (Bulk) Students</a></li>
+                </ul>
+            </div>
+            
+        	<div id="mainp_note" class="hme_lcnt_dv" style="position:relative; width:600px; float:left;">
+                
+                <div ng-if="add_single">
+                    <h4>Add Single Student</h4>
+                    
+                    <div style="width:100%; float:left;">
+                        <p>Fill the form below to add student to the database.</p>
+                        <form id="addItemForm" name="addItemForm">
+                        	 <div class="update-field">
+                                <label>Select Faculty:</label>
+                                <select name="" ng-model="item_data.faculty" data-ng-options="faculty for faculty in faculties" class="m-wrap" ng-change="select_department(item_data.faculty)" required>
+                                    <option value="" style="font-weight:bold">Select Faculty</option>
+                                </select>
+                            </div>
+                            
+                        	 <div class="update-field">
+                                <label>Select Department:</label>
+                                <select name="" ng-model="item_data.department" class="m-wrap" ng-change = "change_of_department(item_data.department)" required>
+                                    <option value="" style="font-weight:bold">Select Department</option>
+                                    <option value ="{{dept.id}}" ng-repeat = "dept in departments">{{dept.title}}</option>
+
+                                </select>
+                                <span ng-show="loading_depts" style="line-height:30px;float:left;"><img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" />loading...</span>
+                            </div>
+                            
+                            <div class="update-field">
+                                <label>Select Level:</label>
+                                <select name="" ng-model="item_data.level" class="m-wrap" required>
+                                    <option value="" style="font-weight:bold">Select Level</option>
+                                    <option value ="{{level.id}}" ng-repeat = "level in levels">{{level.title}}</option>
+                                </select>
+                                
+                            </div>
+                            
+                            <div class="update-field">
+                                <label>Select Semester:</label>
+                                <select name="" ng-model="item_data.semester" class="m-wrap" required>
+                                    <option value="" style="font-weight:bold">Select Semester</option>
+                                    <option value="1">First Semester</option>
+                                    <option value="2">Second Semester</option>
+                                </select>
+                                
+                            </div>
+                            
+                            <div class="update-field">
+                                <label>Select Gender:</label>
+                                <select name="" ng-model="item_data.gender" class="m-wrap" required>
+                                    <option value="" style="font-weight:bold">Select Gender</option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                </select>
+                                
+                            </div>
+                            
+                            <div class="update-field">
+                                <label>Matriculation Number:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="item_data.matriculation_number" placeholder="Student Matriculation Number" required />
+                            </div>
+                            <div class="update-field">
+                                <label>Surname:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="item_data.surname" placeholder="Student Surname" required />
+                            </div>
+                            
+                            <div class="update-field">
+                                <label>Firstname:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="item_data.firstname" placeholder="Student Firstname" required />
+                            </div>
+                             <div class="update-field">
+                                <label>Middlename:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="item_data.middlename" placeholder="Student Middlename" required />
+                            </div>
+                            
+                            
+                            <div class="update-field">
+                                <button class="m-btn green" ng-click="saveItem(item_data)" data-ng-disabled="addItemForm.$invalid">Save Student Details</button>
+                                <span ng-show="submitting" style="line-height:30px;margin-top:10px;float:left;">
+                                	<img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" /><span style="font-weight:bold">saving...</span>
+                            	</span>
+                                
+                                <div style="position:relative">
+                					<toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+               					 </div>
+                            </div>
+                        </form>
+                        <div style="display:block">
+                                    <p>
+                                    <a href="#/admin/students/download_template" class="green">Download Student Template For Bulk Upload</a>
+                                    </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div ng-if="add_multiple">
+                	<h4>Add Multiple Students</h4>
+                    
+                    <!--<br/>
+                    <h5 style="font-size:15px; font-weight:bold">Download Student Template</h5>
+                    <p style="width:100%; float:left; text-align:justify">This template is a Microsoft Excel Files that is a blueprint of all the headings (fields) needed of each student. </p>
+                    <p style="width:100%; float:left; text-align:justify">
+                    Line Number one is an example. Please delete this record after studying the format</p>
+                    <p style="width:100%; float:left"><a href="generatedexcel/course-of-study-data.xlsx" class="m-btn green"><i class="icon icon-download-alt"></i> &nbsp; Download Template</a></p>
+                    
+                    <hr style="width:100%; height:2px; margin:40px 0; background-color:#CCC; float:left;"/>
+                    
+                    <br/>-->
+                    <div style="float:left">
+                        <h5 style="font-size:15px; font-weight:bold">Upload Students' data File</h5>
+                         <p style="width:100%; float:left">Upload Micosoft Excel file which contains the students' information that is to be added to our database. This file is the populated students' data template that was downloaded</p>
+                         <div style="width:100%; float:left">
+                         <input type="file" name="file" id="file" onchange="angular.element(this).scope().pickupthefileformassupload(this.files)" class="m-btn" style="margin-right:10px;"/>
+                           <a href="" ng-click="uploadMassStudents()" class="m-btn green" style="margin-top:12px;">Upload file</a>
+                          </div>
+                          <div style="position:relative">
+                            <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+                          </div>
+                     </div>
+                                    
+                     <!--unsaved payment records-->
+                      <div ng-show="unsavedRecord" style="border:solid black 1px; float:left">
+                            <h4 style="margin:0px; text-align:center">Unsaved Students Information <span ng-click = "unsavedRecord = false" style="cursor: pointer; float:right; margin-top:-10px; margin-right:-10px; background-color:white"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                            </h4><hr style="margin:0px">   
+                            <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px; margin:0px">
+                                  <thead style="background-color: rgb(204,51,102); color:white; text-align:center">
+                                      <th style="text-align:center">S/N</th>
+                                    <th style="text-align:center">Matriculation Number</th>
+                                    <th style="text-align:center">Level</th>
+                                    <th style="text-align:center">Name</th>
+                                    <th style="text-align:center">Remark</th>                                                   
+                                  </thead>
+                                  <tbody>
+                                      <tr ng-repeat="data in unsavedData">
+                                          <td style="text-align:center">{{$index+1}}</td>
+                                        <td>{{data.C}}</td>
+                                        <td>{{data.B}}</td>
+                                        <td>{{data.D}}&nbsp;{{data.E}}&nbsp;{{data.F}}</td>
+                                        <td>This Record Already Exists</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                     </div>
+                     <!--end of unsaved payment records-->
+                                 
+                    <!--saved payment records-->
+                      <div ng-show="okRecord" style="border:solid black 1px; float:left; margin-top:15px">
+                          <h4 style="margin:0px; text-align:center">Saved Students Information<span ng-click = "okRecord = false" style="cursor: pointer; float:right; margin-top:-10px; margin-right:-10px; background-color:white"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                          </h4><hr style="margin:0px">   
+                          <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px; margin:0px">
+                                <thead style="background-color: green; color:white; text-align:center">
+                                    <th style="text-align:center">S/N</th>
+                                    <th style="text-align:center">Matriculation Number</th>
+                                    <th style="text-align:center">Level</th>
+                                    <th style="text-align:center">Name</th>
+                                    <th style="text-align:center">Remark</th>                                                    
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="data in savedData">
+                                        <td style="text-align:center">{{$index+1}}</td>
+                                        <td>{{data.C}}</td>
+                                        <td>{{data.B}}</td>
+                                        <td>{{data.D}}&nbsp;{{data.E}}&nbsp;{{data.F}}</td>
+                                        <td>This Record Was Saved Successfully</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                   </div>
+                   <!--end of saved payment records-->
+                   <div style="display:block">
+                    <p>
+                    <a href="#/admin/students/download_template" class="green">Download Student Template For Bulk Upload</a>
+                    </p>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>

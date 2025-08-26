@@ -1,0 +1,201 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px;  width:100%; border:solid 1px black">
+    <div style="margin:auto; margin:30; width:100%; color:black; padding:20px" >
+            <div style="margin:30px auto; text-align:center">
+                <h3 style="text-align:center; border-bottom-style:double; margin:20px; padding:10px">
+                    Download Assessments for {{session.session}}
+                </h3>
+            </div>
+            
+            <div  ng-if ="faculty_and_depatments">
+                <div style="color:black">
+                    <div id="faculty_label"><label>Faculty</label></div>
+                    <div id="faculty">
+                        <select ng-change = "select_department(selected_faculty)" ng-model = "selected_faculty" style="width:300px; height:40px">
+                            <option value = "">[ Select Faculty ]</option>
+                            <option ng-repeat = "fac in faculties" value = "{{fac}}">{{fac}}</option>
+                            
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="margin-top:10px">
+                    <div id="department_label"><label>Department</label></div>
+                    <div id="department">
+                        <select ng-model = "selected_department" style="width:300px; height:40px" ng-change = "get_department_name(selected_department)" >
+                            <option value = "">[ Select Department ]</option>
+                            <option ng-repeat = "dept in departments" value = "{{dept.id}}">{{dept.title}}</option>
+                            
+                        </select>
+                        
+                        <span>
+                            <button class="btn btn-primary" ng-disabled = "selected_department == ''" ng-click = "show_the_department(selected_department)">
+                               Show <span ng-if = "selected_department != ''"> {{department_name}} department </span> Assessment 
+                           </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div style="margin:20px"><button style="" ng-click = "show_departments()" ng-if = "get_another_department"><i class="glyphicon glyphicon-folder-open" style="margin-right:10px"></i> Get Another Department</button></div>
+            <hr style="margin:20px">
+            <div style="margin:20px" ng-if = "show_department">
+            	<h4 style="margin:20px; text-align:center; font-weight:bold">Assessment Download for {{department_name}} department, faculty of {{selected_faculty}}</h4>
+                
+                <!--PDF or EXCEL DOWNLOAD-->
+                <div style="border:solid 1px black; width:40%">
+                	<a href="" ng-click = "showPDFsection()" class="btn"><img src="images/pdf.png" width="40px" height="40px" alt="PDF"/></a>
+                	<a href="" ng-click = "showEXCELsection()" class="btn"><img src="images/ms-excel.png" width="40px" height="40px" alt="MS Excel" /></a>
+                </div>
+                <hr />
+                <!--END OF PDF or EXCEL DOWNLOAD-->
+            	<div ng-if = "pdf_section_flag">
+                    <!--pdf donwloads -->
+
+                    <!--Existing downloads --> 
+                        <hr style="margin-top:5px; border:1px solid black" />
+                        <div style="">
+<!--                            <h4 style="text-align:center; background-color:black; height:35px; color:white; padding:5px; width:50%; margin:10px auto;
+                             font-weight:bold">
+                            Available PDF Downloads for {{session.session}}</h4>
+-->                         
+							<h3>PDF Download</h3>
+							<div>
+                                <div>
+                                    <label>Download Type</label>
+                                </div>
+                                <div>
+                                    <select ng-model = "type_of_download" style="width:300px; height:30px">
+                                        <option value="">[ Select Download Type ]</option>
+                                        <option value="individual">Individual Assessment</option>
+                                        <option value="all_lecturers">Departmental Assessment (All the staff)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div ng-if = "type_of_download == 'individual'"><!--Individual download -->
+                                <h5 style="font-weight:bold">Individual Assessments</h5>
+                                <div ng-repeat = "assessment in assessments_download" style="border-bottom: solid 2px #CCCCCC; margin-top:20px; 
+                                  margin-bottom:5px; width:70%">
+                                    
+                                    <div> <a ng-href="documents/{{assessment.href}}" style="font-size:16px; font-weight:bolder; color: #069">
+                                        {{assessment.course_code}}&nbsp;Assessment <i class="glyphicon glyphicon-save" style="margin-left:10px"></i>
+                                        </a> - <span style="margin:10px">{{assessment.name}}</span>
+                                        <span style="margin:2px; padding:0px; font-size:10px">This assessment was generated on {{assessment.transaction_time}}
+                                        </span>
+                                        <span style="float:right"><a href=""><i class="glyphicon glyphicon-refresh" ></i></a></span>
+                                    </div>
+                                    
+                                </div>
+                            </div><!--End of individual download-->
+                            
+                            <div ng-if = "type_of_download == 'all_lecturers'"><!--All lecturers download -->
+                            
+                                <h5 style="font-weight:bold">Departmental Assessments</h5>
+                                <div ng-repeat = "assessment in departmental_download" style="border-bottom: solid 1px #CCCCCC; margin-top:20px; width:50%">
+                                    <p style="margin:2px; padding:0px; font-size:10px">This assessment was generated on {{assessment.transaction_time}}</p>
+                                    <a ng-href="documents/{{assessment.href}}" style="font-size:16px; font-weight:bolder; color: #069">
+                                     {{assessment.course_code}}&nbsp;Assessment
+                                        <i class="glyphicon glyphicon-save" style="margin-left:10px"></i>
+                                    </a>
+                                    
+                                </div>
+                            </div><!--End of All lecturers download -->
+                    
+                        
+                        </div>
+                        
+                        
+                    <!-- End of Existing downloads --> 
+                    <!--end of pdf download-->
+                </div>
+            	<div ng-if = "excel_section_flag">
+                <!--excel donwloads -->
+                	<h2>Excel</h2>
+                    <div>
+                        <div>
+                            <label>Download Type</label>
+                        </div>
+                        <div>
+                            <select ng-model = "excel_type_of_download" style="width:300px; height:30px" >
+                                <option value="">[ Select Download Type ]</option>
+                                <option value="departmental">Departmental Assessment</option>
+                                <option value="university_wide">University-wide Assessment</option>
+                            </select>
+                        </div>
+                        <hr />
+                        <!--Departmental Assessment -->
+                        <div ng-if = "excel_type_of_download == 'departmental'">
+                            <div class="update-field" style="text-align:right; float:right; margin-top:20px; ">
+                                <input type="text" ng-model="search" ng-change="filter()" placeholder="Search For download by deaprtment" 
+                                    class="form-control m-wrap"  style="display:inline; margin-left:20px; padding:15px"/>
+                                <span class="btn btn-search" style="float:left;  margin:5px 0px; padding:0px">
+                                     <i class="fa fa-search fa-fw" style="margin:0px; padding:0px; font-size:25px;">
+                                     </i>
+                                </span>
+                            </div>
+                            
+                            <div class="row" style="margin:0px 10px; padding:0px">
+                                <div class="col-md-4" ng-show="filtered.length > 0">
+                                    <h5><span ng-bind="filtered.length"></span> Download Information.</h5>
+                                </div>
+                                
+                                <div class="col-md-12" ng-show="filtered.length > 0">
+                                   <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+                                    <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px;">
+                                        <thead style="background-color: #CD61CD; color:white; text-align:center">
+                                            <th style="text-align:center">S/N</th>
+                                            <th style="text-align:center">DEPARTMENT</th>
+                                            <th style="text-align:center">DATE GENERATED</th>
+                                            <th style="text-align:center">ACTION</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="dept in filtered = (departmental_excel_data
+                                               | filter:search | orderBy : predicate :reverse) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+                                                <td style="text-align:center">{{$index+1}}</td>
+                                                <td style="">{{dept.course_code}}</td>
+                                                <td style="">{{dept.transaction_time}}</td>
+                                                
+                                                <td style="text-align:center; font-size:14px">
+                                                	<a ng-href="documents/{{dept.href}}">
+                                                    	[ Download ] <i class="glyphicon glyphicon-save"></i>
+                                                    </a>
+                                                 </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="col-md-12" ng-show="filtered.length == 0">
+                                    <h4>No Download matches the specified criteria</h4>
+                                </div>
+                                
+                                <div class="col-md-12" ng-show="filtered.length > 0">
+                                    <div pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="true" 
+                                       total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" 
+                                        next-text="&raquo;" ng-if="filtered.length > 10">
+                               		</div>
+                                    <div style="" pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="false" 
+                                      total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" 
+                                      next-text="&raquo;" ng-if="filtered.length < 11">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--End of Departmental Assessment -->
+                        
+                        
+                        <!--Departmental Assessment -->
+                        <div ng-if = "excel_type_of_download == 'university_wide'">
+                        
+                            <h4>university Assessment</h4>
+                        
+                        </div>
+                        <!--End of Departmental Assessment -->
+            
+                    </div>
+                </div>
+                
+            
+            </div>
+    
+    </div>
+    
+ </div>

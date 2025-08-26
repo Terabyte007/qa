@@ -1,0 +1,219 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+        <div class="hd">
+            Add New Faculty
+        </div>
+        
+        <div style="position:relative">
+          <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+       </div>
+        <div class="cnt_vl" style="margin-top:20px; font-size:14px;">
+            <div id="mainp_quote" style="">
+                <ul class="side_mnu_cnt" style="">
+                    <li class="side_mnu" ng-class="{active_mnu:add_single}"><a href="" ng-click="openAddSingleDv()">Add Faculty</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:edit_single_Faculty}"><a href="" ng-click="openRemoveSingleDv()">Edit Faculty</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:add_multiple}"><a href="" ng-click="openAddMultipleDv()">Add Multiple Faculty</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:download_Faculty_template}"><a href="" ng-click="openDownloadTemaplateDv()">Download Faculty Template</a></li>
+                </ul>
+            </div>
+            
+        	<div id="mainp_note" class="hme_lcnt_dv" style="position:relative; width:600px; float:left;">
+             
+                    <!--Download Faculty template-->
+                    <div ng-if = "download_Faculty_template" style="color:black">
+                    	<h4 style="color:#006">Download Faculty Template</h4>
+                            <p style="width:100%; float:left">
+                                This template is a blueprint of the Facultys' records. 
+                                It is meant to be populated and uploaded as bulk records after the download. 
+                                A sample record is entered into the Microsoft Excel workbooks
+                            </p>
+                             <p style="width:100%; float:left">
+                             	<a href="generatedexcel/faculty-data.xlsx" class="m-btn green">
+                                	<i class="icon icon-download-alt"></i> &nbsp; Download Template
+                                </a>
+                             </p>
+            		</div>
+                	<!--end of Faculty template -->
+                
+                <div ng-if="add_single">
+                    <h4>Add Single Faculty</h4>
+                    
+                    <div style="width:100%; float:left;">
+                        <p>Fill the form below to add a Faculty to the database.</p>
+                        <form id="addFacultyForm" name="addFacultyForm">
+                         	<div class="update-field">
+                                <label>Faculty name:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="item_data.Faculty_name" placeholder="Faculty name ..." required />
+                            </div>
+                            
+                        	 
+
+                            <div class="update-field" ng-show = "button_section">
+                                <button class="m-btn green" ng-click="saveFaculty(item_data)" data-ng-disabled="addFacultyForm.$invalid">Save Faculty</button>
+                                <span ng-show="submittingFaculty" style="line-height:30px;margin-top:10px;float:left;">
+                                	<img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" /><span style="font-weight:bold">saving...</span>
+                            	</span>
+                                
+                                
+                            </div>
+                        </form>
+                        <!--For staff who does not exist-->
+                        
+                        <div style="display:block">
+                                    <p>
+                                    <a ng-click="openDownloadTemaplateDv()" style="display:block; cursor: pointer">Download Faculty Template For Bulk Upload</a>
+                                    </p>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="edit_single_Faculty">
+                    <h4 style="color:#006">Edit Faculty</h4>
+                    <div style=" width:415px; text-align:left; min-width:415px; margin-bottom:10px">
+                        <form id="editFacultyForm" name="editFacultyForm">
+                            <div class="update-field">
+                                <label>Select Faculty:</label>
+                                <select name="" ng-model="item_data.faculty"  class="m-wrap" ng-change="update_others()" required>
+                                    <option value="" style="font-weight:bold">Select Faculty</option>
+									<option value ="{{f.id}}" ng-repeat = "f in fac">{{f.faculty}}</option>                                
+                                </select>
+                            </div>
+                            
+                           
+                            
+                            <div class="update-field" >
+                             <button class="m-btn green" ng-click="searchbutton(item_data.faculty)" data-ng-disabled="editFacultyForm.$invalid">Edit Faculty</button>
+                                <span ng-show="submittingFaculty" style="line-height:30px;margin-top:10px;float:left;">
+                                	<img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" /><span style="font-weight:bold">saving...</span>
+                            	</span>
+                                
+                               
+                            </div>
+                            
+                        </form>
+                    </div>
+                	<!--begining of the table for data display-->
+                    <div ng-show = " hasClickedEdit == true ">
+                        <table class="table table-striped" style="width:70%">
+                        <tr ng-show="searched_Faculty.length==0"><td style="vertical-align:middle;"><i class="fa fa-ban fa-2x"></i>&nbsp;&nbsp;No Faculty found</td></tr>
+                        
+                        <tr ng-show = "searched_Faculty.length > 0"><th>Title </th><th style="padding-right:100px; float:right">Operation</th></tr>
+                    
+                        <tr ng-repeat="c in searched_Faculty" >
+                            <td>{{c.faculty}}</td>
+                            <td style="width:250px">
+                                <div style="float:right; text-align:right" >
+                                  <button type="button" class="btn btn-primary fa fa-edit" ng-click="edit_details(c);">&nbsp;Edit</button>&nbsp;
+                                  <button type="button" class="btn btn-danger fa fa-trash-o" ng-click="delete_Faculty_title(c);">&nbsp;Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                        </table>
+                     </div>
+	            	<!--end of the table for data display-->
+                    
+                   
+                
+                    <!--edit Faculty-->
+                    <div ng-if = "edit_Faculty_information">
+                    	<h5 style="color:#006">Edit Faculty's Information</h5>
+                            <div style=" width:415px; text-align:left; min-width:415px; margin-bottom:10px">
+                                <form id="editFacultyDetailsForm" name="editFacultyDetailsForm">
+                                   <div class="update-field">
+                                            <label>Faculty ID:</label>
+                                            <input type="password" class="m-wrap" name="" ng-model="edit_data.id" placeholder="Faculty ID ..." readonly=
+                                                 "readonly" required />
+                                   </div> 
+                                   <div class="update-field">
+                                            <label> Title:</label>
+                                            <input type="text" class="m-wrap" name="" ng-model="edit_data.faculty" placeholder="Title ..." required />
+                                   </div>
+                                   
+                                <div class="update-field">
+                                            <button class="m-btn green" ng-click="saveEditFaculty(edit_data)" data-ng-disabled=
+                                                  "editFacultyDetailsForm.$invalid">Update  Information</button>
+                                            <span ng-show="updating_Faculty" style="line-height:30px;margin-top:10px;float:left;">
+                                                <img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" /><span
+                                                     style="font-weight:bold">saving...</span>
+                                            </span>
+                                            
+                                            
+                                   </div>
+                                </form>
+                            <div style="display:block">
+                                        <p>
+                                        <a href="" class="green" ng-click = "cancel_details()">Cancel</a>
+                                        </p>
+                            </div>
+                       </div>
+                  
+                  </div>
+                    
+                
+            	</div>
+            
+                <!--end of this div-->
+                <div ng-if="add_multiple">
+                	<h4>Add Multiple Facultys</h4>
+                    <div style="float:left">
+                        <h5 style="font-size:15px; font-weight:bold">Upload Facultys' data File</h5>
+                         <p style="width:100%; float:left">Upload Micosoft Excel file which contains the Facultys' information that is to be added to our database. This file is the populated Facultys' data template that was downloaded</p>
+                         <div style="width:100%; float:left">
+                         <form name="frmChooseFile" id = "frmChooseFile">
+                             <input type="file" name="file" id="file" onchange="angular.element(this).scope().pickupthefileformassupload(this.files)" class="m-btn" style="margin-right:10px;" required="required"/>
+                                <button class="m-btn green" ng-click="uploadMassFaculty()" data-ng-disabled="frmChooseFile.$invalid">Upload file</button>
+                              </div>
+                          </form>
+                          
+                     </div>
+                                    
+                     <!--unsaved payment records-->
+                      <div ng-show="unsavedRecord" style="border:solid black 1px; float:left">
+                            <h4 style="margin:0px; text-align:center">Unsaved Faculty's Information <span ng-click = "unsavedRecord = false" style="cursor: pointer; float:right; margin-top:-10px; margin-right:-10px; background-color:white"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                            </h4><hr style="margin:0px">   
+                            <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px; margin:0px">
+                                  <thead style="background-color: rgb(204,51,102); color:white; text-align:center">
+                                    <th style="text-align:center">S/N</th>
+                                    <th style="text-align:center">Faculty</th>
+                                    <th style="text-align:center">Faculty</th>
+                                    <th style="text-align:center">Remark</th>                                                   
+                                  </thead>
+                                  <tbody>
+                                      <tr ng-repeat="data in unsavedData">
+                                        <td style="text-align:center">{{$index+1}}</td>
+                                        <td>{{data.B}}</td>
+                                        <td>{{data.C}}</td>
+                                        <td>This Record Already Exists</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                     </div>
+                     <!--end of unsaved payment records-->
+                                 
+                    <!--saved payment records-->
+                      <div ng-show="okRecord" style="border:solid black 1px; float:left; margin-top:15px">
+                          <h4 style="margin:0px; text-align:center">Saved Faculty's Information<span ng-click = "okRecord = false" style="cursor: pointer; float:right; margin-top:-10px; margin-right:-10px; background-color:white"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                          </h4><hr style="margin:0px">   
+                          <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px; margin:0px">
+                                <thead style="background-color: #060; color:white; text-align:center">
+                                    <th style="text-align:center">S/N</th>
+                                    <th style="text-align:center">Faculty</th>
+                                    <th style="text-align:center">Remark</th>                                                   
+                                  </thead>
+                                  <tbody>
+                                      <tr ng-repeat="data in savedData">
+                                        <td style="text-align:center">{{$index+1}}</td>
+                                        <td>{{data.B}}</td>
+                                        <td>This record was successfully saved</td>
+                                      </tr>
+                                  </tbody>
+                            </table>
+                   </div>
+                   <!--end of saved payment records-->
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>

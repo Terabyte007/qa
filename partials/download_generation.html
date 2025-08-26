@@ -1,0 +1,47 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px;  width:100%; border:solid 1px black">
+    <div style="margin:auto; margin:30; width:100%; color:black; padding:20px" >
+            <div style="margin:30px auto; text-align:center">
+                <h3 style="text-align:center; border-bottom-style:double; margin:20px; padding:10px">
+                    Assessment Generation for {{session.session}} Academic Session
+                </h3>
+            </div>
+            <div>
+                    <toaster-container toaster-options="{'time-out': 5000, 'position-class':'toast-top-full-width'}">
+            </div>
+            <div>
+            	<div><label>Scope of Assessment</label></div>
+                <div>
+                    <select ng-model = "excel_type_of_download" style="width:300px; height:30px" >
+                        <option value="">[ Generate Assessment for ]</option>
+                        <option value="departments">Departments</option>
+                        <option value="the_university">The University</option>
+                    </select>
+                </div>
+            </div>
+            <hr />
+            <!--departments-->
+            <div ng-if = "excel_type_of_download == 'departments'">
+            <h5 style="font-weight:bolder">Departmental-Assessment Generation </h5>
+            <p style="margin-top:10px; width:50%; font-family: 'Times New Roman', Times, serif; text-align:justify; line-height:25px; font-size:17px">
+              This process generates assessment for each department in the university. The assessment to be generated is in MS Excel format</p>
+            	<button class="btn btn-success" ng-click = "generate_departmental_assessment()" ng-disabled = "generate_departmental_assessment_flag">
+                  Generate Assessment for departments 
+                  <span ng-if = "generate_departmental_assessment_flag" ><img src="images/indicator.gif" width="30px" height="30px" /></span>
+                </button>
+            </div>
+            <!--End of department-->
+            
+            <!--The university-->
+            <div ng-if = "excel_type_of_download == 'the_university'">
+            <h5 style="font-weight:bolder">University-wide Assessment Generation </h5>
+            <p style="margin-top:10px; width:50%; font-family: 'Times New Roman', Times, serif; text-align:justify; line-height:25px; font-size:17px">
+            This process generates assessments for all the departments in the university in one Micorosft Excel file.</p>
+            	<button class="btn btn-success" ng-click = "generate_the_university_assessment()" ng-disabled = "generate_the_universty_assessment_flag">
+                 Generate Assessment for the whole university 
+                  <span ng-if = "generate_the_universty_assessment_flag" ><img src="images/indicator.gif" width="30px" height="30px" /></span>
+                </button>
+            </div>
+            <!--End of The university-->
+	</div>
+
+</div>

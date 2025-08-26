@@ -1,0 +1,330 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+        <div class="hd">
+            Assign Courses to Lecturers in Your Department
+        </div>
+        <div style="position:relative">
+          <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+        </div>
+        
+        <div class="cnt_vl" style="margin-top:20px; font-size:14px;">
+            <div id="mainp_quote" style="">
+                <ul class="side_mnu_cnt" style="">
+                    <li class="side_mnu" ng-class="{active_mnu:the_divs[0]}"><a href="" ng-click="openDv(0)">Individual Assignment</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:the_divs[1]}"><a href="" ng-click="openDv(1)">Edit Assigned Course</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:the_divs[3]}"><a href="" ng-click="openDv(3)">Download Course Assignment Template</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:the_divs[2]}"><a href="" ng-click="openDv(2)">Assign Multiple Courses</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:the_divs[4]}"><a href="" ng-click="openDv(4)">Reassign All Courses</a></li>
+                </ul>
+            </div>
+            
+        	<div id="mainp_note" class="hme_lcnt_dv" style="position:relative; width:600px; float:left;">
+             
+               <!--Download template-->
+                <div ng-if = "the_divs[3]" style="color:black">
+                   <div style="color:black">	
+                        <h4 style="margin-bottom:20px; margin-top:10px">
+                           Dynamic-Course-Assignment-Template Download
+                        </h4>
+                        
+                        <div >
+                          <div >
+                            <form id="dynamicCourseAssignmentTemplateForm" name="dynamicCourseAssignmentTemplateForm">
+                               <div  ng-if = "user_details.userType == 3">
+                                   <div class="update-field">
+                                      <label>Select Faculty:</label>
+                                      <select name="" ng-model="item_data1.faculty" data-ng-options="faculty for faculty in faculties" 
+                                        class="m-wrap" ng-change="select_department(item_data1.faculty)" required>
+                                          <option value="" style="font-weight:bold">Select Faculty</option>
+                                      </select>
+                                  </div>
+                          
+                                   <div class="update-field">
+                                      <label>Select Department:</label>
+                                      <select name="" ng-model="item_for_download.department" class="m-wrap" ng-change =
+                                       "change_of_department(item_data1.department)" required>
+                                          <option value="" style="font-weight:bold">Select Department</option>
+                                          <option value ="{{dept.id}}" ng-repeat = "dept in departments">{{dept.title}}</option>
+      
+                                      </select>
+                                      <span ng-show="loading_depts" style="line-height:30px;float:left;"><img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" />loading...</span>
+                                  </div>
+                              </div>
+                            
+                            <div >
+                              <button  class="btn btn-success" ng-disabled =
+                                "dynamicCourseAssignmentTemplateForm.$invalid" 
+                                 ng-click = "generateExcelReport()">Generate Excel Report</button>
+                                 <span style="margin-left:10px" ng-show = "downloadDone"><img src="images/indicator.gif" 
+                                  height="30px" width="30px" style="margin-right:10px"  />processing, please wait</span>
+                            </div>
+                          </form>
+                            <div ng-show = "registration_status == 'Select Registration Status'">
+                              <h4 style=" text-decoration:underline">Guide For The Dynamic Course Assignment Template Process</h4>
+                              <p style="font-size:18px; text-align:justify">
+                                  Select faculty, select department and generate the course assignment template for all the lecturers in
+                                   that department.
+                                   click 'Generate Excel Template' button. 
+                                   After a while a download dialog box will prompt you to save
+                                   the file depending on the browser. Follow the process accordingly .
+                              </p>
+
+                            </div>
+                          </div>
+                        </div>
+                        
+                   </div>
+                </div>
+               <!--end of HOD template -->
+                
+                <div ng-if="the_divs[0]">
+                    <h4>Individual Assignment</h4>
+                    
+                    <div style="width:100%; float:left;">
+						<div  ng-if = "reassign_flag" style="color:red; font-size:18px" ><span class=" alert alert-dismissable">Reassign <span ng-bind="course_to_reassign"></span> </span></div>
+                        <p>Fill the form below to assign individual course.</p>
+                        <form id="addIndividualForm" name="addIndividualForm">
+                        <div ng-if = "user_details.userType == 3">
+                        	<div class="update-field">
+                                <label>Select Faculty:</label>
+                                <select name="" ng-model="item_data1.faculty" data-ng-options="faculty for faculty in faculties" class="m-wrap" ng-change="select_department(item_data1.faculty)" required>
+                                    <option value="" style="font-weight:bold">Select Faculty</option>
+                                </select>
+                            </div>
+                            
+                        	 <div class="update-field">
+                                <label>Select Department:</label>
+                                <select name="" ng-model="item_data1.department" class="m-wrap" ng-change = "change_of_department(item_data1.department)" required>
+                                    <option value="" style="font-weight:bold">Select Department</option>
+                                    <option value ="{{dept.id}}" ng-repeat = "dept in departments">{{dept.title}}</option>
+
+                                </select>
+                                <span ng-show="loading_depts" style="line-height:30px;float:left;"><img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" />loading...</span>
+                            </div>
+                         </div>
+                            <div class="update-field"><!--data-ng-options="lecturer.surname for lecturer in lecturers"-->
+                                <label>Select Lecturer:</label>
+                                <select name="" ng-model="item_data1.lecturer"  class="m-wrap"  required>
+                                    <option value="" style="font-weight:bold">Select Lecturer</option>
+                                    <option value ="{{lecturer._id}}" ng-repeat = "lecturer in lecturers">{{lecturer.surname}}&nbsp;{{lecturer.othernames}}</option>
+                                    </select>
+<span ng-show="loading_depts" style="line-height:30px;float:left;"><img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" />loading...</span>
+                                
+                            </div>
+                            
+                            <div class="update-field">
+                                <label>Select Course:</label>
+                                <select name="" ng-model="item_data1.course" data-ng-options="course.course_code for course in courses" class="m-wrap"  required>
+                                    <option value="" style="font-weight:bold">Select Course</option>
+                                </select>
+                                <span ng-show="loading_depts" style="line-height:30px;float:left;"><img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" />loading...</span>
+                            </div>
+                            
+                            
+                            
+                            <div class="update-field">
+                                <button class="m-btn green" ng-click="saveAssignedCourse(item_data1)" data-ng-disabled="addIndividualForm.$invalid">Assign Course</button>
+                                <span ng-show="submittingCourse" style="line-height:30px;margin-top:10px;float:left;">
+                                	<img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" /><span style="font-weight:bold">saving...</span>
+                            	</span>
+                                
+                                
+                            </div>
+                        </form>
+                        <!--For staff who does not exist-->
+                        
+                        <div style="display:block">
+                                    <p>
+                                    <a href="" class="green" ng-click = "openDv(3)">Download Course Assignment Template For Bulk Upload</a>
+                                    </p>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="the_divs[1]" >
+                    <h4 style="color:#006">Edit Course Assignment</h4>
+                    <div style=" text-align:left; min-width:415px; margin-bottom:10px">
+                    <div ng-if = "user_details.userType == 3">
+                    	<div class="update-field">
+                            <label>Select Department:</label>
+                            <select name="" ng-model="department1" class="m-wrap" ng-change = "cod(department1)" required>
+                                <option value="" style="font-weight:bold">Select Department</option>
+                                <option value ="{{dept.id}}" ng-repeat = "dept in depts">{{dept.title}}</option>
+    
+                            </select>
+                            <span ng-show="loading_depts" style="line-height:30px;float:left;"><img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" />loading...</span>
+                         </div>
+                     </div>
+                            
+                    
+                     <div >
+                        <div class="row" >
+                            <div class="col-md-12" ng-show="filtered.length > 0">
+                             <div class="update-field" style="text-align:right; float:right; margin:10px; padding:10px;">
+                                <input type="text" ng-model="search" ng-change="filter()" placeholder="Search Courses or Lecturers..." class="form-control m-wrap"  style="display:inline"/>
+                     </div>
+                                <h5>The following &nbsp;<span ng-bind="filtered.length"></span>&nbsp;<span ng-if = "filtered.length < 1">course has</span> <span ng-if = "filtered.length >1">courses have</span> been assigned to lecturers</h5>
+                            </div>
+                        </div>
+                      <div class="row"  ng-show="filtered.length > 0">
+                        <div class="col-md-12">
+                          <table class="table table-striped table-bordered table-condensed table-hover " style="font-size:14px;" >
+                              <thead style="background-color: #CD61CD; color:white; text-align:center">
+                              <th style="text-align:center">S/N</th>
+                              <th style="text-align:center">NAME</th>
+                              <th style="text-align:center">COURSE CODE</th>
+                              <th style="text-align:center">OPTIONS</th>
+                              </thead>
+                              <tbody>
+                                  <!--<tr ng-repeat="applicant in filtered | filter:search ">-->
+                                  <tr ng-repeat="assigned_course in filtered = (assigned_courses | filter:search | orderBy : predicate :reverse) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+                                      <td style="text-align:center">{{$index+1}}</td>
+                                      <td style="text-align:left"><b>{{assigned_course.surname}}</b>&nbsp;{{assigned_course.othernames}}</td>
+                                      <td style="text-align:center; text-transform:uppercase">{{assigned_course.course_code}}</td>
+                                      <td style="text-align:center" ><span ><a href="" ng-click="resassign_course(filtered[$index])" >[ Re-assign Course ]</a> &nbsp; <a  href="" ng-click="delete_assignment(filtered[$index])">[ Delete Assignment ]</a></span></td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                                </div>
+                                </div>
+                                <div class="row">
+                                <div class="col-md-12" ng-show="filtered.length == 0 && records_fetched == true">
+                                    <h4>No User matching the criteria found</h4>
+                                </div>
+                                </div>
+                                <div class="col-md-12" ng-show="filtered.length > 0">
+                                    <div pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="true" total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;" ng-if="filtered.length > 10"></div>
+                                    
+                                    <div pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="false" total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;" ng-if="filtered.length < 11"></div>
+                             
+                             
+                                </div>
+                            </div>
+                    </div>
+                	<!--begining of the table for data display-->
+                    <div>
+                        <table class="table table-striped">
+                        <tr ng-show="staff.length==0"><td style="vertical-align:middle;"><i class="fa fa-ban fa-2x"></i>&nbsp;&nbsp;No record found</td></tr>
+                        
+                        <tr ng-show = "staff.length > 0"><th>PF Number</th><th>Title </th><th>Surname</th><th>Action</th></tr>
+                    
+                        <tr ng-repeat="c in staff" >
+                            <td>{{c.pf_number}}</td><td>{{c.title}}</td><td>{{c.surname}}&nbsp;{{c.othernames}}</td>
+                            <td style="width:100px">
+                                <div class="btn-group">
+                                  <button type="button" class="btn btn-primary fa fa-edit" ng-click="edit_details(c);"></button>
+                                  <button type="button" class="btn btn-danger fa fa-trash-o" ng-click="delete_HOD_title(c);"></button>
+                                </div>
+                            </td>
+                        </tr>
+                        </table>
+                     </div>
+	            	<!--end of the table for data display-->
+                    
+                   
+                
+                    
+                
+            	</div>
+                  <!--end of this div-->
+                <div ng-if="the_divs[4]">
+                	<h4>Re-assign All</h4>
+                    <div style="float:left">
+                        <h5 style="font-size:15px; font-weight:bold">Clear Previous Assignment</h5>
+                         <form id="clear_form" name="clear_form">
+                          <div ng-if = "user_details.userType == 3">
+                              <div class="update-field">
+                                    <label>Select Faculty:</label>
+                                    <select name="" ng-model="faculty" data-ng-options="faculty for faculty in faculties" class="m-wrap" ng-change="select_department(faculty)" required>
+                                        <option value="" style="font-weight:bold">Select Faculty</option>
+                                    </select>
+                                </div>
+                                
+                                 <div class="update-field">
+                                    <label>Select Department:</label>
+                                    <select name="" ng-model="the_department" class="m-wrap" required>
+                                        <option value="" style="font-weight:bold">Select Department</option>
+                                        <option value ="{{dept.id}}" ng-repeat = "dept in departments">{{dept.title}}</option>
+    
+                                    </select>
+                                    <span ng-show="loading_depts" style="line-height:30px;float:left;"><img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" />loading...</span>
+                                </div>
+                            </div>
+                         <button class="btn btn-primary" ng-click = "clear_for_new(the_department)" ng-disabled = "clear_form.$invalid">Clear Previous Assignment for a fresh one</button>
+                         </form>
+                     </div>
+                </div>
+                <!--end of this div-->
+                <div ng-if="the_divs[2]">
+                	<h4>Mass Assignment</h4>
+                    <div style="float:left">
+                        <h5 style="font-size:15px; font-weight:bold">Upload Course Assignment File</h5>
+                         <p style="width:100%; float:left">Upload Microsoft Excel file which contains the course assignment' information that is to be added to our database. This file is the populated courses data template that was downloaded</p>
+                         <div style="width:100%; float:left">
+                         <input type="file" name="file" id="file" onchange="angular.element(this).scope().pickupthefileformassupload(this.files)" class="m-btn" style="margin-right:10px;"/>
+                           <a href="" ng-click="uploadMassCourseAssignment()" class="m-btn green" style="margin-top:12px;">Upload file</a>
+                          </div>
+                          
+                     </div>
+                     
+                     
+                
+                     
+                     
+                                    
+                     <!--unsaved payment records-->
+                      <div ng-show="unsavedRecord" style="border:solid black 1px; float:left">
+                            <h4 style="margin:0px; text-align:center">Reassigned Course Information <span ng-click = "unsavedRecord = false" style="cursor: pointer; float:right; margin-top:-10px; margin-right:-10px; background-color:white"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                            </h4><hr style="margin:0px">   
+                            <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px; margin:0px">
+                                  <thead style="background-color: rgb(204,51,102); color:white; text-align:center">
+                                    <th style="text-align:center">S/N</th>
+                                    <th style="text-align:center">PF Number</th>
+                                    <th style="text-align:center">Name</th>
+                                    <th style="text-align:center">Course Code</th>
+                                    <th style="text-align:center">Remark</th>                                                   
+                                  </thead>
+                                  <tbody>
+                                      <tr ng-repeat="data in unsavedData">
+                                        <td style="text-align:center">{{$index+1}}</td>
+                                        <td>{{data.D}}</td>
+                                        <td>{{data.E}}&nbsp;{{data.F}}&nbsp;{{data.G}}</td>
+                                        <td>{{data.C}}</td>
+                                        <td>This Couse was reassigned to this lecturer</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                     </div>
+                     <!--end of unsaved payment records-->
+                                 
+                    <!--saved payment records-->
+                      <div ng-show="okRecord" style="border:solid black 1px; float:left; margin-top:15px">
+                          <h4 style="margin:0px; text-align:center">Assigned Course Information<span ng-click = "okRecord = false" style="cursor: pointer; float:right; margin-top:-10px; margin-right:-10px; background-color:white"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                          </h4><hr style="margin:0px">   
+                          <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px; margin:0px">
+                                <thead style="background-color: green; color:white; text-align:center">
+                                    <th style="text-align:center">S/N</th>
+                                    <th style="text-align:center">PF Number</th>
+                                    <th style="text-align:center">Name</th>
+                                    <th style="text-align:center">course Code</th>
+                                    <th style="text-align:center">Remark</th>                                            
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="data in savedData">
+                                        <td style="text-align:center">{{$index+1}}</td>
+                                        <td>{{data.D}}</td>
+                                        <td>{{data.E}}&nbsp;{{data.F}}&nbsp;{{data.G}}</td>
+                                        <td>{{data.C}}</td>
+                                        <td>This course was assigned successfully</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                   </div>
+                   <!--end of saved payment records-->
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>

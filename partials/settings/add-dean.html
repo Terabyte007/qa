@@ -1,0 +1,288 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+        <div class="hd">
+            Add New Dean
+        </div>
+        
+        
+        <div class="cnt_vl" style="margin-top:20px; font-size:14px;">
+            <div id="mainp_quote" style="">
+                <ul class="side_mnu_cnt" style="">
+                    <li class="side_mnu" ng-class="{active_mnu:add_single}"><a href="" ng-click="openAddSingleDv()">Add Single Dean</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:edit_single_dean}"><a href="" ng-click="openRemoveSingleDv()">Edit Dean</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:add_multiple}"><a href="" ng-click="openAddMultipleDv()">Add Multiple Deans</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:download_dean_template}"><a href="" ng-click="openDownloadTemaplateDv()">Download Dean Template</a></li>
+                </ul>
+            </div>
+            
+        	<div id="mainp_note" class="hme_lcnt_dv" style="position:relative; width:600px; float:left;">
+             
+                    <!--Download dean template-->
+                    <div ng-if = "download_dean_template" style="color:black">
+                    	<h4 style="color:#006">Download Dean Template</h4>
+                            <p style="width:100%; float:left">
+                                This template is a blueprint of the deans' records. 
+                                It is meant to be populated and uploaded as bulk records after the download. 
+                                A sample record is entered into the Microsoft Excel workbooks
+                            </p>
+                             <p style="width:100%; float:left">
+                             	<a href="generatedexcel/deans-data.xlsx" class="m-btn green">
+                                	<i class="icon icon-download-alt"></i> &nbsp; Download Template
+                                </a>
+                             </p>
+            		</div>
+                	<!--end of dean template -->
+                
+                <div ng-if="add_single">
+                    <h4>Add Single Dean</h4>
+                    
+                    <div style="width:100%; float:left;">
+                        <p>Fill the form below to add a dean to the database.</p>
+                        <form id="addDeanForm" name="addDeanForm">
+                        	 <div class="update-field">
+                                <label>Select Faculty:</label>
+                                <select name="" ng-model="item_data.faculty" data-ng-options="faculty for faculty in faculties" class="m-wrap" ng-change="select_department(item_data.faculty)" required>
+                                    <option value="" style="font-weight:bold">Select Faculty</option>
+                                </select>
+                            </div>
+                            
+                            
+                            <div class="update-field">
+                                <label>Title:</label>
+                                <select name="" ng-model="item_data.title" class="m-wrap" required>
+                                    <option value="" style="font-weight:bold">Select Title</option>
+                                    <option value ="{{title.id}}" ng-repeat = "title in titles">{{title.title_name}}</option>
+                                </select>
+                                
+                            </div>
+                            
+                            <div class="update-field">
+                                <label>PF Number:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="item_data.pf_number" placeholder="PF Number" required />
+                            </div>
+                            
+                            <div class="update-field">
+                                <label>Surname:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="item_data.surname" placeholder="Surname" required />
+                            </div>
+
+                            <div class="update-field">
+                                <label>Firstname:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="item_data.firstname" placeholder=" Firstname" required />
+                            </div>
+                             <div class="update-field">
+                                <label>Middlename:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="item_data.middlename" placeholder=" Middlename" required />
+                            </div>
+                            
+                            
+                            <div class="update-field" ng-show = "button_section">
+                                <button class="m-btn green" ng-click="saveDean(item_data)" data-ng-disabled="addDeanForm.$invalid">Save Dean</button>
+                                <span ng-show="submittingDean" style="line-height:30px;margin-top:10px;float:left;">
+                                	<img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" /><span style="font-weight:bold">saving...</span>
+                            	</span>
+                                
+                                <div style="position:relative">
+                					<toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+               					 </div>
+                            </div>
+                        </form>
+                        <!--For staff who does not exist-->
+                        <div ng-show = "staff_not_in_existence" style="border:1px solid thick ">
+                        	<div ng-show = "question_section">
+                            	<p style="font-size:16px">{{item_data.title}}&nbsp;{{item_data.surname}}&nbsp;{{item_data.firstname}}&nbsp;{{item_data.middlename}} &nbsp; does not exist. Should the staff be created?</p>
+                                <button class="btn btn-success" style="margin:5px" ng-click = "yes()">Yes</button>
+                                <button class="btn btn-default" style="margin:5px" ng-click = "no()">No</button>
+                            </div>
+                            <div ng-show = "create_staff" style="">
+                            	<form id="addDeanForm1" name="addDeanForm1">
+                                	<div class="update-field">
+                                        <label>Select Department:</label>
+                                        <select name="" ng-model="item_data.department" class="m-wrap"  required>
+                                            <option value="" style="font-weight:bold">Select Department</option>
+                                            <option value ="{{dept.id}}" ng-repeat = "dept in departments">{{dept.title}}</option>
+                                        </select>
+                            		</div>
+                                    <button class="btn btn-success" style="margin:5px" ng-click = "dean_affirmed(item_data)" 
+                                       data-ng-disabled="addDeanForm1.$invalid">Create Staff</button>
+                                    <button class="btn btn-default" style="margin:5px" ng-click = "create_staff = false; button_section = true">Cancel</button>
+                                </form>
+                            </div>
+                        	
+                        
+                        </div>
+                        <div style="display:block">
+                                    <p>
+                                    <a href="#/admin/students/download_dean_template" class="green">Download Dean Template For Bulk Upload</a>
+                                    </p>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="edit_single_dean">
+                    <h4 style="color:#006">Edit Dean</h4>
+                    <div style=" width:415px; text-align:left; min-width:415px; margin-bottom:10px">
+                        <form>
+                            <div class="search" style=" box-shadow:2px 2px 10px black; padding-bottom:0px">
+                                <input style="width:200px; height:35px; border:none; font-size:18px; margin-left:5px" placeholder="PF Number" 
+                                    class="search" ng-model="searchbox" />
+                                <button class="btn btn-primary" style="float:right; margin:0px; height: 35px; width:100px; border-bottom-right-radius:7px;
+                                     border-top-right-radius:7px" ng-disabled = "searchbox ==''" ng-click = "searchbutton(searchbox)">
+                                    <i>Search</i>
+                                    
+                                </button>
+                            </div>
+                         <p style="font-size:16px; margin-top:10px">This feature gives room to update an existing dean's information or remove the 'dean's title' from a dean</p>
+                        </form>
+                    </div>
+                	<!--begining of the table for data display-->
+                    <div>
+                        <table class="table table-striped">
+                        <tr ng-show="staff.length==0"><td style="vertical-align:middle;"><i class="fa fa-ban fa-2x"></i>&nbsp;&nbsp;No dean found</td></tr>
+                        
+                        <tr ng-show = "staff.length > 0"><th>PF Number</th><th>Title </th><th>Surname</th><th>Action</th></tr>
+                    
+                        <tr ng-repeat="c in staff" >
+                            <td>{{c.pf_number}}</td><td>{{c.title}}</td><td>{{c.surname}}&nbsp;{{c.othernames}}</td>
+                            <td style="width:100px">
+                                <div class="btn-group">
+                                  <button type="button" class="btn btn-primary fa fa-edit" ng-click="edit_details(c);"></button>
+                                  <button type="button" class="btn btn-danger fa fa-trash-o" ng-click="delete_dean_title(c);"></button>
+                                </div>
+                            </td>
+                        </tr>
+                        </table>
+                     </div>
+	            	<!--end of the table for data display-->
+                    
+                   
+                
+                    <!--edit dean-->
+                    <div ng-if = "edit_dean_information">
+                    	<h5 style="color:#006">Edit Dean's Information</h5>
+                            <div style=" width:415px; text-align:left; min-width:415px; margin-bottom:10px">
+                                <form id="editDeanDetailsForm" name="editDeanDetailsForm">
+                                   <div class="update-field">
+                                            <label>PF Number:</label>
+                                            <input type="text" class="m-wrap" name="" ng-model="edit_data.pf_number" placeholder="PF Number" readonly=
+                                                 "readonly" required />
+                                   </div> 
+                                   <div class="update-field">
+                                            <label> Title:</label>
+                                            <input type="text" class="m-wrap" name="" ng-model="edit_data.title" placeholder="Title" required />
+                                   </div>
+                                   
+                                   <div class="update-field">
+                                            <label>Surname:</label>
+                                            <input type="text" class="m-wrap" name="" ng-model="edit_data.surname" placeholder="Surname" required />
+                                   </div>
+                                   
+                                   <div class="update-field">
+                                            <label>Other names:</label>
+                                            <input type="text" class="m-wrap" name="" ng-model="edit_data.othernames" placeholder="Othernames" required />
+                                   </div> 
+                                <div class="update-field">
+                                            <button class="m-btn green" ng-click="saveEditDean(edit_data)" data-ng-disabled="editDeanDetailsForm.$invalid">Update
+                                                Information</button>
+                                            <span ng-show="updating_dean" style="line-height:30px;margin-top:10px;float:left;">
+                                                <img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" /><span
+                                                     style="font-weight:bold">saving...</span>
+                                            </span>
+                                            
+                                            <div style="position:relative">
+                                                <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></
+                                                   toaster-container>
+                                             </div>
+                                   </div>
+                                </form>
+                            <div style="display:block">
+                                        <p>
+                                        <a href="" class="green" ng-click = "cancel_details()">Cancel</a>
+                                        </p>
+                            </div>
+                       </div>
+                  
+                  </div>
+                    
+                
+            	</div>
+            
+                <!--end of this div-->
+                <div ng-if="add_multiple">
+                	<h4>Add Multiple Deans</h4>
+                    <div style="float:left">
+                        <h5 style="font-size:15px; font-weight:bold">Upload Deans' data File</h5>
+                         <p style="width:100%; float:left">Upload Micosoft Excel file which contains the deans' information that is to be added to our database. This file is the populated deans' data template that was downloaded</p>
+                         <div style="width:100%; float:left">
+                         <input type="file" name="file" id="file" onchange="angular.element(this).scope().pickupthefileformassupload(this.files)" class="m-btn" style="margin-right:10px;"/>
+                           <a href="" ng-click="uploadMassDean(the_potfolio)" class="m-btn green" style="margin-top:12px;">Upload file</a>
+                          </div>
+                          <div style="position:relative">
+                            <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+                          </div>
+                     </div>
+                                    
+                     <!--unsaved payment records-->
+                      <div ng-show="unsavedRecord" style="border:solid black 1px; float:left">
+                            <h4 style="margin:0px; text-align:center">Unsaved Deans Information <span ng-click = "unsavedRecord = false" style="cursor: pointer; float:right; margin-top:-10px; margin-right:-10px; background-color:white"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                            </h4><hr style="margin:0px">   
+                            <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px; margin:0px">
+                                  <thead style="background-color: rgb(204,51,102); color:white; text-align:center">
+                                    <th style="text-align:center">S/N</th>
+                                    <th style="text-align:center">PF Number</th>
+                                    <th style="text-align:center">Title</th>
+                                    <th style="text-align:center">Name</th>
+                                    <th style="text-align:center">Faculty</th>
+                                    <th style="text-align:center">Department</th>
+                                    <th style="text-align:center">Remark</th>                                                   
+                                  </thead>
+                                  <tbody>
+                                      <tr ng-repeat="data in unsavedData">
+                                        <td style="text-align:center">{{$index+1}}</td>
+                                        <td>{{data.H}}</td>
+                                        <td>{{data.D}}</td>
+                                        <td>{{data.E}}&nbsp;{{data.F}}&nbsp;{{data.G}}</td>
+                                        <td>{{data.B}}</td>
+                                        <td>{{data.C}}</td>
+                                        <td>This Record Already Exists</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                     </div>
+                     <!--end of unsaved payment records-->
+                                 
+                    <!--saved payment records-->
+                      <div ng-show="okRecord" style="border:solid black 1px; float:left; margin-top:15px">
+                          <h4 style="margin:0px; text-align:center">Saved Students Information<span ng-click = "okRecord = false" style="cursor: pointer; float:right; margin-top:-10px; margin-right:-10px; background-color:white"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                          </h4><hr style="margin:0px">   
+                          <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px; margin:0px">
+                                <thead style="background-color: green; color:white; text-align:center">
+                                    <th style="text-align:center">S/N</th>
+                                    <th style="text-align:center">PF Number</th>
+                                    <th style="text-align:center">Title</th>
+                                    <th style="text-align:center">Name</th>
+                                    <th style="text-align:center">Faculty</th>
+                                    <th style="text-align:center">Department</th>
+                                    <th style="text-align:center">Remark</th>                                            
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="data in savedData">
+                                        <td style="text-align:center">{{$index+1}}</td>
+                                        <td>{{data.H}}</td>
+                                        <td>{{data.D}}</td>
+                                        <td>{{data.E}}&nbsp;{{data.F}}&nbsp;{{data.G}}</td>
+                                        <td>{{data.B}}</td>
+                                        <td>{{data.C}}</td>
+                                        <td>This Record Was Saved Successfully</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                   </div>
+                   <!--end of saved payment records-->
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>

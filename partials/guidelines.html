@@ -1,0 +1,76 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+        <div class="hd">
+            Admission Guidelines
+        </div>
+        
+        <div class="cnt_vl" style="margin-top:20px; font-size:14px;">
+            
+            <div id="mainp_quote" style="">
+                <ul class="side_mnu_cnt" style="">
+                    <li class="side_mnu" ng-class="{active_mnu:login_info}"><a href="" ng-click="openLoginInfoDv()">Signing into the portal</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:biodata_info}"><a href="" ng-click="openBioDataInfoDv()">Filling the Bio Data Form</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:sample_questions_info}"><a href="" ng-click="openSampleQuestionsInfoDv()">Downloading Sample Questions</a></li>
+                </ul>
+            </div>
+            
+        	<div id="mainp_note" style="">
+            	<div ng-show="login_info">
+                	<h4>Signing into the portal</h4>
+                    <div class="m-body" style="width:100%; float:left;">
+                        <p>Your Username is your Jamb Registration Number eg <span style="color:#00F">JMB67344949AR</span></p>
+                        <p>Your Password is your <strong style="color:#F00; font-size:16px;text-decoration:underline">Surname</strong> eg <span style="color:#00F">Danjuma</span></p>
+                        <p>If you forgot your password, click the reset password link to reset the password</p>
+                        <p>After signing in for the first time you will be prompted to change your password before proceeding.</p>
+                    </div>
+                </div>
+                
+            	<div ng-show="biodata_info">
+                	<h4>Filling the Bio Data Form</h4>
+                    <div class="m-body" style="width:100%; float:left;">
+                    	<p><b><i class="icon-user"></i></b> &nbsp; <u>Fisayo O.</u></p>
+                    	<p><b><i class="icon-envelope"></i></b> &nbsp; <u>mis@ui.edu.ng</u></p>
+                    	<p><b><i class="icon-phone"></i></b> &nbsp; <u>mis@ui.edu.ng</u></p>
+                    </div>
+                </div>
+                
+            	<div ng-show="sample_questions_info">
+                	<h4>Downloading Sample Questions</h4>
+                    <div class="m-body" style="width:100%; float:left;">
+                    	<p>You can download questions for up to 4 subjects</p>
+                    	<p>Once you download a question on a subject, the subject will be locked down as one of your 4 subjects</p>
+                    	<p>Once you have downloaded sample questions from 4 subjects you will not be able to download sample questions from any other subject</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{modalHeader}}</h3>
+        </div>
+        <div class="modal-body">
+            <span ng-bind-html="modalDisplay"></span>
+        </div>
+        <div class="modal-footer">
+            <button class="m-btn blue" ng-click="ok()">OK</button>
+        </div>
+    </script>
+
+<script type="text/ng-template" id="dialogContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{modalHeader}}</h3>
+        </div>
+        <div class="modal-body">
+            <span ng-bind-html="modalDisplay"></span>
+        </div>
+        <div class="modal-footer">
+            <button class="m-btn" ng-click="cancel()">Cancel</button>
+            <button class="m-btn blue" ng-click="ok(form_values)" style="margin-right:20px;">OK</button>
+        </div>
+    </script>

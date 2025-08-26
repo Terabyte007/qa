@@ -1,0 +1,210 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+        <div class="hd">
+            Account Management
+        </div>
+        <div style="position:relative">
+          <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+        </div>
+        <div class="cnt_vl" style="margin-top:20px; font-size:14px;">
+            
+            <div id="mainp_quote" style="">
+                <ul class="side_mnu_cnt" style="">
+                    <!--<li class="side_mnu" ng-class="{active_mnu:add_admin}" ng-show="isMajor"><a href="" ng-click="openAddAdminDv()">Add New  Users</a></li>-->
+                    <li class="side_mnu" ng-class="{active_mnu:view_admins}" ng-show="isMedium"><a href="" ng-click="openViewAdminsDv()">View System Admins</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:my_details}"><a href="" ng-click="openViewDetailsDv()">My Account Details</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:change_password}"><a href="" ng-click="openChangePasswordDv()">Change My Password</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:search_user}"><a href="" ng-click="openSearchUserDv()">Manage Users</a></li>
+                </ul>
+            </div>
+            
+        	<div id="mainp_note" style="">
+            	<div ng-show="add_admin">
+                	<h4>Add New User</h4>
+                    <div class="" style="width:100%; float:left;">
+                        <p>Fill the form below to add admin user to the portal.</p>
+                        <form id="addAdminForm" name="addAdminForm">
+                        	<div class="update-field">
+                            	<label>Username:</label>
+                            	<input type="text" class="m-wrap" name="" ng-model="admin.username" required />
+                            </div>
+                            
+                        	<div class="update-field">
+                            	<label>Initial Password <span class="sml">(This wiil be changed after first login)</span>:</label>
+                            	<input type="text" class="m-wrap" name="" ng-model="admin.password" required />
+                            </div>
+                            
+                        	<div class="update-field">
+                            	<label>Type of User:</label>
+                                <select ng-model="admin.admin_type" class="m-wrap" required>
+                                    <option value="">Select User</option>
+                                    <option value="superAdmin" ng-hide = "user_type == 'dean' || user_type == 'hod' || user_type == 'lecturer' || user_type == 'student' || user_type == 'admin'">Super Admin</option>
+                                    <option value="admin" ng-hide = "user_type == 'dean' || user_type == 'hod' || user_type == 'lecturer' || user_type == 'student' || user_type == 'admin'">Admin</option>
+                                    <option value="dean" ng-hide = "user_type == 'dean' || user_type == 'hod' || user_type == 'lecturer' || user_type == 'student'">Dean</option>
+                                    <option value="hod" ng-hide = "user_type == 'hod' || user_type == 'lecturer' || user_type == 'student'">HOD</option>
+                                    <option value="lecturer" ng-hide = "user_type == 'lecturer' || user_type == 'student'">Lecturer</option>
+                                    <option value="examination_officer">Examination Coordinator</option>
+                                    <option value="student">Student</option>
+                                    
+                                </select>
+                            </div>
+                            
+                        	<div class="update-field">
+                        		<button class="m-btn blue" ng-click="addAdmin(admin)" data-ng-disabled="addAdminForm.$invalid">Add User</button>
+                        		<button class="m-btn" ng-click="openViewAdminsDv()">Cancel</button>
+                            </div>
+                    	</form>
+                    </div>
+                </div>
+                
+            	<div ng-show="view_admins">
+                	<h4>All System Admins</h4>
+                    <div class="m-body" style="width:100%; float:left;">
+                    	<div ng-show="admins.length > 0">
+                            <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px;">
+                                <thead style="background-color: #CD61CD; color:white; text-align:center">
+                                    <th style="text-align:center">S/N</th>
+                                    <th style="text-align:center">USERNAME</th>
+                                    <th style="text-align:center">ADMIN TYPE</th>
+                                    <th style="text-align:center">OPTIONS</th>
+                                </thead>
+                                <tbody>
+                                    <!--<tr ng-repeat="applicant in filtered | filter:search ">-->
+                                    <tr ng-repeat="admin in admins">
+                                        <td style="text-align:center">{{$index+1}}</td>
+                                        <td style="text-align:center">{{admin.surname}}&nbsp;{{admin.onames}}</td>
+                                        <td style="text-align:center">{{admin.type}}</td>
+                                        <td style="text-align:center" ><span ng-show = "user_type == 'superadmin'"><a href="" ng-click="resetAdminPassword()" >[Reset Password]</a> &nbsp; <a  href="" ng-click="deleteAdminPassword()">[Delete Admin]</a></span><span ng-show = "user_type != 'superadmin'">Not Applicable</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div ng-show="admins.length == 0">
+                            <p>No Admin was found on the system</p>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            	<div ng-show="my_details">
+                	<h4>My Account Details &nbsp; <b><span class="sml"><a href="" ng-click="openChangePasswordDv()"><u>[<i class="icon-pencil"></i> Edit Password]</u></a></span></b></h4>
+                    <div class="m-body" style="width:100%; float:left;">
+                    	<p><b>Username:</b> &nbsp; <u style="text-transform:capitalize;">{{username}}</u></p>
+                        <p><b>User Type:</b> &nbsp; <u>{{user_type}}</u></p>
+                    </div>
+                </div>
+                <!---->
+                <div ng-show = "search_user"  style="margin-top:30px">
+               <!-- <div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">-->
+                    <div id="hme_cnt_dv" class="tp_cnt_dv">
+                        <div class="hd">
+                            <span ng-bind="dispApplicantType"></span> Accounts
+                        </div>
+                        <div style="margin:10px">
+                        	<button class="btn-primary" style="width:150px; margin-right:5px" ng-hide = "user_type == 'dean' || user_type == 'hod' || user_type == 'lecturer' || user_type == 'student'" ng-click = "get_users('dean', 0)">Deans<span ng-show = "flag[0]"><img width="25px" height="25px" src="images/indicator.gif" style="display:inline" /></span></button>
+                            <button class="btn-primary" style="width:150px; margin-right:5px" ng-hide = "user_type == 'hod' || user_type == 'lecturer' || user_type == 'student'" ng-click = "get_users('hod', 1)">HODs <span ng-show = "flag[1]"><img width="25px" height="25px" src="images/indicator.gif" style="display:inline" /></span></button>
+                            <button class="btn-primary" style="width:150px; margin-right:5px" ng-hide = " user_type == 'lecturer' || user_type == 'student'" ng-click = "get_users('lecturer', 2)">Lecturers <span ng-show = "flag[2]"><img width="25px" height="25px" src="images/indicator.gif" style="display:inline" /></span></button>
+                            <button class="btn-primary" style="width:150px; margin-right:5px" ng-hide = "user_type == 'student'" ng-click = "get_users('student', 3)">Students <span ng-show = "flag[3]"><img width="25px" height="25px" src="images/indicator.gif" style="display:inline" /></span></button>
+                        </div>
+                        <div class="cnt_vl" ng-show = "user_type_flag">
+                            <div class="update-field" style="text-align:right; float:right; margin:10px; padding:10px;">
+                                <input type="text" ng-model="search" ng-change="filter()" placeholder="Search Users..." class="form-control m-wrap"  style="display:inline"/>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4" ng-show="filtered.length > 0">
+                                    <h5><span ng-bind="filtered.length"></span> <span ng-bind="user_type_sent" style="text-transform:uppercase"></span>(s) found</h5>
+                                </div>
+                                <div class="col-md-12" ng-show="filtered.length > 0">
+                                    <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px;">
+                                        <thead style="background-color: #CD61CD; color:white; text-align:center">
+                                        <th style="text-align:center">S/N</th>
+                                        <th style="text-align:center">NAME</th>
+                                        <th style="text-align:center">USERNAME</th>
+                                        <th style="text-align:center">USER TYPE</th>
+                                        <th style="text-align:center">OPTIONS</th>
+                                    	</thead>
+                                        <tbody>
+                                            <!--<tr ng-repeat="applicant in filtered | filter:search ">-->
+                                            <tr ng-repeat="other_user in filtered = (other_users | filter:search | orderBy : predicate :reverse) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+                                                <td style="text-align:center">{{$index+1}}</td>
+                                                <td style="text-align:left">{{other_user.surname}}&nbsp;{{other_user.onames}}</td>
+                                                <td style="text-align:center">{{other_user.pf_number}}</td>
+                                                <td style="text-align:center; text-transform:uppercase">{{other_user.type}}</td>
+                                                <td style="text-align:center" ><span ><a href="" ng-click="reset_user(filtered[$index])" >[Reset Password]</a> &nbsp; <a  href="" ng-click="delete_user(filtered[$index])">[Delete User]</a></span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-12" ng-show="filtered.length == 0">
+                                    <h4>No User matching the criteria found</h4>
+                                </div>
+                                <div class="col-md-12" ng-show="filtered.length > 0">
+                                    <div pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="true" total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;" ng-if="filtered.length > 10"></div>
+                                    
+                                    <div pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="false" total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;" ng-if="filtered.length < 11"></div>
+                             
+                             
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    
+                <!--</div>-->
+                </div>
+                <!---->
+            	<div ng-show="change_password">
+                	<h4>Change Password</h4>
+                    <div class="m-body" style="width:100%; float:left;">
+                    	<p>Fill the form below to change your password.</p>
+                        <form id="changePasswordForm" name="changePasswordForm">
+                        	<div class="update-field">
+                            	<label>New Password:</label>
+                            	<input type="password" class="m-wrap" name="" ng-model="change_pass.new_password" required />
+                            </div>
+                            
+                        	<div class="update-field">
+                            	<label>Confirm New Password:</label>
+                            	<input type="password" class="m-wrap" name="" ng-model="change_pass.confirm_password" required />
+                            </div>
+                            
+                        	<div class="update-field">
+                        		<button class="m-btn blue" ng-click="changePassword(change_pass)" data-ng-disabled="changePasswordForm.$invalid">Change Password</button>
+                        		<button class="m-btn" ng-click="openViewDetailsDv()">Cancel</button>
+                            </div>
+                    	</form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{modalHeader}}</h3>
+        </div>
+        <div class="modal-body">
+            <span ng-bind-html="modalDisplay"></span>
+        </div>
+        <div class="modal-footer">
+            <button class="m-btn blue" ng-click="ok()">OK</button>
+        </div>
+    </script>
+
+<script type="text/ng-template" id="dialogContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{modalHeader}}</h3>
+        </div>
+        <div class="modal-body">
+            <span ng-bind-html="modalDisplay"></span>
+        </div>
+        <div class="modal-footer">
+            <button class="m-btn" ng-click="cancel()">Cancel</button>
+            <button class="m-btn blue" ng-click="ok(form_values)" style="margin-right:20px;">OK</button>
+        </div>
+    </script>

@@ -1,0 +1,126 @@
+<div style="margin-top:-10px; color:black; border:double; padding:20px; font-size:16px">
+<div>
+<button ng-click = "printDiv('div_for_printing')" style="float:right" class="btn btn-primary btn-sm">Print Assessment</button>
+</div>
+<!-- Courses for assessment -->
+<div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; 
+	padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black; clear:both"  name ="div_for_printing" id ="div_for_printing">
+                	<div style="margin:5px auto; text-align:center;">
+                        <div style="width:30%; margin:5px auto">
+                        	<img height="60px" width="60px" src="images/UI logo.png" />
+                        </div>
+                        <div style="margin:0px auto; text-align:left; padding:10px; color:black; display:block; text-align:center; " >
+                            <h4 style="padding:0px; margin:0px">University of Ibadan</h4>
+                            <h3 style="padding:0px; margin:0px">Quality Assurance Directorate</h3>
+                            <strong style="padding:0px; margin:0px">Lecturer-Assessment Report</strong>
+                         </div>
+                        <div style="width:30%">
+                        	&nbsp;
+						</div>
+                     </div>
+                <div style="margin:10px; padding:10px">
+                <div></div>
+                
+                <!--filter area -->
+                
+				<div>
+                	<table>
+                    	<tr>
+                        	<td>
+                            Student's Name:
+                            </td>
+                            <td>
+                            <span style="font-weight:bold">{{bio_data.surname}}</span> <span>{{bio_data.firstname}}</span><span>{{bio_data.middlename}}</span>
+                            </td>
+                        </tr>
+                    	<tr>
+                        	<td>
+                            Matriculation Number:
+                            </td>
+                            <td>
+                            <span>{{bio_data.matricNo}}</span>
+                            </td>
+                        </tr>
+                    	<tr>
+                        	<td>
+                            Faculty:
+                            </td>
+                            <td>
+                            <span>{{bio_data.faculty}}</span>
+                            </td>
+                        </tr>
+                    	<tr>
+                        	<td>
+                            Department:
+                            </td>
+                            <td>
+                            <span>{{bio_data.title}}</span>
+                            </td>
+                        </tr>
+                    	<tr>
+                        	<td>
+                            Level:
+                            </td>
+                            <td>
+                            <span>{{bio_data.lev_id_fk}}00L</span>
+                            </td>
+                        </tr>
+                    </table>
+                
+                </div>
+                
+                
+                <br>
+                    <div class="row">
+                        <div class="col-md-4" ng-show="course_registered.length > 0">
+                            <h4>Courses Registered.</h4>
+                        </div>
+                        
+                        <div class="col-md-12" ng-show="course_registered.length > 0">
+                           <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+                            <table class="table table-bordered " style="font-size:14px;" border="1">
+                                <tr>
+                                	<td colspan="5" style="text-align:center">
+                                    	<span style="font-weight:bold" >{{course_registered.length}}&nbsp; Courses Registered.</span> 
+                                    </td>
+                                </tr>
+                                <tr style="text-align:center; font-weight:bold">
+                                    <td style="text-align:center">S/N</td>
+                                    <td style="text-align:center">COURSE CODE</td>
+                                    <td style="text-align:left; padding-left:10px">TITLE</td>
+                                    <td style="text-align:left">ASSESSMENT STATUS</td>
+                                </tr>
+                                <tr ng-repeat="course in course_registered">
+                                    <td style="text-align:center">{{$index+1}}</td>
+                                    <td>{{course.code}}</td>
+                                    <td style="text-align:left">{{course.title}}</td>
+                                    <td style="text-align:center"><span ng-if = "course.total_assessed == 0 || (course.total_assessed < course.no_lecturers) " class="glyphicon glyphicon-remove"></span>
+                                    <span ng-if = "course.total_assessed >0 && (course.total_assessed == course.no_lecturers)" class="glyphicon glyphicon-ok">
+                                    </span></td>
+                                    </tr>
+                            </table>
+                            <div>
+                            	<p style="font-size:14px"><span style="font-weight:bold">Remark:</span><span>&nbsp;
+                                {{courses_assessed_counter}}&nbsp; course<span ng-if = "courses_assessed_counter > 1">s</span>
+                                &nbsp;out of &nbsp;{{course_registered.length}}&nbsp;courses 
+                                <span ng-if = "courses_assessed_counter == 1" >
+                                 was </span><span ng-if = "courses_assessed_counter > 1" >
+                                 were </span> assessed.</span></p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12" ng-show="course_registered.length == 0">
+                            <h4>No Course matches the specified criteria</h4>
+                        </div>
+                        
+                    </div>
+                <!-- End of filter area -->
+                </div>
+                
+                	
+                <div style="float:right">
+                </div>
+            </div>
+            <!-- End of Courses for assessment -->
+            
+</div>

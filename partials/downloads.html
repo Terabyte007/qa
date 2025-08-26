@@ -1,0 +1,341 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px;  width:100%; border:solid 1px black">
+    <div style="margin:auto; margin:30; width:100%; color:black; padding:20px" >
+            <div style="margin:30px auto; text-align:center; border-bottom-style:double ">
+                <h3 style="text-align:center; margin:30px 0px; padding:20px; display:inline">
+                    Download Assessments for {{session.session}}
+                </h3>
+                <a href="" ng-click = "showEXCELsection()" class="btn" style="margin:-10px 0px; padding:0px; display:inline; float:right">
+                	<img src="images/ms-excel.png" width="30px" height="30px" alt="MS Excel"  style="margin:0px; padding:0px; display:inline"/>
+                </a>
+                
+                <a href="" ng-click = "showPDFsection()" class="btn" style="margin:-10px 0px; padding:0px; display:inline; float:right">
+                	<img src="images/pdf.png" width="30px" height="30px" alt="PDF" style="margin:0px; padding:0px; display:inline"/>
+                </a>
+            </div>
+            
+            <div style="margin:20px">
+                
+                <!--PDF or EXCEL DOWNLOAD-->
+<!--                <div style="text-align:right; margin:0px">
+                	<a href="" ng-click = "showPDFsection()" class="btn" style="margin:0px; padding:0px"><img src="images/pdf.png" width="30px" height="30px" 
+                      alt="PDF" style="margin:0px; padding:0px"/></a>
+                	<a href="" ng-click = "showEXCELsection()" class="btn" style="margin:0px; padding:0px"><img src="images/ms-excel.png" width="30px" height="30px" 
+                       alt="MS Excel"  style="margin:0px; padding:0px"/>
+                    </a>
+                </div>
+-->                <!--END OF PDF or EXCEL DOWNLOAD-->
+            	<div ng-if = "pdf_section_flag">
+                    <!--pdf donwloads -->
+
+                    <!--Existing downloads --> 
+<!--                        <hr style="margin-top:2px; border:1px solid black" />
+-->                        
+						<div style="">
+<!--                            <h4 style="text-align:center; background-color:black; height:35px; color:white; padding:5px; width:50%; margin:10px auto;
+                             font-weight:bold">
+                            Available PDF Downloads for {{session.session}}</h4>
+-->                         
+							<h3>PDF Download</h3>
+							<div>
+                                <div>
+                                    <label>Download Type</label>
+                                </div>
+                                <div>
+                                    <select ng-model = "type_of_download" style="width:300px; height:30px">
+                                        <option value="">[ Select Download Type ]</option>
+                                        <option value="individual">Individual Assessment</option>
+                                        <option value="all_lecturers">Departmental Assessment (All the staff)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div ng-if = "type_of_download == 'individual'"><!--Individual download -->
+<!--                            	<div ng-if = "filtered1 > 0"> -->                                
+								<h5 style="font-weight:bold; margin-left:17px; margin-top:10px">Individual Assessments</h5>
+                                
+                                    <div >
+                                        <div class="update-field" style="text-align:right; float:right; margin-top:5px; " ng-show="filtered1.length > 0">
+                                            <input type="text" ng-model="search1" ng-change="filter1()" 
+                                               placeholder="Search For download by name or pf number" 
+                                                class="form-control m-wrap"  style="display:inline; margin-left:20px; padding:15px"/>
+                                            <span class="btn btn-search" style="float:left;  margin:5px 0px; padding:0px">
+                                                 <i class="fa fa-search fa-fw" style="margin:0px; padding:0px; font-size:25px;">
+                                                 </i>
+                                            </span>
+                                        </div>
+                                        
+                                        <div class="row" style="margin:0px 10px; padding:0px">
+                                            <div class="col-md-4" ng-show="filtered1.length > 0">
+                                                <h5><span ng-bind="filtered1.length"></span> Download Information.</h5>
+                                            </div>
+                                            
+                                            <div class="col-md-12" ng-show="filtered1.length > 0">
+                                               <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}">
+                                                  </toaster-container>
+                                                <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px;">
+                                                    <thead style="background-color: #CD61CD; color:white; text-align:center">
+                                                        <th style="text-align:center">S/N</th>
+                                                        <th >COURSE CODE</th>
+                                                        <th >NAME</th>
+                                                        <th >DATE GENERATED</th>
+                                                        <th style="text-align:center">ACTION</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="assess_download in filtered1 = (assessments_download
+                                                           | filter:search1 | orderBy : predicate1 :reverse1) | startFrom:(currentPage1-1)*entryLimit1 | 
+                                                              limitTo:entryLimit1">
+                                                            <td style="text-align:center">{{$index+1}}</td>
+                                                            <td style="">{{assess_download.course_code}}</td>
+                                                            <td style="">{{assess_download.name}}</td>
+                                                            
+                                                            <td style="">{{assess_download.transaction_time}}</td>
+                                                            
+                                                            <td style="text-align:center; font-size:14px">
+                                                                <a ng-href="documents/{{assess_download.href}}">
+                                                                    [ Download <i class="glyphicon glyphicon-save" style="font-size:11px"></i> ] 
+                                                                </a>
+                                                                <a href=""><i class="glyphicon glyphicon-refresh" style="margin-left:8px; color:green" ></i></a>
+                                                             </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            
+                                            <div class="col-md-12" ng-show="filtered1.length == 0">
+                                                <h4>No Download matches the specified criteria</h4>
+                                            </div>
+                                            
+                                            <div class="col-md-12" ng-show="filtered1.length > 0">
+                                                <div pagination="" page="currentPage1" max-size="10" on-select-page="setPage(page)" boundary-links="true" 
+                                                   total-items="filtered1.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" 
+                                                    next-text="&raquo;" ng-if="filtered1.length > 10">
+                                                </div>
+                                                <div style="" pagination="" page="currentPage1" max-size="10" on-select-page="setPage(page)" 
+                                                  boundary-links="false" 
+                                                  total-items="filtered1.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" 
+                                                  next-text="&raquo;" ng-if="filtered1.length < 11">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                
+<!--                                <div ng-repeat = "assessment in assessments_download" style="border-bottom: solid 2px #CCCCCC; margin-top:20px; 
+                                  margin-bottom:5px; width:70%">
+                                    
+                                    <div> <a ng-href="documents/{{assessment.href}}" style="font-size:16px; font-weight:bolder; color: #069">
+                                        {{assessment.course_code}}&nbsp;Assessment <i class="glyphicon glyphicon-save" style="margin-left:10px"></i>
+                                        </a> - <span style="margin:10px">{{assessment.name}}</span>
+                                        <span style="margin:2px; padding:0px; font-size:10px">This assessment was generated on {{assessment.transaction_time}}
+                                        </span>
+                                        <span style="float:right"><a href=""><i class="glyphicon glyphicon-refresh" ></i></a></span>
+                                    </div>
+                                    
+                                </div>
+                           
+							</div> 
+                                                        
+                            <div class="col-md-12" ng-show="filtered1.length == 0 || filtered1.length == undefined">
+                                <h5>No Individual PDF Download is available </h5>
+                            </div>-->
+
+							</div><!--End of individual download-->
+                            
+                            <div ng-if = "type_of_download == 'all_lecturers'"><!--All lecturers download -->
+                               	<!--<div ng-if = "filtered2 > 0">-->
+
+                                <h5 style="font-weight:bold">Departmental Assessments</h5>
+                                
+                                    <div >
+                                        <div class="update-field" style="text-align:right; float:right; margin-top:5px; " ng-show="filtered2.length > 0">
+                                            <input type="text" ng-model="search2" ng-change="filter2()" 
+                                               placeholder="Search For download by name or pf number" 
+                                                class="form-control m-wrap"  style="display:inline; margin-left:20px; padding:15px"/>
+                                            <span class="btn btn-search" style="float:left;  margin:5px 0px; padding:0px">
+                                                 <i class="fa fa-search fa-fw" style="margin:0px; padding:0px; font-size:25px;">
+                                                 </i>
+                                            </span>
+                                        </div>
+                                        
+                                        <div class="row" style="margin:0px 10px; padding:0px">
+                                            <div class="col-md-4" ng-show="filtered2.length > 0">
+                                                <h5><span ng-bind="filtered2.length"></span> Download Information.</h5>
+                                            </div>
+                                            
+                                            <div class="col-md-12" ng-show="filtered2.length > 0">
+                                               <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}">
+                                                  </toaster-container>
+                                                <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px;">
+                                                    <thead style="background-color: #CD61CD; color:white; text-align:center">
+                                                        <th style="text-align:center">S/N</th>
+                                                        <th >NAME OF DEPARTMENT</th>
+                                                        <th >DATE GENERATED</th>
+                                                        <th style="text-align:center">ACTION</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="dept_download in filtered2 = (departmental_download
+                                                           | filter:search2 | orderBy : predicate2 :reverse2) | startFrom:(currentPage2-1)*entryLimit2 | 
+                                                              limitTo:entryLimit2">
+                                                            <td style="text-align:center">{{$index+1}}</td>
+                                                            <td style="">{{dept_download.course_code}}</td>
+                                                            <td style="">{{dept_download.transaction_time}}</td>
+                                                            
+                                                            <td style="text-align:center; font-size:14px">
+                                                                <a ng-href="documents/{{dept_download.href}}">
+                                                                    [ Download <i class="glyphicon glyphicon-save" style="font-size:11px"></i> ] 
+                                                                </a>
+                                                                <a href=""><i class="glyphicon glyphicon-refresh"  style="margin-left:8px; color:green" ></i></a>
+                                                             </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            
+                                            <div class="col-md-12" ng-show="filtered2.length == 0">
+                                                <h4>No Download matches the specified criteria</h4>
+                                            </div>
+                                            
+                                            <div class="col-md-12" ng-show="filtered2.length > 0">
+                                                <div pagination="" page="currentPage2" max-size="10" on-select-page="setPage2(page)" boundary-links="true" 
+                                                   total-items="filtered2.length" items-per-page="entryLimit2" class="pagination-small" 
+                                                    previous-text="&laquo;" 
+                                                    next-text="&raquo;" ng-if="filtered2.length > 10">
+                                                </div>
+                                                <div style="" pagination="" page="currentPage2" max-size="10" on-select-page="setPage2(page)" 
+                                                  boundary-links="false" 
+                                                  total-items="filtered2.length" items-per-page="entryLimit2" class="pagination-small" 
+                                                   previous-text="&laquo;" 
+                                                  next-text="&raquo;" ng-if="filtered2.length < 11">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                
+<!--                                <div ng-repeat = "assessment in departmental_download" style="border-bottom: solid 1px #CCCCCC; margin-top:20px; width:50%">
+                                    <p style="margin:2px; padding:0px; font-size:10px">This assessment was generated on {{assessment.transaction_time}}</p>
+                                    <a ng-href="documents/{{assessment.href}}" style="font-size:16px; font-weight:bolder; color: #069">
+                                     {{assessment.course_code}}&nbsp;Assessment
+                                        <i class="glyphicon glyphicon-save" style="margin-left:10px"></i>
+                                    </a>
+                                    
+                                </div>  
+                                </div>
+                                <div class="col-md-12" ng-show="filtered2.length == 0 || filtered2.length == undefined">
+                                    <h5>No Departmental PDF Download is available</h5>
+                                </div>-->
+                               </div><!--End of All lecturers download -->
+                    
+                        
+                        </div>
+                        
+                        
+                    <!-- End of Existing downloads --> 
+                    <!--end of pdf download-->
+                </div>
+            	<div ng-if = "excel_section_flag" style="margin-top:-10px">
+                <!--excel donwloads -->
+<!--                <hr style="border:2px solid black"  />
+-->                	
+					<h3>MS Excel Download</h3>
+                    <div>
+                        <div>
+                            <label>Download Type</label>
+                        </div>
+                        <div>
+                            <select ng-model = "excel_type_of_download" style="width:300px; height:30px" >
+                                <option value="">[ Select Download Type ]</option>
+                                <option value="departmental">Departmental Assessment</option>
+                                <option value="university_wide">University-wide Assessment</option>
+                            </select>
+                        </div>
+                        <hr />
+                        <!--Departmental Assessment -->
+                        <div ng-if = "excel_type_of_download == 'departmental'">
+                            <div class="update-field" style="text-align:right; float:right; margin-top:5px; ">
+                                <input type="text" ng-model="search" ng-change="filter()" placeholder="Search For download by deaprtment" 
+                                    class="form-control m-wrap"  style="display:inline; margin-left:20px; padding:15px"/>
+                                <span class="btn btn-search" style="float:left;  margin:5px 0px; padding:0px">
+                                     <i class="fa fa-search fa-fw" style="margin:0px; padding:0px; font-size:25px;">
+                                     </i>
+                                </span>
+                            </div>
+                            
+                            <div class="row" style="margin:0px 10px; padding:0px">
+                                <div class="col-md-6" ng-show="filtered.length > 0">
+                                    <h5><span ng-bind="filtered.length"></span> <span style=" text-transform:capitalize">{{excel_type_of_download}}</span> MS Excel Download Information.</h5>
+                                </div>
+                                
+                                <div class="col-md-12" ng-show="filtered.length > 0">
+                                   <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+                                    <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px;">
+                                        <thead style="background-color: #CD61CD; color:white; text-align:center">
+                                            <th style="text-align:center">S/N</th>
+                                            <th style="text-align:center">DEPARTMENT</th>
+                                            <th style="text-align:center">DATE GENERATED</th>
+                                            <th style="text-align:center">ACTION</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="dept in filtered = (departmental_excel_data
+                                               | filter:search | orderBy : predicate :reverse) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+                                                <td style="text-align:center">{{$index+1}}</td>
+                                                <td style="">{{dept.course_code}}</td>
+                                                <td style="">{{dept.transaction_time}}</td>
+                                                
+                                                <td style="text-align:center; font-size:14px">
+                                                	<a ng-href="documents/{{dept.href}}">
+                                                    	[ Download <img src="images/ms-excel.png" width="15px" height="15px" style="margin-left:-5px; margin-top:-10px" /><i class="glyphicon glyphicon-save" style="font-size:11px"></i> ] 
+                                                    </a>
+                                                   <!-- <a href="" ng-click = "update_university_wide_download(dept)"><i class="glyphicon glyphicon-refresh"  style="margin-left:8px; color:green" ></i></i></a>-->
+                                                 </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="col-md-12" ng-show="filtered.length == 0">
+                                    <h4>No Download matches the specified criteria</h4>
+                                </div>
+                                
+                                <div class="col-md-12" ng-show="filtered.length > 0">
+                                    <div pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="true" 
+                                       total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" 
+                                        next-text="&raquo;" ng-if="filtered.length > 10">
+                               		</div>
+                                    <div style="" pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="false" 
+                                      total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" 
+                                      next-text="&raquo;" ng-if="filtered.length < 11">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--End of Departmental Assessment -->
+                        
+                        
+                        <!--University-wide Assessment -->
+                        <div ng-if = "excel_type_of_download == 'university_wide'">
+                        
+                            <h4>university Assessment</h4>
+                            
+							<div ng-repeat = "u_assessment in university_wide_excel_data" style="border-bottom: solid 1px #CCCCCC; margin-top:20px; 
+                               width:50%">
+                                    <p style="margin:2px; padding:0px; font-size:10px">This assessment was generated on {{u_assessment.transaction_time}}</p>
+                                    <a ng-href="documents/{{u_assessment.href}}" style="font-size:16px; font-weight:bolder; color: #069">
+                                     {{u_assessment.course_code}}&nbsp;Assessment
+                                        <i class="glyphicon glyphicon-save" style="margin-left:10px"></i>
+                                    </a>
+                                    
+                                    <a href=""><i class="glyphicon glyphicon-refresh" style="margin-left:8px; color:green" ></i></a>
+                                    
+                            </div>                        
+                        </div>
+                        <!--End of university-wide Assessment -->
+            
+                    </div>
+                </div>
+                
+            
+            </div>
+    
+    </div>
+    
+ </div>

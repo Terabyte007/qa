@@ -1,0 +1,95 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+<div style="margin:auto; margin-left:40px; margin-top:50px; padding:10px; color:black;">
+    <div style="position:relative">
+      <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+    </div>
+	<h3 style="color:black; margin-bottom:30px"><span style="border-bottom:2px solid black">Lodge Your Complaints</span></h3>
+    
+        <form id="teller_frm" name="teller_frm" style="margin:10px auto; text-align:center">
+    	<div class="update-field">
+            <label>Complain:</label>
+            <select name="" ng-model="complaint_types.description" class="m-wrap"   ng-change ="initialise_selection()">
+                <option value="" style="font-weight:bold">[  Select Complaint  ]</option>
+                <option value="{{com}}" ng-repeat = "com in complaints">{{com}}</option>
+            </select>
+            
+        </div>
+        
+        
+        <div class="update-field" ng-if = "complaint_types.description == 'Incorrect CGPA'">
+        	<label>Expected CGPA:</label>
+        	<input type="number" class="m-wrap" name="" ng-model="complaint_types.excpected_cgpa" placeholder="Expected CGPA" max="7" />
+    	</div>
+
+   
+        <div class="update-field"  ng-if = "complaint_types.description == 'Missing Result' 
+        									|| complaint_types.description == 'Incorrect Result'
+                                            || complaint_types.description == 'expected_cgpa'
+                                            || complaint_types.description =='Incorrect Score'
+                                            || complaint_types.description =='Incorrect Mode of Entry'
+                                            || complaint_types.description =='Incorrect CGPA'">
+        	<label><span ng-if ="complaint_types.description =='Incorrect Mode of Entry'">Entry&nbsp;</span>Session:</label>
+            <select name="" ng-model="complaint_types.session" class="m-wrap"  ng-change = "update_courses(complaint_types.session)">
+                <option value="" style="font-weight:bold">[  Session  ]</option>
+                <option value="{{sess}}" ng-repeat = "sess in sessions">{{sess}}</option>
+                
+            </select>
+            <span ng-show="gathering_courses" style="line-height:30px;margin-top:10px;float:left; font-size:9px; color:red">
+                                	<img src="images/indicator.gif" style="width:30px;margin-left:15px;
+                                     margin-right:10px; float:left;" /><span style="font-weight:bold">Gathering your registered courses for {{complaint_types.session}}...</span>
+                            	</span>
+    	</div>
+        
+        
+        <div class="update-field"  ng-if = "complaint_types.description == 'Missing Result' 
+                                            || complaint_types.description == 'Incorrect Result'
+                                            || complaint_types.description =='Incorrect Score'" ng-show = "complaint_types.session !=''">
+        	<label>Course Code:</label>
+        	<!--<input type="text" class="m-wrap" name="" ng-model="complaint_types.course_code" placeholder="Course Code" 
+              />-->
+            <select name="courses" id="courses" ng-model="complaint_types.course_code" class="m-wrap"  >
+                <option value="" style="font-weight:bold">[  Select Course  ]</option>
+                <option value ="{{course.code}}" ng-repeat = "course in courses">{{course.code}}</option>
+            </select>
+    	</div>
+        
+
+    	<div class="update-field" ng-if = "complaint_types.description == 'Incorrect Department'">
+            <label>Current Department:</label>
+            <select name="" ng-model="complaint_types.department" class="m-wrap"  >
+                <option value="" style="font-weight:bold">[  Select Department  ]</option>
+                <option value ="{{dept.id}}" ng-repeat = "dept in departments">{{dept.title}}</option>
+            </select>
+            
+        </div>
+
+        <div class="update-field" ng-if = "complaint_types.description == 'Incorrect Mode of Entry'">
+        	<label>Mode of Entry:</label>
+            <select name="" ng-model="complaint_types.mode" class="m-wrap"  >
+                <option value="" style="font-weight:bold">[  Mode of Entry  ]</option>
+                <option value="UTME" style="font-weight:bold">UTME</option>
+                <option value="DE" style="font-weight:bold">DE</option>
+                <option value="Transfer" style="font-weight:bold">Transfer</option>
+            </select>
+    	</div>
+        
+        
+        <div class="update-field" ng-if = "complaint_types.description == 'Others'">
+        	<label>Others:</label>
+        	<input type="text" class="m-wrap" name="" ng-model="complaint_types.others" placeholder="Specify the complaint" />
+    	</div>
+
+		<div class="update-field">
+                <button ng-click="lodge_complain(complaint_types)" class="m-btn green" style="margin-top:10px" 
+                ng-disabled = "complaint_types.description==''"><i class="icon-upload-alt" ></i> Lodge Complain </button>
+
+      	</div>
+        
+      </form>
+        
+        
+</div>
+
+</div>
+</div>

@@ -1,0 +1,187 @@
+<!-- Begining of All the lecturer -->
+<div style="margin:auto; margin-top:0; margin-bottom:0px; width:100%; color:black" ng-if = "all_the_lecturer">
+    <div id="hme_cnt_dv" class="l1 tp_cnt_dv">
+                <!--filter area -->
+ 		<div style="margin:30px auto; text-align:center;">
+        	<h3 style="text-align:center; border-bottom-style:double; margin:20px; padding:10px">
+            	Individual Course-Lecturer Assignment</h3>
+        </div>
+                    <div class="update-field" style="text-align:right; float:right; margin-top:20px; ">
+                        <input type="text" ng-model="search" ng-change="filter()" placeholder="Search For Course by course code., title etc" class="form-control m-wrap"  
+                        style="display:inline; margin-left:40px; padding:5px"/>
+                        <span class="btn btn-search" style="float:left;  margin:5px 0px; padding:0px"><i class="fa fa-search fa-fw" style="margin:0px; padding:0px; font-size:25px;"></i></span>
+                    </div>
+                    <div class="row" style="margin:0px 10px; padding:5px">
+                        <div class="col-md-4" ng-show="filtered.length > 0">
+                            <h5><span ng-bind="filtered.length"></span> Course-Lecturer Information.</h5>
+                        </div>
+                        
+                        <div>
+                            <div style="float:right; margin-right:20px" >
+                                <button style="margin-right:10px" class="btn btn-primary btn-sm" ng-click = "add_lecturers1()">Add Lecturer</button><button class="btn btn-info btn-sm" ng-click = "add_course1()">Add Course</button>
+                            </div>
+                        </div>
+                        <!--<div>{{courses}}</div>-->
+                        <div class="col-md-12" ng-show="filtered.length > 0">
+                           <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+                            <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:16px;">
+                                <thead style="background-color: #CD61CD; color:white; text-align:center">
+                                <!--
+                                `SELECT t1.`course_code`, t1.`pfnumber`, t1.`name`, t1.`department`, t1.`course_id_fk`, 
+                                t1.`department_id_fk`, t1.`session_id_fk`, t1.`semester_id_fk`, t2.title FROM `course_lecturer` 
+                                t1 inner join tbl_courses t2 WHERE t1.`course_code` = t2.code
+                                -->
+                                    <th style="text-align:center">S/N</th>
+                                    <th style="text-align:left; padding-left:10px">CODE</th>
+                                    <th style="text-align:center">TITLE</th>
+                                    <th style="text-align:center">LECTURER NAME</th>
+                                    <th style="text-align:center" width="30%">OPTIONS</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="course in filtered = (courses | filter:search | orderBy : predicate :reverse) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+                                        <td style="text-align:center">{{$index+1}}</td>
+                                        <td style="text-align:left">{{course.code}}</td>
+                                        <td style="text-align:left">{{course.title}} <i class="glyphicon glyphicon-adjust" style="padding-left:2px"
+                                        ng-if = "share_indicator_icon_index[course.my_index]"></i></td>
+                                        <td><a href="" >{{course.lecturer}}</a></td>
+                                        <td style="text-align:center; font-size:14px">
+                                        <a href="" ng-click = "delete_lecturer_course(course, course.my_index)" style="color: #C0F" 
+                                          ng-if = "course.lecturer != ''">[ Delete ] </a>
+                                        <a href="" ng-click = "view_lecturer(course, course.my_index)" ng-if = "course.lecturer != ''">[ View ] </a>
+                                        <a href="" ng-click = "assign_course_to_lecturer(course, course.my_index)" ng-if = "course.lecturer == ''">
+                                        [ Assign Course ] </a>
+                                        <a href="" ng-click = "share_course_step1(course.my_index)" ng-if = "course.lecturer != ''">[ Share Course ] </a>
+                                        <span ng-if = "share_indicator[course.my_index]">
+                                            <select ng-model="sharing_lecturer[course.my_index]" 
+                                                 ng-options="lect.pf_number as lect.surname for lect in lecturers" 
+                                                ng-change = "update_sharing(course,course.my_index)" style="width:200px">
+                                                 <option value="">-- Choose Lecturer --</option>
+                                            </select> 
+                                        
+                                        </span>
+                                        <span ng-if = "assign_indicator[course.my_index]">
+                                           <!-- <select ng-model="assign_course_to[course.my_index]" 
+                                                 ng-options="lect.pf_number as lect.surname for lect in lecturers" 
+                                                ng-change = "update_course_assignment(course,course.my_index)" style="width:200px">
+                                                 <option value="">-- Choose Lecturer --</option>
+                                            </select> -->
+                                            
+                                            <select ng-model="assign_course_to[course.my_index]" 
+                                        
+                                                ng-change = "update_course_assignment(course,course.my_index)" style="width:200px">
+                                                 <option value="">-- Choose Lecturer --</option>
+                                                 <option ng-repeat = "lect in lecturers" value = {{lect.pf_number}}>{{lect.surname}}&nbsp; {{lect.onames}}</option>
+                                            </select>
+                                            
+                                        
+                                        </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                         <div>{{}}<!--for testing--></div>   
+                        <div ng-if = "courses.length > 10">
+                            <div style="float:right; margin-right:20px" >
+                                <button style="margin-right:10px" class="btn btn-link btn-sm" ng-click = "add_lecturers1()" >Add Lecturer</button>
+                                <button class="btn btn-link btn-sm" ng-click = "add_course1()">Add Course</button>
+                            </div>
+                        </div>
+
+                        </div>
+                        
+                        <div class="col-md-12" ng-show="filtered.length == 0">
+                            <h4>No Course matches the specified criteria</h4>
+                        </div>
+                        
+                        <div class="col-md-12" ng-show="filtered.length > 0">
+                            <div pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="true" total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;" ng-if="filtered.length > 10">
+                        </div>
+                            <div style="" pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="false" total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;" ng-if="filtered.length < 11">
+                            </div>
+                        </div>
+                        
+                    </div>
+                <!-- End of filter area -->
+
+    </div>
+</div>
+
+<!--End of All the lecturers -->
+
+<!--Individual Lecturer Assignment-->
+            <div style="color:black; font-size:18px; margin:40px 15px; "  ng-if = "individual_lecturer">
+                <div style="border-style: double;  border-top-right-radius:25px; margin:3px auto; padding:1px;  width:70%">
+                        <div style="margin:15px; padding:5px; width:60%; float:left; border-right:solid 1px green">
+                            <p style="font-weight:bolder; font-size:18px"> Name of Lecturer:</p>
+                            <p style=" font-size:18px"> {{lecturer_view.lecturer}}</p>
+                            <p style="font-weight:bolder; font-size:18px">Course Code: </p>
+                            <p style=" font-size:18px"> {{lecturer_view.course_code}}</p>
+                            <p style="font-weight:bolder; font-size:18px">Course </p> 
+                            <p style=" font-size:18px">{{lecturer_view.title}}</p> 
+                            <!--<p style="font-weight:bolder; font-size:18px"> Semester:</p>
+                            <p style=" font-size:18px"><span ng-show = 'lecturer_view.semester_id_fk==1'>First</span>
+                                                       <span ng-show = 'lecturer_view.semester_id_fk==2'>Second</span>
+                            </p>--> 
+                        </div>
+                        <div style="margin:15px; padding:5px; width:30%; float:right;  text-align:center">
+                                <div style="position:relative;width:200px; height:200px;float:left; text-align:center;">
+        							<img style="max-width:200px; height:200px; margin:auto; left:40%;background:url(images/placeholder.png); 
+                                    display:inline" ng-src="photo/{{lecturer_view.pf_number + '.jpg'}}" alt="Lecturer Photo" />
+                                </div>
+                        </div>
+                        <div  style="clear:both">
+                        </div>
+                </div>
+                <div style="width:50%; margin:30px auto"><button class="btn btn-primary btn-sm" ng-click = "go_back_to_all_lecturers()">Back</button></div>
+            </div>
+<!--End of Individual Lecturer Assignment-->
+
+<!--Get student information -->
+<div ng-show = "student_div">
+<a href="" ng-click = "navigate_left('single lectuer')" style="margin-top:30px"><span style="margin-top:15px"><i class="glyphicon glyphicon-chevron-left" aria-hidden="true" ></i>Go Back</span></a>
+
+<div style="margin:50px auto; border:double; color:black; width:60%" >
+	<h2 class="btn btn-primary"   style="margin:0px; padding:0px; text-align:center; font-size:24px border:solid 1px black; display:block">Student Information</h2>
+    <div style="width:60%">
+    	<table class="table table-striped table-bordered table-condensed table-hover" style="color:black" width="100%" >
+        	<tr>
+            	<td>
+                	Name
+                </td>
+                <td>
+                	{{student_info1.surname}} {{student_info1.firstname}} {{student_info1.middlename}}
+                </td>
+            </tr>
+        	<tr>
+            	<td>
+                	Faculty
+                </td>
+                <td>
+                	{{student_info1.faculty}}
+                </td>
+            </tr>
+        	<tr>
+            	<td>
+                	Department
+                </td>
+                <td>
+                	{{student_info1.title}}
+                </td>
+            </tr>
+        	<tr>
+            	<td>
+                	Level
+                </td>
+                <td>
+                	{{student_info1.lev_id_fk}}00L
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+
+
+
+</div>

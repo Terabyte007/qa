@@ -1,0 +1,123 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+        <div class="hd">
+            Add new Course of Studies
+        </div>
+        
+        
+        <div class="cnt_vl" style="margin-top:20px; font-size:14px;">
+            <div id="mainp_quote" style="">
+                <ul class="side_mnu_cnt" style="">
+                    <li class="side_mnu" ng-class="{active_mnu:add_multiple}"><a href="" ng-click="openAddMultipleDv()">Mass Course Reg. Upload</a></li>
+
+                </ul>
+            </div>
+            
+        	<div id="mainp_note" class="hme_lcnt_dv" style="position:relative; width:600px; float:left;">
+                <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+                
+                
+                <div ng-if="add_multiple">
+                    <h5 style="font-size:15px; font-weight:bold">Upload Course Registration File</h5>
+                    <p style="width:100%; float:left">
+                    Upload the Micosoft Excel file which contains the student registered courses. This file is the populated students' registered courses template that was downloaded</p>
+                    <p style="width:100%; float:left">
+                    	<input type="file" name="file" id="file" onchange="angular.element(this).scope().pickupthefileformassupload(this.files)" class="m-btn" style="margin-right:10px;"/>
+                        <a href="" ng-click="uploadMassCourses()" class="m-btn green" style="margin-top:12px;">Upload file</a>
+                    </p>
+                    
+                    <!--unsaved payment records-->
+                      <div ng-show="notOkRecord" style="border:solid black 1px; float:left">
+                            <h4 style="margin:0px; text-align:center">Unsaved Records<span ng-click = "notOkRecord = false" style="cursor: pointer; float:right; margin-top:-10px; margin-right:-10px; margin-bottom:15px; background-color:white"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                            </h4><hr style="margin:0px"> 
+                            <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px; margin:0px">
+                                  <thead style="background-color: #C00; color:white; text-align:center">
+                                      <th style="text-align:center">S/N</th>
+                                    <th style="text-align:center">Matric Number</th>
+                                    <th style="text-align:center">Course Code</th>
+                                    <th style="text-align:center">Course Title</th>
+                                    <th style="text-align:center">Course Status</th> 
+                                    <th style="text-align:center">Remark</th>                                                   
+                                  </thead>
+                                  <tbody>
+                                      <tr ng-repeat="data in unsavedData">
+                                          <td style="text-align:center">{{$index+1}}</td>
+                                        <td>{{data.B}}</td>
+                                        <td>{{data.C}}</td>
+                                        <td>{{data.D}}</td>
+                                        <td>{{data.H}}</td>
+                                        <td>No student or course record</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                     </div>
+                     <!--end of unsaved payment records-->
+                     
+                     
+                     <!--unsaved payment records-->
+                      <div ng-show="existRecord" style="border:solid black 1px; float:left">
+                            <h4 style="margin:0px; text-align:center">Existing Record(s)<span ng-click = "existRecord = false" style="cursor: pointer; float:right; margin-top:-10px; margin-right:-10px; margin-bottom:15px; background-color:white"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                            </h4><hr style="margin:0px"> 
+                            <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px; margin:0px">
+                                  <thead style="background-color: rgb(204,51,102); color:white; text-align:center">
+                                      <th style="text-align:center">S/N</th>
+                                    <th style="text-align:center">Matric Number</th>
+                                    <th style="text-align:center">Course Code</th>
+                                    <th style="text-align:center">Course Title</th>
+                                    <th style="text-align:center">Course Status</th> 
+                                    <th style="text-align:center">Remark</th>                                                   
+                                  </thead>
+                                  <tbody>
+                                      <tr ng-repeat="data in existData">
+                                          <td style="text-align:center">{{$index+1}}</td>
+                                        <td>{{data.B}}</td>
+                                        <td>{{data.C}}</td>
+                                        <td>{{data.D}}</td>
+                                        <td>{{data.H}}</td>
+                                        <td>This Record Already Exists</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                     </div>
+                     <!--end of unsaved payment records-->
+                                 
+                    <!--saved payment records-->
+                      <div ng-show="okRecord" style="border:solid black 1px; float:left; margin-top:15px">
+                          <h4 style="margin:0px; text-align:center">Saved Course Information<span ng-click = "okRecord = false" style="cursor: pointer; float:right; margin-top:-10px; margin-right:-10px; margin-bottom:15px; background-color:white"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                          </h4><hr style="margin:0px">   
+                          <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px; margin:10px">
+                                <thead style="background-color: #090; color:white; text-align:center">
+                                    <th style="text-align:center">S/N</th>
+                                    <th style="text-align:center">Matric Number</th>
+                                    <th style="text-align:center">Course Code</th>
+                                    <th style="text-align:center">Course Title</th>
+                                    <th style="text-align:center">Course Status</th> 
+                                    <th style="text-align:center">Remark</th>                                                   
+                                  </thead>
+                                  <tbody>
+                                      <tr ng-repeat="data in savedData">
+                                        <td style="text-align:center">{{$index+1}}</td>
+                                        <td>{{data.B}}</td>
+                                        <td>{{data.C}}</td>
+                                        <td>{{data.D}}</td>
+                                        <td>{{data.H}}</td>
+                                        <td>This Record Was Saved Successfully</td>
+                                      </tr>
+                                  </tbody>
+                                </tbody>
+                            </table>
+                   </div>
+                   <!--end of saved payment records-->
+                   <div style="display:block">
+                    <p>
+                    <a href="#/admin/registration/registrations-template" class="green">Download Course Template For Bulk Upload</a>
+                    </p>
+                   </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>

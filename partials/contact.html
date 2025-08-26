@@ -1,0 +1,65 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+        <div class="hd">
+            Contact Details
+        </div>
+        
+        <div class="cnt_vl" style="margin-top:20px; font-size:14px;">
+            
+            <div id="mainp_quote" style="">
+                <ul class="side_mnu_cnt" style="">
+                    <li class="side_mnu" ng-class="{active_mnu:admissions}"><a href="" ng-click="openAdmissionsContactDv()">Admissions</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:technical_support}"><a href="" ng-click="openTechnicalSupportContactDv()">Technical Support</a></li>
+                </ul>
+            </div>
+            
+        	<div id="mainp_note" style="">
+            	<div ng-show="admissions">
+                	<h4>Admissions Contact Information</h4>
+                    <div class="m-body" style="width:100%; float:left;">
+                        <p><b>Chairman:</b> <u>07031268540</u></p>
+                        <p><b>Admissions Officer:</b> <u>08127833477</u></p>
+                        <p><b>Email:</b> <u>admissions@ui.edu.ng</u></p>
+                    </div>
+                </div>
+                
+            	<div ng-show="technical_support">
+                	<h4>Technical Support Contact Information</h4>
+                    <div class="m-body" style="width:100%; float:left;">
+                    	<p><b><i class="icon-user"></i></b> &nbsp; <u>Fisayo O.</u></p>
+                    	<p><b><i class="icon-envelope"></i></b> &nbsp; <u>mis@ui.edu.ng</u></p>
+                    	<p><b><i class="icon-phone"></i></b> &nbsp; <u>mis@ui.edu.ng</u></p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{modalHeader}}</h3>
+        </div>
+        <div class="modal-body">
+            <span ng-bind-html="modalDisplay"></span>
+        </div>
+        <div class="modal-footer">
+            <button class="m-btn blue" ng-click="ok()">OK</button>
+        </div>
+    </script>
+
+<script type="text/ng-template" id="dialogContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{modalHeader}}</h3>
+        </div>
+        <div class="modal-body">
+            <span ng-bind-html="modalDisplay"></span>
+        </div>
+        <div class="modal-footer">
+            <button class="m-btn" ng-click="cancel()">Cancel</button>
+            <button class="m-btn blue" ng-click="ok(form_values)" style="margin-right:20px;">OK</button>
+        </div>
+    </script>

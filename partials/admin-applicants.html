@@ -1,0 +1,59 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+        <div class="hd">
+            <span ng-bind="dispApplicantType"></span> Students
+        </div>
+        
+        <div class="cnt_vl">
+            <div class="update-field" style="text-align:right; float:right; margin:10px; padding:10px;">
+                <input type="text" ng-model="search" ng-change="filter()" placeholder="Search Applicants..." class="form-control m-wrap"  style="display:inline"/>
+            </div>
+            
+            
+            <div class="row">
+            	<div class="col-md-4" ng-show="filtered.length > 0">
+                    <h5><span ng-bind="filtered.length"></span> applicants found</h5>
+                </div>
+                
+                <div class="col-md-12" ng-show="filtered.length > 0">
+                    <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px;">
+                        <thead style="background-color: #CD61CD; color:white; text-align:center">
+                            <th style="text-align:center">S/N</th>
+                            <th style="text-align:center">NAME</th>
+                            <th style="text-align:center">GENDER</th>
+                            <th style="text-align:center">JAMB REG NO</th>
+                            <th style="text-align:center">JAMB SCORE</th>
+                            <th style="text-align:center">OPTIONS</th>
+                        </thead>
+                        <tbody>
+                            <!--<tr ng-repeat="applicant in filtered | filter:search ">-->
+                            <tr ng-repeat="applicant in filtered = (applicants | filter:search | orderBy : predicate :reverse) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+                                <td style="text-align:center">{{$index+1}}</td>
+                                <td><a href="#/admin/students/applicant-page/{{applicant.jambRegNo}}">{{applicant.surname}} {{applicant.firstname}} {{applicant.middlename}}</a></td>
+                                <td style="text-align:center">{{applicant.sex}}</td>
+                                <td style="text-align:center">{{applicant.jambRegNo}}</td>
+                                <td style="text-align:center">{{applicant.jambScore}}</td>
+                                <td style="text-align:center"><a href="#/admin/students/applicant-page/{{applicant.jambRegNo}}">[View Applicant]</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="col-md-12" ng-show="filtered.length == 0">
+                	<h4>No Applicants matching the criteria found</h4>
+                </div>
+                
+                <div class="col-md-12" ng-show="filtered.length > 0">
+                    <div pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="true" total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;" ng-if="filtered.length > 10"></div>
+                    
+                    <div pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="false" total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;" ng-if="filtered.length < 11"></div>
+             
+             
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    
+</div>

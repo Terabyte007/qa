@@ -1,0 +1,859 @@
+
+<!-- Begining of All the lecturer -->
+<div style="margin:auto; margin-top:0; margin-bottom:0px; width:100%; color:black" ng-if = "all_the_lecturer">
+    <div id="hme_cnt_dv" class="l1 tp_cnt_dv">
+                <!--filter area -->
+ 		<div style="margin:30px auto; text-align:center">
+        	<h3 style="text-align:center; border-bottom-style:double; margin:20px; padding:10px">
+            	Lecturer Assessment For {{session.session}} Academic Session
+            </h3>
+        </div>
+        
+        <!--List of lecturers -->
+        	<div class="update-field" style="text-align:right; float:right; margin-top:20px; ">
+            	<input type="text" ng-model="search" ng-change="filter()" placeholder="Search For Lecturer by PF, Dept, name, course etc" 
+               		class="form-control m-wrap"  style="display:inline; margin-left:40px; padding:5px"/>
+                <span class="btn btn-search" style="float:left;  margin:5px 0px; padding:0px">
+                     <i class="fa fa-search fa-fw" style="margin:0px; padding:0px; font-size:25px;">
+                     </i>
+                </span>
+            </div>
+            
+            <div class="row" style="margin:0px 10px; padding:5px">
+                <div class="col-md-4" ng-show="filtered.length > 0">
+                    <h5><span ng-bind="filtered.length"></span> Lecturers' Information.</h5>
+                </div>
+                
+                <div class="col-md-12" ng-show="filtered.length > 0">
+                   <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+                    <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px;">
+                        <thead style="background-color: #CD61CD; color:white; text-align:center">
+                            <th style="text-align:center">S/N</th>
+                            <th style="text-align:center">COURSE CODE</th>
+                            <th style="text-align:left; padding-left:10px">TITLE</th>
+                            <th style="text-align:center">DEPARTMENT</th>
+                            <th style="text-align:center">LECTURER NAME</th>
+                            <th style="text-align:center">OPTIONS</th>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="lecturer in filtered = (lecturers | filter:search | orderBy : predicate :reverse) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+                                <td style="text-align:center">{{$index+1}}</td>
+                                <td><a href="" ng-click = "class_assessment(lecturer, $index)">{{lecturer.course_code}} </a></td>
+                                <td style="text-align:left">{{lecturer.title}}</td>
+                                <td style="text-align:center">{{lecturer.department}}</td>
+                                <td style="text-align:left">{{lecturer.name}}</td>
+                                <td style="text-align:center; font-size:14px"><a href="" ng-click = "class_assessment(lecturer, $index)">[ Get Assessment ]</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="col-md-12" ng-show="filtered.length == 0">
+                    <h4>No Lecturer matches the specified criteria</h4>
+                </div>
+                
+                <div class="col-md-12" ng-show="filtered.length > 0">
+                    <div pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="true" total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;" ng-if="filtered.length > 10">
+                </div>
+                    <div style="" pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="false" total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;" ng-if="filtered.length < 11">
+                    </div>
+                </div>
+            </div>
+                <!-- End of filter area -->
+
+    </div>
+</div>
+
+<!--End of All the lecturers -->
+
+
+<!--Beginning of single lecturer -->
+
+<div style="margin:auto; margin-top:0; margin-bottom:0px; width:100%; color:black" ng-if = "single_lecturer" id="up" name="up">
+    <div id="hme_cnt_dv" class="l1 tp_cnt_dv">
+<div style="margin:20px; color:blue; font-size:20px; text-align:left"><a href="" ng-click = "navigate_left('all the lectuers')"><span style="margin-top:15px"><i class="glyphicon glyphicon-chevron-left" aria-hidden="true" ></i>All Lecturers </span></a></div>
+<!-- Assessment Preview -->
+<div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black">
+                <h2 style="margin:0px; text-align:center; padding:10px; color:white; display:block; font-size:24px" class="btn btn-primary" >Lecturer Assessment
+                	</h2>
+                <div>
+             <div >
+                <div style="float:left">
+					<table width="100%" border="0" style="font-size:18px" >
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Course Being Assessed
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{the_lecturer_info.course_code}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px">
+                        	Course Title 
+                        </td>
+                    	<td style=" font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{the_lecturer_info.title}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Name of Lecturer
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{the_lecturer_info.name}}
+                        </td>
+                    </tr>
+                    
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Lecture Department
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{the_lecturer_info.department}}
+                        </td>
+                    </tr>
+					<tr >
+                    	<td style="padding-right:10px" >
+                        	Personal File Number
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{the_lecturer_info.pfnumber}}
+                        </td>
+                    </tr>   
+                    <tr >
+                    	<td style="padding-right:10px" >
+                        	Number of students in the class
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{students_statistics}}
+                        </td>
+                    </tr>                    
+                    <tr >
+                    	<td style="padding-right:10px" >
+                        	Number of students that assessed the lecturer
+                           </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{single_lecturers.length}}
+                        </td>
+                    </tr>                    
+                  </table>
+                </div>
+                <div style="float:right">
+        			<img style="max-width:100px; height:100px; margin:auto; left:40%;background:url(images/placeholder.png); 
+                       display:inline " ng-src="photo/{{the_lecturer_info.pfnumber + '.jpg'}}" alt="Lecturer Photo" />
+                </div>
+
+                </div>
+                <div style=" clear:both; border-top:solid 2px black; margin-top:12px" >
+                <p style="font-size:14px; text-align:center">The rating is as follows 1: <i style="padding:10px">Poor</i> 2: <i style="padding:10px">Fair</i> 3: <i style="padding:10px">Good</i> 4: <i style="padding:10px">Very Good</i> 5: <i style="padding:10px">Excellent</i>
+                </div>
+                <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:20px; margin-bottom:0px">
+                	<tr style="padding:3px">
+                    	<th style="padding:3px" width="25%">
+                        	Lecture Feature
+                        </th>
+                    	<th style="padding:3px;" width="40%">
+                        	
+                        </th>
+                    	<th style="padding:3px; text-align:center" width = '8%'>
+                        	5
+                        </th>
+                    	<th style="padding:3px; text-align:center">
+                        	4
+                        </th>
+                    	<th style="padding:3px; text-align:center">
+                        	3
+                        </th>
+                    	<th style="padding:3px; text-align:center">
+                        	2
+                        </th>
+                    	<th style="padding:3px; text-align:center">
+                        	1
+                        </th>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px" rowspan="2">
+                        	Enthusiasm
+                        </td>
+                    	<td style="padding:3px;">
+                        	The lecturer appears confident and friendly. 
+                        </td>
+                        
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[0] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[0] < 5 && lecturer_outcome[0]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[0] < 4 && lecturer_outcome[0]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[0] < 3 && lecturer_outcome[0]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[0] < 2 && lecturer_outcome[0]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+                        	He/She is active and demonstrative when teaching.
+                        </td>
+                        
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[1] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[1] < 5 && lecturer_outcome[1]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[1] < 4 && lecturer_outcome[1]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[1] < 3 && lecturer_outcome[1]  >= 2">X</span>
+                        </td
+                    	><td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[1] < 2 && lecturer_outcome[1]  >= 1">X</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                    	<td style="padding:3px" rowspan="3">
+                        	Warmth
+                        </td>
+                    	<td style="padding:3px;">
+                        Smiles frequently. 
+                        </td>
+
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[2] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[2] < 5 && lecturer_outcome[2]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[2] < 4 && lecturer_outcome[2]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[2] < 3 && lecturer_outcome[2]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[2] < 2 && lecturer_outcome[2]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+                        	Approachable in and out of the lecture room.
+                        </td>
+
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[3] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[3] < 5 && lecturer_outcome[3]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[3] < 4 && lecturer_outcome[3]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[3] < 3 && lecturer_outcome[3]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[3] < 2 && lecturer_outcome[3]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+                        	Takes time to explain defficult concepts in class.
+                        </td>
+
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[4] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[4] < 5 && lecturer_outcome[4]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[4] < 4 && lecturer_outcome[4]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[4] < 3 && lecturer_outcome[4]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[4] < 2 && lecturer_outcome[4]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px" rowspan="3">
+                        	Credibility
+                        </td>
+                    	<td style="padding:3px;">
+                        	Is open, honest and fair in his/her dealings with students.
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[5] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[5] < 5 && lecturer_outcome[5]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[5] < 4 && lecturer_outcome[5]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[5] < 3 && lecturer_outcome[5]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[5] < 2 && lecturer_outcome[5]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+                        	Shows no favouritism in his/her dealings with students.
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[6] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[6] < 5 && lecturer_outcome[6]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[6] < 4 && lecturer_outcome[6]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[6] < 3 && lecturer_outcome[6]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[6] < 2 && lecturer_outcome[6]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+                        	Openly solicits and accept students' comments and criticisms. 
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[7] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[7] < 5 && lecturer_outcome[7]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[7] < 4 && lecturer_outcome[7]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[7] < 3 && lecturer_outcome[7]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[7] < 2 && lecturer_outcome[7]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px" rowspan="4">
+                        	Expectation of Success
+                        </td>
+                    	<td style="padding:3px;">
+							Clearly informs students of the course objectives. 
+                        </td>
+                                                        
+
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[8] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[8] < 5 && lecturer_outcome[8]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[8] < 4 && lecturer_outcome[8]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[8] < 3 && lecturer_outcome[8]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[8] < 2 && lecturer_outcome[8]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+							Stimulates students' interest in the course.  
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[9] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[9] < 5 && lecturer_outcome[9]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[9] < 4 && lecturer_outcome[9]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[9] < 3 && lecturer_outcome[9]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[9] < 2 && lecturer_outcome[9]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+							Calls all students often and equitably to respond in the class. 
+                        </td>
+                                                        
+
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[10] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[10] < 5 && lecturer_outcome[10]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[10] < 4 && lecturer_outcome[10]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[10] < 3 && lecturer_outcome[10]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[10] < 2 && lecturer_outcome[10]  >= 1">XSTOP</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+							Helps students modify incorrect or inadequate responses. 
+                        </td>
+                                                        
+
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[11] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[11] < 5 && lecturer_outcome[11]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[11] < 4 && lecturer_outcome[11]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[11] < 3 && lecturer_outcome[11]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[11] < 2 && lecturer_outcome[11]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px" rowspan="2">
+                        	Encouraging and Patient
+                        </td>
+                    	<td style="padding:3px;">
+							Is optimistic, positive and cheerful. 
+                        </td>
+                        
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[12] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[12] < 5 && lecturer_outcome[12]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[12] < 4 && lecturer_outcome[12]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[12] < 3 && lecturer_outcome[12]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[12] < 2 && lecturer_outcome[12]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+						Is a good and active listener when students are speaking.
+                        </td>
+                        
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[13] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[13] < 5 && lecturer_outcome[13]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[13] < 4 && lecturer_outcome[13]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[13] < 3 && lecturer_outcome[13]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[13] < 2 && lecturer_outcome[13]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px" rowspan="4">
+                        	Professional
+                        </td>
+                    	<td style="padding:3px;">
+                        Treats the subject seriously and passionately. 
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[14] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[14] < 5 && lecturer_outcome[14]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[14] < 4 && lecturer_outcome[14]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[14] < 3 && lecturer_outcome[14]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[14] < 2 && lecturer_outcome[14]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+                       Comes to class regularly and promptly. 
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[15] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[15] < 5 && lecturer_outcome[15]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[15] < 4 && lecturer_outcome[15]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[15] < 3 && lecturer_outcome[15]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[15] < 2 && lecturer_outcome[15]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+                        Maintains a professional image (appearance, comportment and mannerism).
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[16] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[16] < 5 && lecturer_outcome[16]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[16] < 4 && lecturer_outcome[16]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[16] < 3 && lecturer_outcome[16]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[16] < 2 && lecturer_outcome[16]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+                        He is always fair but firm.
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[17] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[17] < 5 && lecturer_outcome[17]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[17] < 4 && lecturer_outcome[17]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[17] < 3 && lecturer_outcome[17]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[17] < 2 && lecturer_outcome[17]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px">
+                        	Adaptability
+                        </td>
+                        <td style="padding:3px;">
+                        Is flexible in course activities  when the need arises.
+                        </td>
+
+                        
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[18] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[18] < 5 && lecturer_outcome[18]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[18] < 4 && lecturer_outcome[18]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[18] < 3 && lecturer_outcome[18]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[18] < 2 && lecturer_outcome[18]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px" rowspan="2">
+                        	Knowledgeability
+                        </td>
+                    	<td style="padding:3px;">
+							Has a good mastery of what he/she teaches. 
+                         </td>
+
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[19] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[19] < 5 && lecturer_outcome[19]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[19] < 4 && lecturer_outcome[19]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[19] < 3 && lecturer_outcome[19]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[19] < 2 && lecturer_outcome[19]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+							Recommends relevant reading materials for the course and advises students on how to access them.                        
+                         </td>
+
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[20] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[20] < 5 && lecturer_outcome[20]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[20] < 4 && lecturer_outcome[20]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[20] < 3 && lecturer_outcome[20]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[20] < 2 && lecturer_outcome[20]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px" rowspan="3">
+                        	Pedagogy
+                        </td>
+                    	<td style="padding:3px;">
+							Uses various instructional approaches ( enhanced lecture, group, question and answer, discussion, etc.)
+                         </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[21] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[21] < 5 && lecturer_outcome[21]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[21] < 4 && lecturer_outcome[21]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[21] < 3 && lecturer_outcome[21]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[21] < 2 && lecturer_outcome[21]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+						Employs jokes and other creative means in lesson delivery. 
+                         </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[22] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[22] < 5 && lecturer_outcome[22]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[22] < 4 && lecturer_outcome[22]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[22] < 3 && lecturer_outcome[22]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[22] < 2 && lecturer_outcome[22]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+							Employs instuctional resources in lesson delivery ( multimedia, real objectives, technologies, etc. )
+                         </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[23] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[23] < 5 && lecturer_outcome[23]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[23] < 4 && lecturer_outcome[23]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[23] < 3 && lecturer_outcome[23]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[23] < 2 && lecturer_outcome[23]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px" rowspan="3">
+                        	Assessment of Students
+                        </td>
+                    	<td style="padding:3px;">
+							Gives regular assessments/tests. 
+                         </td>
+
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[24] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[24] < 5 && lecturer_outcome[24]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[24] < 4 && lecturer_outcome[24]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[24] < 3 && lecturer_outcome[24]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[24] < 2 && lecturer_outcome[24]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+							Provides feedback on assessments/tests.
+                         </td>
+
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[25] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[25] < 5 && lecturer_outcome[25]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[25] < 4 && lecturer_outcome[25]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[25] < 3 && lecturer_outcome[25]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[25] < 2 && lecturer_outcome[25]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px;">
+							Encourages students to successfully complete tasks.
+                         </td>
+
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[26] == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[26] < 5 && lecturer_outcome[26]  >= 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[26] < 4 && lecturer_outcome[26]  >= 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[26] < 3 && lecturer_outcome[26]  >= 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "lecturer_outcome[26] < 2 && lecturer_outcome[26]  >= 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px" colspan="3">
+                        	Comparison with other lecturers in this University
+                        </td>
+                    	
+                    	<td style="padding:3px; text-align:center" colspan="4">
+                        	<span ng-show = "lecturer_outcome[28] == 5">Outstanding</span>
+                        	<span ng-show = "lecturer_outcome[28] < 5 && lecturer_outcome[28]  >= 4">Above Average</span>
+                        	<span ng-show = "lecturer_outcome[28] < 4 && lecturer_outcome[28]  >= 3">Average</span>
+                        	<span ng-show = "lecturer_outcome[28] < 3 && lecturer_outcome[28]  >= 2">Below Average</span>
+                        	<span ng-show = "lecturer_outcome[28] < 2 && lecturer_outcome[28]  >= 1">Poor</span>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                    	<td style="padding:3px" colspan="3">
+                        	Total Assessment
+                        </td>
+                    	<td colspan="4" style="text-align:center">
+                        	<span style=" text-align:center; padding:3px; font-weight:bold">{{lecturer_outcome[27]}}</span>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+                <div id="down" name= "down" style = "margin:15px; width:100%; display:block; padding-left:10px"><button style="margin:15px; float:right" class="btn btn-success" ng-click = "get_another_lecturer()">Get Another Lecturer</button> <button ng-if = "single_lecturers.length > 0" ng-click = "see_comment()" class = "btn btn-primary" style="float:right; margin:15px"><span ng-show = "see_comment_flag==false"> See students' Comment(s)</span><span ng-show = "see_comment_flag==true"> Close students' Comment(s)</span></button>
+                </div>
+                
+                
+                <div ng-if = "see_comment_flag" style="display:block; margin:0px;; width:100%; clear:both; border-top-style:double" >
+                <div style="margin:10px auto"><h2 style="text-align:center">Students' Comments</h2></div>
+                	<p >
+                    <ol ng-if = "single_lecturers.length > 0">
+                    	<li ng-repeat="single_lecturer in single_lecturers" style="padding:10px">
+                         <a href="" ng-click = "get_student_comment(single_lecturer.student_id_fk)" style="">{{single_lecturer.any_other_comment}}</a>
+                        </li>
+                    </ol>
+                    </p>
+                </div>
+            </div>
+<!-- End of preview -->
+    </div>
+</div>
+<!--End of single lecturer -->
+
+
+<!--Get student information -->
+<div ng-show = "student_div">
+<a href="" ng-click = "navigate_left('single lectuer')" style="margin-top:30px"><span style="margin-top:15px"><i class="glyphicon glyphicon-chevron-left" aria-hidden="true" ></i>Go Back</span></a>
+
+<div style="margin:50px auto; border:double; color:black; width:60%" >
+	<h2 class="btn btn-primary"   style="margin:0px; padding:0px; text-align:center; font-size:24px border:solid 1px black; display:block">Student Information</h2>
+    <div style="width:60%">
+    	<table class="table table-striped table-bordered table-condensed table-hover" style="color:black" width="100%" >
+        	<tr>
+            	<td>
+                	Name
+                </td>
+                <td>
+                	{{student_info1.surname}} {{student_info1.firstname}} {{student_info1.middlename}}
+                </td>
+            </tr>
+        	<tr>
+            	<td>
+                	Faculty
+                </td>
+                <td>
+                	{{student_info1.faculty}}
+                </td>
+            </tr>
+        	<tr>
+            	<td>
+                	Department
+                </td>
+                <td>
+                	{{student_info1.title}}
+                </td>
+            </tr>
+        	<tr>
+            	<td>
+                	Level
+                </td>
+                <td>
+                	{{student_info1.lev_id_fk}}00L
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+
+
+
+</div>

@@ -1,0 +1,54 @@
+
+    <div style="margin:auto; margin-top:0; margin-bottom:0px; height:400px; width:100%;">
+    <div id="hme_cnt_dv" class="l1 tp_cnt_dv">
+        <div class="hd">
+        	<div>
+            	<div style="width:70%; float:left">
+                    Head of Department (HOD) Dashboard<b>
+                    <!--<span class="sml"><a href="" ng-click="editProfile()"><u>[<i class="icon-pencil"></i> Edit Profile ]</u></a></span>-->
+                    </b>
+                    <p><span style="color:red; font-size:22px">Department&nbsp;:</span>
+                    <span  style="color:blue; font-size:22px">&nbsp;{{bio_data.title}}</span></p>
+                    
+                    <p><span style="color:red; font-size:22px" ng-if = "bio_data.surname != ''" >Name&nbsp;:</span>
+                        <span ng-if = "bio_data.surname != ''"><span style="color:blue; font-size:22px">{{bio_data.title_id_fk}}&nbsp;{{bio_data.surname}} 
+                            &nbsp;{{bio_data.othernames}}</span>
+                        </span>
+                        <span ng-if = "bio_data.surname == ''" ng-click = "update_record_fn()"><span style="color:blue; font-size:22px">
+                        <a style="cursor: pointer;" >Please click here to update your record </a> <i class="glyphicon glyphicon-edit" style="font-size: 13px;"></i> 
+                        </span>
+                        </span>
+                   </p>
+                 </div>
+                 <div style="width:25%; float:right;">
+                 	<img src="photo/{{bio_data.pf_number + '.jpg'}}" style="height:100px; width:100px;background:url(images/placeholder.png); float:right" 
+                    alt="Passport" />
+                 </div> 
+            </div>
+        </div>
+        <div style="color:black; font-size:18px; margin:50px 15px">
+        You have all the above menus as your rights and privileges. Have the best work experience.
+        </div>
+    </div>
+
+    <div id="bt_cnt_dv">
+    	<div id="mainp_note">
+        	<div class="hd">
+            	Messages<span ng-show="not_back_from_news"><img src="images/indicator.gif" width="40px" height="40px" style="margin:5px" />Loading News</span>
+<i class="pull-right icon icon-tasks lblue hovr"></i>
+            </div>
+            <ul>
+            	<li ng-repeat = "mess in messages">{{mess}}</li>
+            </ul>
+            <p style="text-align:right; margin-right:10px"><a href="" ng-click = "viewMessages1(30)" ng-show="!viewAll">View All</a></p>
+            <p style="text-align:right; margin-right:10px"><a href="" ng-click = "viewMessages1(3)" ng-show="viewAll">View Few</a></p>
+        </div>
+        
+        <div id="mainp_quote">
+        	<blockquote style="padding:20px;margin-top:20px;">
+            <div><i class="icon-quote-left" style="font-size:35px;color:#CCC;"></i> Education is the most powerful weapon which you can use to change the world. <i class="icon-quote-right" style="font-size:35px;color:#CCC;"></i></div>
+            <div style="font-size:14px;color:#999;float:right;">Nelson Mandela</div>
+            </blockquote>
+        </div>
+    </div>
+</div>

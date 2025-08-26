@@ -1,0 +1,212 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+        <div class="hd">
+            Add Lecturer
+        </div>
+        
+        
+        <div class="cnt_vl" style="margin-top:20px; font-size:14px;">
+            <div id="mainp_quote" style="">
+                <ul class="side_mnu_cnt" style="">
+                    <li class="side_mnu" ng-class="{active_mnu:add_single}"><a href="" ng-click="openAddSingleDv()">Add Single Lecturer</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:add_multiple}"><a href="" ng-click="openAddMultipleDv()">Add Multiple (Bulk) Lecturers</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:delete_lecturer}"><a href="" ng-click="openDeleteLecturerDv()">Delete Lecturer</a></li>
+                </ul>
+            </div>
+            
+        	<div id="mainp_note" class="hme_lcnt_dv" style="position:relative; width:600px; float:left;">
+                
+                <div ng-if="add_single">
+                    <h4>Add Single Lecturer</h4>
+                    
+                    <div style="width:100%; float:left;">
+                        <p>Fill the form below to add lecturer to the database.</p>
+                        <form id="addItemForm" name="addItemForm">
+                            
+                            <div class="update-field">
+                                <label>Personal File Number:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="lecturer.pf_number" placeholder="PF Number" required />
+                            </div>
+                            <div class="update-field">
+                                <label>Surname:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="lecturer.surname" placeholder="Surname" required />
+                            </div>
+                            
+                            <div class="update-field">
+                                <label>Firstname:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="lecturer.firstname" placeholder="Firstname" required />
+                            </div>
+                             <div class="update-field">
+                                <label>Middlename:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="lecturer.middlename" placeholder="Middlename" />
+                            </div>
+                             <div class="update-field">
+                                <label>Title:</label>
+                                <select ng-model="lecturer.title" 
+                                     ng-options="title.id as title.name for title in titles" 
+                                    ng-change = "" style="width:300px; height:30px">
+                                     <option value="">-- Choose Title --</option>
+                                </select> 
+                            </div>
+                            
+                            
+                            <div class="update-field">
+                                <button class="m-btn green" ng-click="saveItem(lecturer)" data-ng-disabled="addItemForm.$invalid">
+                                Save Lecturer Details</button>
+                                <span ng-show="submitting" style="line-height:30px;margin-top:10px;float:left;">
+                                	<img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" />
+                                    <span style="font-weight:bold">saving...</span>
+                            	</span>
+                                
+                                <div style="position:relative">
+                					<toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+               					 </div>
+                            </div>
+                        </form>
+                        <div style="display:block">
+                                    <p>
+                                    <a href="generatedexcel/lecturer-data.xlsx" class="green">Download Lecturer Template For Bulk Upload</a>
+                                    </p>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+               <div ng-if="delete_lecturer"  style="width:100%">
+                    <h4>Delete Lecturer</h4>
+                    
+                    <div class="update-field" style="text-align:right; float:right; margin-top:20px; width:100%">
+                        <input type="text" ng-model="search" ng-change="filter()" 
+                         placeholder="Search For Lecturer by PF No., Dept, name, course etc" class="form-control m-wrap"
+                          style="display:inline; margin-left:10px; padding:0px"
+                        />
+                        <span class="btn btn-search" style="float:left;  margin:5px 0px; padding:0px"><i class="fa fa-search fa-fw" style="margin:0px; padding:0px; font-size:25px;"></i></span>
+                    </div>
+                    <div ng-show="lecturers.length == 0">
+                            <h4>No Lecturer available in this department</h4>
+                        </div>
+                    <div ng-show="filtered.length > 0">
+                            <h4><span ng-bind="filtered.length"></span> Lecturers' Information.</h4>
+                    </div>
+                    
+                        <div ng-show="filtered.length > 0" style="width:100%">
+                           <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+                            <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:16px;">
+                                <thead style="background-color: #CD61CD; color:white; text-align:center">
+                                    <th style="text-align:center">S/N</th>
+                                    <th style="text-align:center">LECTURER NAME</th>
+                                    <th style="text-align:center">OPTIONS</th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="lecturer in filtered = (lecturers | filter:search | orderBy : predicate :reverse) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+                                        <td style="text-align:center">{{$index+1}}</td>
+                                        <td><a href="" >{{lecturer.surname}}&nbsp;{{lecturer.onames}}</a></td>
+                                        <td style="text-align:center; font-size:14px">
+                                        <a href="" ng-click = "delete_lecturer_info(lecturer, lecturer.my_index)" style="color:#C0F" 
+                                          >[ Delete ] </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+						</div>
+                                                
+                        <div ng-show="filtered.length == 0">
+                            <h4>No Lecturer matches the specified criteria</h4>
+                        </div>
+                        
+                        <div  ng-show="filtered.length > 0">
+                            <div pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="true"
+                             total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" 
+                             next-text="&raquo;" ng-if="filtered.length > 10">
+                        	</div>
+                            <div style="" pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="false" 
+                            total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" 
+                            next-text="&raquo;" ng-if="filtered.length < 11">
+                            </div>
+                        </div>
+
+                            
+                </div>
+                
+
+                <div ng-if="add_multiple">
+                	<h4>Add Multiple Lecturers</h4>
+                    <div style="float:left">
+                        <h5 style="font-size:15px; font-weight:bold">Upload lecturers' data File</h5>
+                         <p style="width:100%; float:left">Upload Microsoft Excel file which contains the lecturers' information that is to be added to our database. This file is the populated lecturers' data template that was downloaded</p>
+                         <div style="width:100%; float:left">
+                         <input type="file" name="file" id="file" onchange="angular.element(this).scope().pickupthefileformassupload(this.files)" class="m-btn" style="margin-right:10px;"/>
+                           <a href="" ng-click="uploadMassStudents()" class="m-btn green" style="margin-top:12px;">Upload file</a>
+                          </div>
+                          <div style="position:relative">
+                            <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+                          </div>
+                     </div>
+                     <div style="clear:both"></div>.         
+                     <!--unsaved payment records-->
+                     
+                      <div ng-show="unsavedRecord" style="border:solid black 1px;">
+                            <h4 style="margin:0px; text-align:center">Unsaved Lecturers Information <span ng-click = "unsavedRecord = false" style="cursor: pointer; float:right; margin-top:-10px; margin-right:-10px; background-color:white"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                            </h4><hr style="margin:0px">   
+                            <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px; margin:0px">
+                                  <thead style="background-color: rgb(204,51,102); color:white; text-align:center">
+                                      <th style="text-align:center">S/N</th>
+                                    <th style="text-align:center">TITLE</th>
+                                    <th style="text-align:center">NAME</th>
+                                    <th style="text-align:center">PF NO.</th>
+                                    
+                                    <th style="text-align:center">REMARK</th>                                                   
+                                  </thead>
+                                  <tbody>
+                                      <tr ng-repeat="data in unsavedData">
+                                          <td style="text-align:center">{{$index+1}}</td>
+                                        <td>{{data.B}}</td>
+                                        <td>{{data.C}}&nbsp;{{data.D}}&nbsp;{{data.E}}</td>
+                                        <td>{{data.F}}</td>
+
+                                        <td>This Record Already Exists</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                     </div>
+                     <!--end of unsaved payment records-->
+                                 
+                    <!--saved payment records-->
+                      <div ng-show="okRecord" style="border:solid black 1px; margin-top:15px">
+                          
+                          <h4 style="margin:0px; text-align:center">Successfully Saved Lecturers Information<span ng-click = "okRecord = false" style="cursor: pointer; float:right; margin-top:-10px; margin-right:-10px; background-color:white"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                          </h4><hr style="margin:0px">   
+                          <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:14px; margin:0px">
+                                <thead style="background-color: green; color:white; text-align:center">
+                                    <th style="text-align:center">S/N</th>
+                                    <th style="text-align:center">TITLE</th>
+                                    <th style="text-align:center">Name</th>
+                                    <th style="text-align:center">PF NO.</th>                                                    
+                                    <th style="text-align:center">REMARK</th>                                                    
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="data in savedData">
+                                        <td style="text-align:center">{{$index+1}}</td>
+                                        <td>{{data.B}}</td>
+                                        <td>{{data.C}}&nbsp;{{data.D}}&nbsp;{{data.E}}</td>
+                                        <td>{{data.F}}</td>
+                                        <td>This record was saved successfully</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                   </div>
+                   <!--end of saved payment records-->
+                   <div style="display:block; margin-top:10px">
+                    <p>
+                                    <a href="generatedexcel/lecturer-data.xlsx" class="green">Download Lecturer Template For Bulk Upload</a>
+                    </p>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>

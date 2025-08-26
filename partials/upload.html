@@ -1,0 +1,88 @@
+<div style="color:blue" ng-controller="uploadCtrl" >
+<!--leaveListCtrl-->
+<div style="text-align:center">
+	<h2 >Upload Bankers' Pins</h2><br>
+</div>
+<hr style="border-width:6px" />
+
+    
+        <div  style="padding:0px"><br /><br />
+           <div style="background-color:red; color:white; padding:0px; margin:0px; text-align:center; font-size:16px"><strong>{{messages}}</strong></div>
+               <div style="margin:20px">
+                                
+               <!--begining of file upload -->
+               <form>
+               <input type="file" name="file" onchange="angular.element(this).scope().uploadLeaveSendFile1(this.files)" style=" font-size:13px; display:inline "/>
+               
+               <span>
+                    <button ng-click="uploadLeaveSendFile()" class="btn-info" >&nbsp;&nbsp;&nbsp;Upload File&nbsp;&nbsp;&nbsp;</button>
+               
+               </span>
+               <div id="buttonSeparator" ng-show="readyForProcessing==true" style="padding-top:20px; line-height:20px"">
+               <hr style="margin:0px; border-width:2px; padding:0px"><br>
+                   <button ng-click="previewList()" class="btn-info" >&nbsp;&nbsp;&nbsp;Preview List &nbsp;&nbsp;&nbsp;</button>
+                   <button ng-click="uploadList()" class="btn-info"  ng-if="previewIsDone==true">&nbsp;&nbsp;&nbsp;Upload List &nbsp;&nbsp;&nbsp;</button>
+                   <button ng-click="cancelList()" class="btn-info" >&nbsp;&nbsp;&nbsp;Cancel List &nbsp;&nbsp;&nbsp;</button>
+               </div>
+               </form>                     
+               <!--  end of file upload -->
+               </div>
+           
+        </div>
+        
+        
+        
+                <!--Table to display list records-->
+        <div>
+        <!--table processing section-->
+        
+        <!--end of table processing section-->
+        <hr style="border-width:2px">
+         <div class="row" ng-if="leaveDatalength > 0" style="margin:auto 20px">
+        <p>Total Number of Pins to be uploaded is &nbsp; {{leaveDatalength}}</p>
+
+            <div class="col-md-12">
+                <table class="table table-striped table-bordered table-hover">
+                <thead style="background-color: #009; color:white; text-align:center">
+                    <th style="text-align:center">S/N</th>
+                    <th style="text-align:center">Username </th>
+                    <th style="text-align:center">Password </th>
+                    <th style="text-align:center">user type </th>
+                    <th style="text-align:center">status</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="dat in leaveData">
+                    	<td>{{$index + 1}}</td>
+                        <td>{{dat.A}}</td>
+                        <td>{{dat.B}}</td>
+                        <td>{{dat.C}}</td>
+                        <td>{{dat.D}}</td>
+                    </tr>
+                </tbody>
+                </table>
+
+            </div>
+        <div class="col-md-12" ng-show="lengthOfdata == 0">
+            <div class="col-md-12">
+                <h4>No Pin was found</h4>
+            </div>
+        </div>
+        <br />
+        <div id="buttonSeparator" ng-show="readyForProcessing==true" style="padding-top:20px; line-height:20px; text-align:center">
+                   <button ng-click="uploadList()" class="btn-info"  ng-if="previewIsDone==true">&nbsp;&nbsp;&nbsp;Upload List &nbsp;&nbsp;&nbsp;</button>
+        </div>
+        <br /><br />
+        
+        
+        
+        
+        
+        
+        </div>
+        
+        <!-- end of Table to display list records-->
+
+</div>
+            
+            
+ 

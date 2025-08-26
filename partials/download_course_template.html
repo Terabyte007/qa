@@ -1,0 +1,95 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+        <div class="hd">
+            Add new Course of Studies
+        </div>
+        
+        
+        <div class="cnt_vl" style="margin-top:20px; font-size:14px;">
+            <div id="mainp_quote" style="">
+                <ul class="side_mnu_cnt" style="">
+                    <!--<li class="side_mnu" ng-class="{active_mnu:add_single}"><a href="" ng-click="openAddSingleDv()">Add Single Course of Study</a></li>-->
+                    <li class="side_mnu" ng-class="{active_mnu:add_multiple}"><a href="" ng-click="openAddMultipleDv()">Add Multiple Course of Studies</a></li>
+                </ul>
+            </div>
+            
+        	<div id="mainp_note" class="hme_lcnt_dv" style="position:relative; width:600px; float:left;">
+                <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+                
+                <div ng-if="add_single">
+                    <h4>Add Single Course of Study</h4>
+                    
+                    <div style="width:100%; float:left;">
+                        <p>Fill the form below to add course of study to the database.</p>
+                        <form id="addItemForm" name="addItemForm">
+                        	 <div class="update-field">
+                                <label>Select School:</label>
+                                <select name="" ng-model="item_data.school" data-ng-options="school.school_name for school in schools_arr" class="m-wrap" ng-change="school_selected()" required>
+                                    <option value="">Select School</option>
+                                </select>
+                            </div>
+                            
+                        	 <div class="update-field">
+                                <label>Select Department:</label>
+                                <select name="" ng-model="item_data.dept" data-ng-options="dept.dept_name for dept in depts_arr" class="m-wrap" required>
+                                    <option value="">Select Department</option>
+                                </select>
+                                <span ng-show="loading_depts" style="line-height:30px;float:left;"><img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" />loading...</span>
+                            </div>
+                            
+                            <div class="update-field">
+                                <label>Course of Study Name:</label>
+                                <input type="text" class="m-wrap" name="" ng-model="item_data.name" ng-disabled="submitting" placeholder="Full name of the course of study" required />
+                            </div>
+                            
+                            <div class="update-field">
+                                <label>Course of Study Description:</label>
+                                <textarea class="m-wrap" name="" ng-model="item_data.desc" placeholder="Description of the course of study" ng-disabled="submitting">
+                                {{item.desc}}
+                                </textarea>
+                            </div>
+                            
+                            <div class="update-field">
+                                <button class="m-btn green" ng-click="saveItem(item_data)" data-ng-disabled="addItemForm.$invalid">Save Course of Study Details</button>
+                                <span ng-show="submitting" style="line-height:30px;margin-top:10px;float:left;">
+                                	<img src="images/indicator.gif" style="width:30px;margin-left:15px; margin-right:10px; float:left;" />saving...
+                            	</span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div ng-if="add_multiple">
+                	<h4>Add Multiple Course of Studies</h4>
+                    
+                    <h5 style="font-size:15px; font-weight:bold">Download Template</h5>
+                    <p style="width:100%; float:left"> This template is a blueprint of the courses in all thet departments. It is meant to be populated and uploaded as bulk records after the download. A sample record is entered into the Microsoft Excel workbook as a guide</p>
+                    <p style="width:100%; float:left"><a href="generatedexcel/course-data.xlsx" class="m-btn green"><i class="icon icon-download-alt"></i> &nbsp; Download Template</a></p>
+                    
+                    
+                     <p>
+                    <a href="#/admin/course/add-course-template" class="green">Upload Populated Course Template</a>
+                   
+                    </p>
+                    <!--
+                    <br/>           
+                 
+                    <h5 style="font-size:15px; font-weight:bold">Upload Course of Studies File</h5>
+                    <p style="width:100%; float:left">Upload excel file containing the details of course of studies to be added that was filled using the template downloaded</p>
+                    <p style="width:100%; float:left">
+                    	<input type="file" name="file" id="file" onchange="angular.element(this).scope().pickupthefile(this.files)" class="m-btn" style="margin-right:10px;"/>
+                        <a href="" ng-click="uploadfile()" class="m-btn green" style="margin-top:12px;">Upload file</a>
+                    </p>
+                    
+                    <div ng-show="unsaved" style="width:90%; padding:10px 5%; background-color:#9F9; margin-top:20px; float:left;">
+                    	<h4>Course of Studies whose details were not able to be saved:</h4>
+                    	<p ng-bind-html="unsaved"></p>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>

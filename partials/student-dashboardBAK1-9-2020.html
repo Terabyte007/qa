@@ -1,0 +1,1417 @@
+
+<div style="margin:auto; margin-top:0; margin-bottom:0px; height:400px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+        <div  class="hd" style="margin-top:50px">
+            <!-- Instructions -->
+            <div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black" ng-show = "navigators[0]" >
+                <h2 style="margin:0px; text-align:center; padding:10px; color:white; display:block; font-size:30px" class="btn btn-primary" >Introduction <span class="badge badge-light" style="float:right; margin:10px; font-size:16px">1</span></h2>
+                <div style="margin:10px; padding:10px">
+                    <p style="margin-top:20px">
+                    Dear Respondent. 
+                    </p>
+                    
+                    <p style="margin-top:20px">
+                    You are required to be part of Student's Evaluation Teaching Effectiveness in classrooms at the University of Ibadan, Ibadan, Nigeria. 
+                    The major objective of this assessment is to improve teaching effectiveness. Therefore, your honest opinion about your teacher's 
+                    effectiveness
+                     will be an important contribution to the improvement of teaching and learning in the University of Ibadan.
+                    </p>
+                    <p style="margin-top:20px">
+                    Please supply the following information in the spaces provided. Your response shall be treated with utmost confidentiality and you are not 
+                    required to indicate your name.
+                    </p>
+                </div>
+                <div style="margin:10px auto">
+                	<button class="btn btn-primary" ng-click = "start_assessment_btn(1)" style="float:right; font-size:18px; margin-top:20px">
+                    Start Assessment <span class="glyphicon glyphicon-circle-arrow-right" style="font-size:18px"></span>
+                    </button>
+                </div>
+            </div>
+            <!-- End of Instructions -->
+            
+            
+            <!-- Rating -->
+            <div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black" ng-show = "navigators[1]" >
+                <h2 style="margin:0px; text-align:center; padding:10px; color:white; display:block; font-size:24px" class="btn btn-primary" >Quality Assurance Rating Scale <span class="badge badge-light" style="float:right; margin:10px; font-size:16px">2</span></h2>
+                
+                	<table style="padding:20px; width:40%; margin:20px">
+                		<tr> <td > Poor </td><td>: 1</td> </tr>
+                		<tr> <td> Fair </td><td>: 2</td> </tr>
+                		<tr> <td> Good </td><td>: 3</td> </tr>
+                		<tr> <td> Very Good </td><td>: 4</td> </tr>
+                		<tr> <td> Excellent </td><td>: 5</td> </tr>
+                	
+               		</table>
+                <div style="float:right">
+                	<button class="btn btn-success" ng-click = "previous_rating_btn()" style="font-size:18px; margin:20px"><span class="glyphicon glyphicon-circle-arrow-left" style="font-size:18px"></span> Previous</button>
+                    <button class="btn btn-primary" ng-click = "next_rating_btn()" style="font-size:18px; margin:20px">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-circle-arrow-right" style="font-size:18px"></span></button>
+                </div>
+            </div>
+            <!-- End Rating -->
+            
+            
+            <!-- Courses for assessment -->
+            <div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black" ng-show = "navigators[2]" >
+                <h2 style="margin:0px; text-align:center; padding:10px; color:white; display:block; font-size:24px" class="btn btn-primary" >Courses For Assessment <span class="badge badge-light" style="float:right; margin:10px; font-size:16px">3</span></h2>
+                <div style="margin:10px; padding:10px">
+                
+                <!--filter area -->
+                
+                    <div class="update-field" style="text-align:right; float:right; margin:10px; padding:10px;">
+                        <input type="text" ng-model="search" ng-change="filter()" placeholder="Search For Courses..." class="form-control m-wrap"  
+                        style="display:inline"/>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4" ng-show="filtered.length > 0">
+                            <h4><span ng-bind="filtered.length"></span> Courses Registered.</h4>
+                        </div>
+                        
+                        <div class="col-md-12" ng-show="filtered.length > 0">
+                           <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+                            <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:16px;">
+                                <thead style="background-color: #CD61CD; color:white; text-align:center">
+                                    <th style="text-align:center">S/N</th>
+                                    <th style="text-align:center">COURSE CODE</th>
+                                    <th style="text-align:left; padding-left:10px">TITLE</th>
+                                    <th style="text-align:center">COURSE STATUS</th>
+                                    <th style="text-align:center">ASSESSMENT STATUS</th>
+                                    <th style="text-align:center">OPTIONS</th>
+                                </thead>
+                                <tbody>
+                                    <!--<tr ng-repeat="applicant in filtered | filter:search ">-->
+                                    <tr ng-repeat="course in filtered = (courses | filter:search | orderBy : predicate :reverse) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+                                        <td style="text-align:center">{{$index+1}}</td>
+                                        <td><a href="#" ng-click = "assess_the_lecturer(course._id, course.title, $index)">{{course.code}} </a></td>
+                                        <td style="text-align:left">{{course.title}}</td>
+                                        <td style="text-align:center">{{course.status}}</td>
+                                        <td style="text-align:left">Pending<span ng-if= "indicators_flags[$index]"><img width="20px" height="20px" src="images/indicator.gif" /></span></td>
+                                        <td style="text-align:center"><a href="" ng-click = "assess_the_lecturer(course._id, course.title, $index)">[Assess the Lecturer]</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="col-md-12" ng-show="filtered.length == 0">
+                            <h4>No Course matches the specified criteria</h4>
+                        </div>
+                        
+                        <div class="col-md-12" ng-show="filtered.length > 0">
+                            <div pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="true" total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;" ng-if="filtered.length > 10">
+                        </div>
+                            <div style="" pagination="" page="currentPage" max-size="10" on-select-page="setPage(page)" boundary-links="false" total-items="filtered.length" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;" ng-if="filtered.length < 11">
+                            </div>
+                        </div>
+                        
+                    </div>
+                <!-- End of filter area -->
+                </div>
+                
+                	
+                <div style="float:right">
+                	<button class="btn btn-success" ng-click = "previous_courses_btn()" style="font-size:18px; margin:20px"><span class="glyphicon glyphicon-circle-arrow-left" style="font-size:18px"></span>Previous</button>
+                    <button class="btn btn-primary" ng-click = "next_courses_btn()" style="font-size:18px; margin:20px" ng-show = "show_next_courses_btn">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-circle-arrow-right" style="font-size:18px"></button>
+                </div>
+            </div>
+            <!-- End of Courses for assessment -->
+            
+            
+            <!-- Enthusiasm -->
+            <form name="assessment_form" id = "assessment_form" >
+            <div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black" ng-show = "navigators[3]" >
+                <h2 style="margin:0px; text-align:center; padding:10px; color:white; display:block; font-size:24px" class="btn btn-primary" >ENTHUSIASM <span class="badge badge-light" style="float:right; margin:10px; font-size:16px">4</span></h2>
+                <div style="margin:10px; padding:10px">
+                <div >
+                <div style="float:left">
+<table width="100%" border="0" style="font-size:18px" >
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Course Being Assessed
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.course_code}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px">
+                        	Course Title 
+                        </td>
+                    	<td style=" font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{course_being_assessed}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Name of Lecturer
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.name}}
+                        </td>
+                    </tr>
+                    
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Lecture Department
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.department}}
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                <div style="float:right">
+        			<img style="max-width:100px; height:100px; margin:auto; left:40%;background:url(images/placeholder.png); display:inline
+                    " ng-src="photo/{{lecturePhoto}}" alt="Lecturer Photo" />
+                </div>
+
+                </div>
+                <div style=" clear:both; border-top:solid 2px black; margin-top:10px" >
+                <p style="margin-top:10px"> As concerns enthusiasm, the lecturer:</p>
+                    <p>
+                        <ol>
+                            <li>
+                                appears confident and friendly. 
+                            </li>
+                            <li>
+                                is active and demonstrative when teaching.
+                             </li>
+                            
+                        </ol>
+                    </p>
+               </div>
+               
+                   <div style="margin:15px">
+                       <span ng-show = "assessment_data.lecturer_assessment.enthusiasm !=''" style="margin:10px">Lecturer Rating</span>
+                       <select class="m-wrap" name="enthusiasm" id="enthusiasm" ng-model = 
+                       "assessment_data.lecturer_assessment.enthusiasm" ng-change = "calculate_scores(assessment_data.lecturer_assessment)">
+                           <option value="" selected="selected">[ Rate Lecturer ]</option>
+                            <option value="1">Poor</option>
+                            <option value="2">Fair</option>
+                            <option value="3">Good</option>
+                            <option value="4">Very Good</option>
+                            <option value="5">Excellent</option>
+                       </select>
+                   
+                   </div>
+                	<p style="font-size:18px; text-align:center">The rating is as follows 1: <i style="padding:10px">Poor</i> 2: 
+                    <i style="padding:10px">Fair</i> 3: <i style="padding:10px">Good</i> 4: <i style="padding:10px">Very Good</i> 5: 
+                    <i style="padding:10px">Excellent</i></p>
+                </div>
+                
+                <div style="float:right">
+                	<button class="btn btn-success" ng-click = "previous_enthusiasm_btn()" style="font-size:18px; margin:20px"><span class="glyphicon glyphicon-circle-arrow-left" style="font-size:18px"></span>Previous</button>
+                    <button class="btn btn-primary" ng-click = "next_enthusiasm_btn()" style="font-size:18px; margin:20px" ng-disabled = "assessment_data.lecturer_assessment.enthusiasm ==''">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-circle-arrow-right" style="font-size:18px"></button>
+                </div>
+            </div>
+            <!-- End Enthusiasm -->
+            
+            
+            
+            <!-- warmth -->
+            <div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black" ng-show = "navigators[4]" >
+                <h2 style="margin:0px; text-align:center; padding:10px; color:white; display:block; font-size:24px" class="btn btn-primary" >WARMTH<span class="badge badge-light" style="float:right; margin:10px; font-size:16px">5</span></h2>
+                <div style="margin:10px; padding:10px">
+               <div >
+                <div style="float:left">
+				<table width="100%" border="0" style="font-size:18px" >
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Course Being Assessed
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.course_code}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px">
+                        	Course Title 
+                        </td>
+                    	<td style=" font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{course_being_assessed}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Name of Lecturer
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.name}}
+                        </td>
+                    </tr>
+                    
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Lecture Department
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.department}}
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                <div style="float:right">
+        			<img style="max-width:100px; height:100px; margin:auto; left:40%;background:url(images/placeholder.png); display:inline
+                    " ng-src="photo/{{lecturePhoto}}" alt="Lecturer Photo" />
+                </div>
+
+                </div>
+                <div style=" clear:both; border-top:solid 2px black; margin-top:10px" >
+                <p style="margin-top:10px">&nbsp; </p>
+
+                    <p>
+                        <ol>
+                            <li>
+                                Smiles frequently
+                            </li>
+                            <li>
+                                Approachable in and out of the lecture room.
+                             </li>
+                            <li>
+                                Takes time to explain defficult concepts in class.
+                            </li>
+                                                        
+                        </ol>
+                    </p>
+               
+               </div>
+                   <div style="margin:15px">
+                       <span ng-show = "assessment_data.lecturer_assessment.warmth !=''" style="margin:10px">Lecturer Rating</span><select class="m-wrap" name="warmth" id="warmth" ng-model = 
+                       "assessment_data.lecturer_assessment.warmth" ng-change = "calculate_scores(assessment_data.lecturer_assessment)">
+                           <option value="" selected="selected">[ Rate Lecturer ]</option>
+                            <option value="1">Poor</option>
+                            <option value="2">Fair</option>
+                            <option value="3">Good</option>
+                            <option value="4">Very Good</option>
+                            <option value="5">Excellent</option>
+                       </select>
+                   
+                   </div>
+                	<p style="font-size:18px; text-align:center">The rating is as follows 1: <i style="padding:10px">Poor</i> 2: 
+                    <i style="padding:10px">Fair</i> 3: <i style="padding:10px">Good</i> 4: <i style="padding:10px">Very Good</i> 5: 
+                    <i style="padding:10px">Excellent</i></p>
+                </div>
+                
+                <div style="float:right">
+                	<button class="btn btn-success" ng-click = "previous_warmth_btn()" style="font-size:18px; margin:20px"><span class="glyphicon glyphicon-circle-arrow-left" style="font-size:18px"></span>Previous</button>
+                    <button class="btn btn-primary" ng-click = "next_warmth_btn()" style="font-size:18px; margin:20px" ng-disabled = "assessment_data.lecturer_assessment.warmth ==''">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-circle-arrow-right" style="font-size:18px"></button>
+                </div>
+            </div>
+            <!-- End Warmth -->
+
+
+
+            <!-- Credibility -->
+            <div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black" ng-show = "navigators[5]" >
+                <h2 style="margin:0px; text-align:center; padding:10px; color:white; display:block; font-size:24px" class="btn btn-primary" >CREDIBILITY <span class="badge badge-light" style="float:right; margin:10px; font-size:16px">6</span></h2>
+                <div style="margin:10px; padding:10px">
+                                <div >
+                <div style="float:left">
+<table width="100%" border="0" style="font-size:18px" >
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Course Being Assessed
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.course_code}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px">
+                        	Course Title 
+                        </td>
+                    	<td style=" font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{course_being_assessed}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Name of Lecturer
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.name}}
+                        </td>
+                    </tr>
+                    
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Lecture Department
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.department}}
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                <div style="float:right">
+        			<img style="max-width:100px; height:100px; margin:auto; left:40%;background:url(images/placeholder.png); display:inline
+                    " ng-src="photo/{{lecturePhoto}}" alt="Lecturer Photo" />
+                </div>
+
+                </div>
+                <div style=" clear:both; border-top:solid 2px black; margin-top:10px" >
+                <p style="margin-top:10px">&nbsp;  </p>
+                	<p>
+                        <ol>
+                            <li>
+                                Is open, honest and fair in his/her dealings with students.
+                            </li>
+                            <li>
+                                Openly solicits and accept students' comments and criticisms.
+                             </li>
+                            <li>
+                                Shows no favouritism in his/her dealings with students.
+                            </li>
+                                                        
+                        </ol>
+                    </p>
+               
+               	</div>
+                   <div style="margin:15px">
+                        <span ng-show = "assessment_data.lecturer_assessment.credibility !=''" style="margin:10px">Lecturer Rating</span><select class="m-wrap" name="credibility" id="credibility" ng-model = 
+                       "assessment_data.lecturer_assessment.credibility" ng-change = "calculate_scores(assessment_data.lecturer_assessment)">
+                           <option value="" selected="selected">[ Rate Lecturer ]</option>
+                            <option value="1">Poor</option>
+                            <option value="2">Fair</option>
+                            <option value="3">Good</option>
+                            <option value="4">Very Good</option>
+                            <option value="5">Excellent</option>
+                       </select>
+                   
+                   </div>
+                   
+                	<p style="font-size:18px; text-align:center">The rating is as follows 1: <i style="padding:10px">Poor</i> 2: 
+                    <i style="padding:10px">Fair</i> 3: <i style="padding:10px">Good</i> 4: <i style="padding:10px">Very Good</i> 5: 
+                    <i style="padding:10px">Excellent</i></p>
+                </div>
+                
+                <div style="float:right">
+                	<button class="btn btn-success" ng-click = "previous_crdeibilty_btn()" style="font-size:18px; margin:20px"><span class="glyphicon glyphicon-circle-arrow-left" style="font-size:18px"></span>Previous</button>
+                    <button class="btn btn-primary" ng-click = "next_crdeibilty_btn()" style="font-size:18px; margin:20px" ng-disabled = "assessment_data.lecturer_assessment.credibility ==''">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-circle-arrow-right" style="font-size:18px"></button>
+                </div>
+            </div>
+            <!-- End crdeibilty -->
+
+
+            <!-- Expectation for success -->
+            <div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black" ng-show = "navigators[6]" >
+                <h2 style="margin:0px; text-align:center; padding:10px; color:white; display:block; font-size:24px" class="btn btn-primary" >EXPECTATION FOR SUCCESS<span class="badge badge-light" style="float:right; margin:10px; font-size:16px">7</span></h2>
+                <div style="margin:10px; padding:10px">
+               <div >
+                <div style="float:left">
+				<table width="100%" border="0" style="font-size:18px" >
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Course Being Assessed
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.course_code}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px">
+                        	Course Title 
+                        </td>
+                    	<td style=" font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{course_being_assessed}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Name of Lecturer
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.name}}
+                        </td>
+                    </tr>
+                    
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Lecture Department
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.department}}
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                <div style="float:right">
+        			<img style="max-width:100px; height:100px; margin:auto; left:40%;background:url(images/placeholder.png); display:inline
+                    " ng-src="photo/{{lecturePhoto}}" alt="Lecturer Photo" />
+                </div>
+
+                </div>
+                <div style=" clear:both; border-top:solid 2px black; margin-top:10px" >
+                <p style="margin-top:10px">&nbsp; </p>
+                    <p>
+                        <ol>
+                            <li>
+                                Clearly informs students of the course objectives.
+                            </li>
+                            <li>
+                                Stimulates students' interest in the course.
+                             </li>
+                            <li>
+                                Calls students often and equitably to respond in the class.
+                            </li>
+                                                        
+                        </ol>
+                    </p>
+               </div>
+               
+                   <div style="margin:15px">
+                       <span ng-show = "assessment_data.lecturer_assessment.expectation_for_success !=''" style="margin:10px">Lecturer Rating</span><select class="m-wrap" name="expectation_for_success" id="expectation_for_success" ng-model = 
+                       "assessment_data.lecturer_assessment.expectation_for_success" ng-change = "calculate_scores(assessment_data.lecturer_assessment)">
+                           <option value="" selected="selected">[ Rate Lecturer ]</option>
+                            <option value="1">Poor</option>
+                            <option value="2">Fair</option>
+                            <option value="3">Good</option>
+                            <option value="4">Very Good</option>
+                            <option value="5">Excellent</option>
+                       </select>
+                   
+                   </div>
+                	<p style="font-size:18px; text-align:center">The rating is as follows 1: <i style="padding:10px">Poor</i> 2: 
+                    <i style="padding:10px">Fair</i> 3: <i style="padding:10px">Good</i> 4: <i style="padding:10px">Very Good</i> 5: 
+                    <i style="padding:10px">Excellent</i></p>
+                   
+                </div>
+                
+                <div style="float:right">
+                	<button class="btn btn-success" ng-click = "previous_expectationFS_btn()" style="font-size:18px; margin:20px"><span class="glyphicon glyphicon-circle-arrow-left" style="font-size:18px"></span>Previous</button>
+                    <button class="btn btn-primary" ng-click = "next_expectationFS_btn()" style="font-size:18px; margin:20px" ng-disabled = "assessment_data.lecturer_assessment.expectation_for_success ==''">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-circle-arrow-right" style="font-size:18px"></button>
+                </div>
+            </div>
+            <!-- End expectation for success -->
+            
+            <!-- Encouraging and Patient -->
+            <div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black" ng-show = "navigators[7]" >
+                <h2 style="margin:0px; text-align:center; padding:10px; color:white; display:block; font-size:24px" class="btn btn-primary" >ENCOURAGING AND PATIENT<span class="badge badge-light" style="float:right; margin:10px; font-size:16px">8</span></h2>
+                <div style="margin:10px; padding:10px">
+                                                <div >
+                <div style="float:left">
+<table width="100%" border="0" style="font-size:18px" >
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Course Being Assessed
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.course_code}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px">
+                        	Course Title 
+                        </td>
+                    	<td style=" font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{course_being_assessed}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Name of Lecturer
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.name}}
+                        </td>
+                    </tr>
+                    
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Lecture Department
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.department}}
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                <div style="float:right">
+        			<img style="max-width:100px; height:100px; margin:auto; left:40%;background:url(images/placeholder.png); display:inline
+                    " ng-src="photo/{{lecturePhoto}}" alt="Lecturer Photo" />
+                </div>
+
+                </div>
+                <div style=" clear:both; border-top:solid 2px black; margin-top:10px" >
+                <p style="margin-top:10px">&nbsp; </p>
+                    <p>
+                        <ol>
+                            <li>
+                                Is optimistic, positive and cheerful.
+                            </li>
+                            <li>
+                                Is a good and active listener when students are speaking.
+                             </li>
+                                                        
+                        </ol>
+                    </p>
+               
+               </div>
+                   <div style="margin:15px">
+                       <span ng-show = "assessment_data.lecturer_assessment.encouraging_and_patient !=''" style="margin:10px">Lecturer Rating</span><select class="m-wrap" name="encouraging_and_patient" id="encouraging_and_patient" ng-model = 
+                       "assessment_data.lecturer_assessment.encouraging_and_patient" ng-change = "calculate_scores(assessment_data.lecturer_assessment)">
+                           <option value="" selected="selected">[ Rate Lecturer ]</option>
+                            <option value="1">Poor</option>
+                            <option value="2">Fair</option>
+                            <option value="3">Good</option>
+                            <option value="4">Very Good</option>
+                            <option value="5">Excellent</option>
+                       </select>
+                   
+                   </div>
+                	<p style="font-size:18px; text-align:center">The rating is as follows 1: <i style="padding:10px">Poor</i> 2: 
+                    <i style="padding:10px">Fair</i> 3: <i style="padding:10px">Good</i> 4: <i style="padding:10px">Very Good</i> 5: 
+                    <i style="padding:10px">Excellent</i></p>
+                </div>
+                
+                <div style="float:right">
+                	<button class="btn btn-success" ng-click = "previous_encouragingP_btn()" style="font-size:18px; margin:20px"><span class="glyphicon glyphicon-circle-arrow-left" style="font-size:18px"></span>Previous</button>
+                    <button class="btn btn-primary" ng-click = "next_encouragingP_btn()" style="font-size:18px; margin:20px" ng-disabled = "assessment_data.lecturer_assessment.encouraging_and_patient ==''">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-circle-arrow-right" style="font-size:18px"></button>
+                </div>
+            </div>
+            <!-- End Encouraging and Patient -->
+            
+
+            <!-- Professional -->
+            <div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black" ng-show = "navigators[8]" >
+                <h2 style="margin:0px; text-align:center; padding:10px; color:white; display:block; font-size:24px" class="btn btn-primary" >PROFESSIONAL <span class="badge badge-light" style="float:right; margin:10px; font-size:16px">9</span></h2>
+                <div style="margin:10px; padding:10px">
+                                                <div >
+                <div style="float:left">
+<table width="100%" border="0" style="font-size:18px" >
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Course Being Assessed
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.course_code}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px">
+                        	Course Title 
+                        </td>
+                    	<td style=" font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{course_being_assessed}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Name of Lecturer
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.name}}
+                        </td>
+                    </tr>
+                    
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Lecture Department
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.department}}
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                <div style="float:right">
+        			<img style="max-width:100px; height:100px; margin:auto; left:40%;background:url(images/placeholder.png); display:inline
+                    " ng-src="photo/{{lecturePhoto}}" alt="Lecturer Photo" />
+                </div>
+
+                </div>
+                <div style=" clear:both; border-top:solid 2px black; margin-top:10px" >
+                <p style="margin-top:10px">&nbsp; </p>
+                    <p>
+                        <ol>
+                            <li>
+                                Treats the subject seriously and passionately.
+                            </li>
+                            <li>
+                                Comes to class regularly and promptly.
+                             </li>
+                            <li>
+                                Maintains a professional image (appearance, comportment and mannerism).
+                             </li>
+                                                        
+                        </ol>
+                    </p>
+               
+               </div>
+                   <div style="margin:15px">
+                       <span ng-show = "assessment_data.lecturer_assessment.professional !=''" style="margin:10px">Lecturer Rating</span><select class="m-wrap" name="professional" id="professional" ng-model = 
+                       "assessment_data.lecturer_assessment.professional" ng-change = "calculate_scores(assessment_data.lecturer_assessment)">
+                           <option value="" selected="selected">[ Rate Lecturer ]</option>
+                            <option value="1">Poor</option>
+                            <option value="2">Fair</option>
+                            <option value="3">Good</option>
+                            <option value="4">Very Good</option>
+                            <option value="5">Excellent</option>
+                       </select>
+                   
+                   </div>
+                	<p style="font-size:18px; text-align:center">The rating is as follows 1: <i style="padding:10px">Poor</i> 2: 
+                    <i style="padding:10px">Fair</i> 3: <i style="padding:10px">Good</i> 4: <i style="padding:10px">Very Good</i> 5: 
+                    <i style="padding:10px">Excellent</i></p>
+                </div>
+                
+                <div style="float:right">
+                	<button class="btn btn-success" ng-click = "previous_professional_btn()" style="font-size:18px; margin:20px"><span class="glyphicon glyphicon-circle-arrow-left" style="font-size:18px"></span>Previous</button>
+                    <button class="btn btn-primary" ng-click = "next_professional_btn()" style="font-size:18px; margin:20px" ng-disabled = "assessment_data.lecturer_assessment.professional ==''">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-circle-arrow-right" style="font-size:18px"></button>
+                </div>
+            </div>
+            <!-- End Professional -->
+            
+            
+            <!-- Adaptability -->
+            <div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black" ng-show = "navigators[9]" >
+                <h2 style="margin:0px; text-align:center; padding:10px; color:white; display:block; font-size:24px" class="btn btn-primary" >ADAPTABILITY <span class="badge badge-light" style="float:right; margin:10px; font-size:16px">10</span></h2>
+                <div style="margin:10px; padding:10px">
+                                                <div >
+                <div style="float:left">
+<table width="100%" border="0" style="font-size:18px" >
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Course Being Assessed
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.course_code}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px">
+                        	Course Title 
+                        </td>
+                    	<td style=" font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{course_being_assessed}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Name of Lecturer
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.name}}
+                        </td>
+                    </tr>
+                    
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Lecture Department
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.department}}
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                <div style="float:right">
+        			<img style="max-width:100px; height:100px; margin:auto; left:40%;background:url(images/placeholder.png); display:inline
+                    " ng-src="photo/{{lecturePhoto}}" alt="Lecturer Photo" />
+                </div>
+
+                </div>
+                <div style=" clear:both; border-top:solid 2px black; margin-top:10px" >
+                <p style="margin-top:10px">&nbsp; </p>
+                    <p>
+                        <ol>
+                            <li>
+                                Is flexible in course activities  when the need arises.
+                            </li>
+                                                        
+                        </ol>
+                    </p>
+               
+               </div>
+                   <div style="margin:15px">
+                       <span ng-show = "assessment_data.lecturer_assessment.adaptability !=''" style="margin:10px">Lecturer Rating</span><select class="m-wrap" name="adaptability" id="adaptability" ng-model = 
+                       "assessment_data.lecturer_assessment.adaptability" ng-change = "calculate_scores(assessment_data.lecturer_assessment)">
+                           <option value="" selected="selected">[ Rate Lecturer ]</option>
+                            <option value="1">Poor</option>
+                            <option value="2">Fair</option>
+                            <option value="3">Good</option>
+                            <option value="4">Very Good</option>
+                            <option value="5">Excellent</option>
+                       </select>
+                   
+                   </div>
+                	<p style="font-size:18px; text-align:center">The rating is as follows 1: <i style="padding:10px">Poor</i> 2: 
+                    <i style="padding:10px">Fair</i> 3: <i style="padding:10px">Good</i> 4: <i style="padding:10px">Very Good</i> 5: 
+                    <i style="padding:10px">Excellent</i></p>
+                </div>
+                
+                <div style="float:right">
+                	<button class="btn btn-success" ng-click = "previous_adaptability_btn()" style="font-size:18px; margin:20px"><span class="glyphicon glyphicon-circle-arrow-left" style="font-size:18px"></span>Previous</button>
+                    <button class="btn btn-primary" ng-click = "next_adaptability_btn()" style="font-size:18px; margin:20px" ng-disabled = "assessment_data.lecturer_assessment.adaptability ==''">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-circle-arrow-right" style="font-size:18px"></button>
+                </div>
+            </div>
+            <!-- End Adaptability -->
+            
+            
+            
+            <!-- Knowledgeable -->
+            <div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black" ng-show = "navigators[10]" >
+                <h2 style="margin:0px; text-align:center; padding:10px; color:white; display:block; font-size:24px" class="btn btn-primary" >KNOWLEDGEABILITY<span class="badge badge-light" style="float:right; margin:10px; font-size:16px">11</span></h2>
+                <div style="margin:10px; padding:10px">
+                                                <div >
+                <div style="float:left">
+<table width="100%" border="0" style="font-size:18px" >
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Course Being Assessed
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.course_code}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px">
+                        	Course Title 
+                        </td>
+                    	<td style=" font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{course_being_assessed}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Name of Lecturer
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.name}}
+                        </td>
+                    </tr>
+                    
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Lecture Department
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.department}}
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                <div style="float:right">
+        			<img style="max-width:100px; height:100px; margin:auto; left:40%;background:url(images/placeholder.png); display:inline
+                    " ng-src="photo/{{lecturePhoto}}" alt="Lecturer Photo" />
+                </div>
+
+                </div>
+                <div style=" clear:both; border-top:solid 2px black; margin-top:10px" >
+                <p style="margin-top:10px">&nbsp; </p>
+                    <p>
+                        <ol>
+                            <li>
+                                Has a good mastery of what he/she teaches.
+                            </li>
+                            <li>
+                                Recommends relevant reading materials for the course and advises students on how to access them.
+                            </li>
+                                                        
+                        </ol>
+                    </p>
+               </div>
+               
+                   <div style="margin:15px">
+                       <span ng-show = "assessment_data.lecturer_assessment.knowledgeable !=''" style="margin:10px">Lecturer Rating</span><select class="m-wrap" name="knowledgeable" id="knowledgeable" ng-model = 
+                       "assessment_data.lecturer_assessment.knowledgeable" ng-change = "calculate_scores(assessment_data.lecturer_assessment)">
+                           <option value="" selected="selected">[ Rate Lecturer ]</option>
+                            <option value="1">Poor</option>
+                            <option value="2">Fair</option>
+                            <option value="3">Good</option>
+                            <option value="4">Very Good</option>
+                            <option value="5">Excellent</option>
+                       </select>
+                	<p style="font-size:18px; text-align:center">The rating is as follows 1: <i style="padding:10px">Poor</i> 2: 
+                    <i style="padding:10px">Fair</i> 3: <i style="padding:10px">Good</i> 4: <i style="padding:10px">Very Good</i> 5: 
+                    <i style="padding:10px">Excellent</i></p>
+                   </div>
+                </div>
+                
+                <div style="float:right">
+                	<button class="btn btn-success" ng-click = "previous_knowledgeable_btn()" style="font-size:18px; margin:20px"><span class="glyphicon glyphicon-circle-arrow-left" style="font-size:18px"></span>Previous</button>
+                    <button class="btn btn-primary" ng-click = "next_knowledgeable_btn()" style="font-size:18px; margin:20px" ng-disabled = "assessment_data.lecturer_assessment.knowledgeable ==''">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-circle-arrow-right" style="font-size:18px"></button>
+                </div>
+            </div>
+            <!-- End knowledgeable -->
+ 
+ 
+ 
+             <!-- pedagogy -->
+            <div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black" ng-show = "navigators[11]" >
+                <h2 style="margin:0px; text-align:center; padding:10px; color:white; display:block; font-size:24px" class="btn btn-primary" >PEDAGOGY<span class="badge badge-light" style="float:right; margin:10px; font-size:16px">12</span></h2>
+                <div style="margin:10px; padding:10px">
+                                                <div >
+                <div style="float:left">
+<table width="100%" border="0" style="font-size:18px" >
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Course Being Assessed
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.course_code}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px">
+                        	Course Title 
+                        </td>
+                    	<td style=" font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{course_being_assessed}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Name of Lecturer
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.name}}
+                        </td>
+                    </tr>
+                    
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Lecture Department
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.department}}
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                <div style="float:right">
+        			<img style="max-width:100px; height:100px; margin:auto; left:40%;background:url(images/placeholder.png); display:inline
+                    " ng-src="photo/{{lecturePhoto}}" alt="Lecturer Photo" />
+                </div>
+
+                </div>
+                <div style=" clear:both; border-top:solid 2px black; margin-top:10px" >
+                <p style="margin-top:10px">&nbsp; </p>
+                    <p>
+                        <ol>
+                            <li>
+                                Uses various instructional approaches ( enhanced lecture, group, question and answer, discussion, etc.
+                            </li>
+                            <li>
+                                Employs jokes and other creative means in lesson delivery.
+                            </li>
+                            <li>
+                                Employs instuctional resources in lesson delivery ( multimedia, real objectives, technologies, etc.
+                            </li>
+                                                        
+                        </ol>
+                    </p>
+               </div>
+               
+                   <div style="margin:15px">
+                       <span ng-show = "assessment_data.lecturer_assessment.pedagogy !=''" style="margin:10px">Lecturer Rating</span><select class="m-wrap" name="pedagogy" id="pedagogy" ng-model = 
+                       "assessment_data.lecturer_assessment.pedagogy" ng-change = "calculate_scores(assessment_data.lecturer_assessment)">
+                           <option value="" selected="selected">[ Rate Lecturer ]</option>
+                            <option value="1">Poor</option>
+                            <option value="2">Fair</option>
+                            <option value="3">Good</option>
+                            <option value="4">Very Good</option>
+                            <option value="5">Excellent</option>
+                       </select>
+                   
+                   </div>
+                   <p style="font-size:18px; text-align:center">The rating is as follows 1: <i style="padding:10px">Poor</i> 2: <i style="padding:10px">Fair</i> 3: <i style="padding:10px">Good</i> 4: <i style="padding:10px">Very Good</i> 5: <i style="padding:10px">Excellent</i></p>
+
+                </div>
+                
+                <div style="float:right">
+                	<button class="btn btn-success" ng-click = "previous_pedagogy_btn()" style="font-size:18px; margin:20px"><span class="glyphicon glyphicon-circle-arrow-left" style="font-size:18px"></span>Previous</button>
+                    <button class="btn btn-primary" ng-click = "next_pedagogy_btn()" style="font-size:18px; margin:20px" ng-disabled = "assessment_data.lecturer_assessment.pedagogy ==''">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-circle-arrow-right" style="font-size:18px"></button>
+                </div>
+            </div>
+            <!-- End pedagogy -->
+            
+            
+            <!-- assessment of students -->
+            <div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black" ng-show = "navigators[12]" >
+                <h2 style="margin:0px; text-align:center; padding:10px; color:white; display:block; font-size:24px" class="btn btn-primary" >ASSESSMENT OF STUDENTS <span class="badge badge-light" style="float:right; margin:10px; font-size:16px">13</span></h2>
+            <div style="margin:10px; padding:10px">
+               <div >
+                <div style="float:left">
+<table width="100%" border="0" style="font-size:18px" >
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Course Being Assessed
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.course_code}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px">
+                        	Course Title 
+                        </td>
+                    	<td style=" font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{course_being_assessed}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Name of Lecturer
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.name}}
+                        </td>
+                    </tr>
+                    
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Lecture Department
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.department}}
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                <div style="float:right">
+        			<img style="max-width:100px; height:100px; margin:auto; left:40%;background:url(images/placeholder.png); display:inline
+                    " ng-src="photo/{{lecturePhoto}}" alt="Lecturer Photo" />
+                </div>
+
+                </div>
+                <div style=" clear:both; border-top:solid 2px black; margin-top:10px" >
+                <p style="margin-top:10px">&nbsp; </p>
+                    <p>
+                        <ol>
+                            <li>
+                                Gives regular assessments/tests.
+                            </li>
+                            <li>
+                               Provides feedback on assessments/tests.
+                            </li>
+                            <li>
+                                Encourages students to successfully complete tasks.
+                            </li>
+                                                        
+                        </ol>
+                    </p>
+               
+               </div>
+                   <div style="margin:15px">
+                       <span ng-show = "assessment_data.lecturer_assessment.assessment_of_student !=''" style="margin:10px">Lecturer Rating</span><select class="m-wrap" name="assessment_of_student" id="assessment_of_student" ng-model = 
+                       "assessment_data.lecturer_assessment.assessment_of_student" ng-change = "calculate_scores(assessment_data.lecturer_assessment)">
+                           <option value="" selected="selected">[ Rate Lecturer ]</option>
+                            <option value="1">Poor</option>
+                            <option value="2">Fair</option>
+                            <option value="3">Good</option>
+                            <option value="4">Very Good</option>
+                            <option value="5">Excellent</option>
+                       </select>
+                   
+                   </div>
+                  <p style="font-size:18px; text-align:center">The rating is as follows 1: <i style="padding:10px">Poor</i> 2: <i style="padding:10px">Fair</i> 3: <i style="padding:10px">Good</i> 4: <i style="padding:10px">Very Good</i> 5: <i style="padding:10px">Excellent</i></p>
+
+                </div>
+                
+                <div style="float:right">
+                	<button class="btn btn-success" ng-click = "previous_assessmentOS_btn()" style="font-size:18px; margin:20px"><span class="glyphicon glyphicon-circle-arrow-left" style="font-size:18px"></span>Previous</button>
+                    <button class="btn btn-primary" ng-click = "next_assessmentOS_btn()" style="font-size:18px; margin:20px" ng-disabled = "assessment_data.lecturer_assessment.assessment_of_student ==''">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-circle-arrow-right" style="font-size:18px"></button>
+                </div>
+            </div>
+            <!-- End pedagogy -->
+            
+            
+            
+ <!-- Any other comment -->
+            <div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black" ng-show = "navigators[13]" >
+                <h2 style="margin:0px; text-align:center; padding:10px; color:white; display:block; font-size:24px" class="btn btn-primary" >ANY OTHER COMMENT <span class="badge badge-light" style="float:right; margin:10px; font-size:16px">13</span></h2>
+                <div style="margin:10px; padding:10px">
+                                                <div >
+                <div style="float:left">
+<table width="100%" border="0" style="font-size:18px" >
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Course Being Assessed
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.course_code}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px">
+                        	Course Title 
+                        </td>
+                    	<td style=" font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{course_being_assessed}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Name of Lecturer
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.name}}
+                        </td>
+                    </tr>
+                    
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Lecture Department
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.department}}
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                <div style="float:right">
+        			<img style="max-width:100px; height:100px; margin:auto; left:40%;background:url(images/placeholder.png); display:inline
+                    " ng-src="photo/{{lecturePhoto}}" alt="Lecturer Photo" />
+                </div>
+
+                </div>
+                <div style=" clear:both; border-top:solid 2px black; margin-top:10px" >
+                <p style="margin-top:30px">&nbsp; </p>
+                    <p>
+                        Any other comment about <span style="font-weight:bold">{{lecturer_info.name}}</span> that you would like to tell us that the questionnaire did not cover? Tell us.
+                    </p>
+               
+               </div>
+                   <div style="margin:15px">
+                       <textarea class="m-wrap" name="any_other_comment" id="any_other_comment" ng-model = 
+                       "assessment_data.lecturer_assessment.any_other_comment" cols="600" rows="5" placeholder="Tell us more about him that we do not know">
+                           
+                       </textarea>
+                   
+                   </div>
+                </div>
+                
+                <div style="float:right">
+                	<button class="btn btn-success" ng-click = "previous_any_other_comment_btn()" style="font-size:18px; margin:20px"><span class="glyphicon glyphicon-circle-arrow-left" style="font-size:18px"></span>Previous</button>
+                    <button class="btn btn-primary" ng-click = "next_any_other_comment_btn()" style="font-size:18px; margin:20px" ng-disabled = "assessment_data.lecturer_assessment.any_other_comment ==''">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-circle-arrow-right" style="font-size:18px"></button>
+                </div>
+            </div>
+            <!-- End pedagogy -->
+            
+<!--Status of assessment area-->
+        <div ng-show = "show_scoreboard" style="width:150px; height:150px; margin:20px auto; border-radius:50%; background-color: #36F; text-align:center; 
+        color:white; border:solid 2px #36F;" >
+        		<p style="text-align:center; background-color:white; color:#36F; padding:0px; margin:0px">Score</p>
+                <p style="margin-top:20px">{{performance}}<span ng-show = "performance >0">%</span></p>
+        
+        
+        
+        </div>
+<!--End of Status of assessment area-->
+            
+
+
+
+
+            <!-- Assessment Preview -->
+            <div style="color:black; font-size:22px; text-align:justify; text-height:max-size; margin:10px auto; padding:0px; font-family:'Times New Roman', Times, serif; width:90%; border:1px solid black" ng-show = "navigators[14]" >
+                <h2 style="margin:0px; text-align:center; padding:10px; color:white; display:block; font-size:24px" class="btn btn-primary" >ASSESSMENT PREVIEW</h2>
+                <div>
+                                <div >
+                <div style="float:left">
+<table width="100%" border="0" style="font-size:18px" >
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Course Being Assessed
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.course_code}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px">
+                        	Course Title 
+                        </td>
+                    	<td style=" font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{course_being_assessed}}
+                        </td>
+                    </tr>
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Name of Lecturer
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.name}}
+                        </td>
+                    </tr>
+                    
+                	<tr >
+                    	<td style="padding-right:10px" >
+                        	Lecture Department
+                        </td>
+                    	<td style="font-weight:bold; border-left:1px solid black; padding-left:10px">
+                        	{{lecturer_info.department}}
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                <div style="float:right">
+        			<img style="max-width:100px; height:100px; margin:auto; left:40%;background:url(images/placeholder.png); display:inline
+                    " ng-src="photo/{{lecturePhoto}}" alt="Lecturer Photo" />
+                </div>
+
+                </div>
+                <div style=" clear:both; border-top:solid 2px black; margin-top:12px" >
+                <p style="font-size:14px; text-align:center">The rating is as follows 1: <i style="padding:10px">Poor</i> 2: <i style="padding:10px">Fair</i> 3: <i style="padding:10px">Good</i> 4: <i style="padding:10px">Very Good</i> 5: <i style="padding:10px">Excellent</i></p>
+                </div>
+                <table class="table table-striped table-bordered table-condensed table-hover" style="font-size:20px;">
+                	<tr style="padding:3px">
+                    	<th style="padding:3px">
+                        	Lecture Feature
+                        </th>
+                    	<th style="padding:3px; text-align:center">
+                        	5
+                        </th>
+                    	<th style="padding:3px; text-align:center">
+                        	4
+                        </th>
+                    	<th style="padding:3px; text-align:center">
+                        	3
+                        </th>
+                    	<th style="padding:3px; text-align:center">
+                        	2
+                        </th>
+                    	<th style="padding:3px; text-align:center">
+                        	1
+                        </th>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px">
+                        	Enthusiasm
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.enthusiasm == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.enthusiasm == 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.enthusiasm == 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.enthusiasm == 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.enthusiasm == 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px">
+                        	Warmth
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.warmth == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.warmth == 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.warmth == 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.warmth == 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.warmth == 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px">
+                        	Credibility
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.credibility == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.credibility == 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.credibility == 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.credibility == 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.credibility == 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px">
+                        	Expectation of Success
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.expectation_for_success == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.expectation_for_success == 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.expectation_for_success == 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.expectation_for_success == 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.expectation_for_success == 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px">
+                        	Encouraging and Patient
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.encouraging_and_patient == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.encouraging_and_patient == 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.encouraging_and_patient == 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.encouraging_and_patient == 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.encouraging_and_patient == 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px">
+                        	Professional
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.professional == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.professional == 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.professional == 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.professional == 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.professional == 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px">
+                        	Adaptability
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.adaptability == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.adaptability == 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.adaptability == 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.adaptability == 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.adaptability == 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px">
+                        	Knowledgeability
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.knowledgeable == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.knowledgeable == 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.knowledgeable == 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.knowledgeable == 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.knowledgeable == 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px">
+                        	Pedagogy
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.pedagogy == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.pedagogy == 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.pedagogy == 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.pedagogy == 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.pedagogy == 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style="padding:3px">
+                        	Assessment of Students
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.assessment_of_student == 5">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.assessment_of_student == 4">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.assessment_of_student == 3">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.assessment_of_student == 2">X</span>
+                        </td>
+                    	<td style="padding:3px; text-align:center">
+                        	<span ng-show = "assessment_data.lecturer_assessment.assessment_of_student == 1">X</span>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td style=" " colspan="6">
+                        	<span style="float:left; padding:3px; font-weight:bold">Total Assessment</span><span style="float:right; padding:3px; font-weight:bold">{{performance}}</span>
+                        </td>
+                    	
+                    	
+							
+                        
+                    </tr>
+                </table>
+                <div style="margin:15px; background-color:#0CF; padding:10px">
+                	<input type="checkbox" ng-model="state_of_checkbox">
+                	Check this box if you are satisfied with the preview, otherwise, navigate back with the previous buttons to make changes.
+              	</div>
+                </div>
+                
+                <div style="float:right">
+                	<button class="btn btn-success" ng-click = "previous_assessmentP_btn()" style="font-size:18px; margin:20px"><span class="glyphicon glyphicon-circle-arrow-left" style="font-size:18px"></span>Previous</button>
+                    <button class="btn btn-primary" ng-click = "next_assessmentPSubmit_btn()" style="font-size:18px; margin:20px" ng-disabled = "state_of_checkbox == false">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
+                </div>
+            </div>
+            <!-- End pedagogy -->
+          
+            </form>
+
+            
+        </div>
+        <div>			{{$scope.assessment_data}}
+</div>
+    </div>
+
+    <div id="bt_cnt_dv">
+    	<div id="mainp_note">
+        	
+        </div>
+        
+        <div id="mainp_quote">
+        	
+        </div>
+    </div>
+</div>

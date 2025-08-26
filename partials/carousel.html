@@ -1,0 +1,101 @@
+<div id="" ng-controller="carouselCtrl">
+    <div id="pge_splash" style="text-align:left;">        
+    	<div style="max-width:850px;font-weight:300;margin-right:100px;text-align:left;float:right;">
+            <img style="margin-bottom:5em; min-width:400px" src="images/main_hdr.png" />
+            <p style="font-size:4em;"></p>
+            <ul style="font-size:2em; list-style:url(images/tick.png)">
+                
+            </ul>
+        </div>
+    </div>
+    
+    <div id="pge_login">
+    	<div class="outer">
+          <div class="middle">
+            <div class="inner">
+        
+        <form id="loginForm" name="loginForm" ng-if="login_dv" >
+            <div id="hme_lcnt_dv">
+                <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+                <div id="login_dv">
+                    <div class="hd">
+                        <div class="logo"><i class="icon-lock"></i> Sign In</div>
+                    </div>
+                    <div class="cnt">
+                        <div class="update-field">
+                            <label>Username&nbsp;<a class="sml" title="This is your Jamb Registration Number.">(what's this?)</a>:</label>
+                            <input type="text" id="username" name="username" class="m-wrap" ng-model="user.username" required focus value="">
+                        </div>
+                        <div class="update-field">
+                            <label>Password:</label>
+                            <input type="password" id="password" name="password" ng-model="user.password" class="m-wrap" required value="">
+                        </div>
+                        <div class="sub_btns">
+                            <!--<input type="submit" name="login" class="m-btn blue" value="Sign In" />-->
+                            <button class="m-btn blue m-ctrl-large" ng-click="doLogin(user)" data-ng-disabled="loginForm.$invalid">&nbsp;&nbsp;&nbsp;&nbsp;Sign In&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        </div>
+                        
+                        <p class="sml"><a href="" ng-click="activateResetPasswordDv()">Can't access your account / Forgot your Password?</a></p>
+                        <div style="width:100%; float:left;">
+                            <b style="font-size:1em; color:#F00;">INFORMATION (For Students Only):</b>
+                            <ul style="width:100%; margin:0; padding:0 10px; list-style-type:disc;">
+                                <li>Your <strong>Username</strong> is your <strong>Matriculation Number</strong>.</li>
+                                <li>Your default <strong>Password</strong> is your <strong>UTME Registration Number</strong>. 
+                                    If that does not work, please try using your <strong>Surname in CAPITAL LETTERS</strong> (e.g., <em>ADAMU</em>).</li>
+                                <li>You will be required to change your password after your first login.</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+        <form id="resetForm" name="resetForm" ng-if="forgot_password">
+            <div id="hme_lcnt_dv">
+                <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+                <div id="reset_dv">
+                    <div class="hd">
+                        <div class="logo"><i class="icon-lock"></i> Reset Password</div>
+                    </div>
+                    <div class="cnt">
+                        <div class="update-field">
+                            <label>Username&nbsp;<a class="sml" title="This is your Jamb Registration Number.">(what's this?)</a>:</label>
+                            <input type="text" id="username" name="username" class="m-wrap" ng-model="reset.username" required focus value="">
+                        </div>
+                        <div class="update-field">
+                            <label>Secret Question&nbsp;<a class="sml" title="This is the secret question selected when you changed your password.">(what's this?)</a>:</label>
+                             <select id="secret_question" name="secret_question" ng-model="reset.secret_question" data-ng-options="question.question for question in secret_questions" class="m-wrap" required>
+                                <option value="">Select Your Secret Question</option>
+                            </select>
+                        </div>
+                        <div class="update-field">
+                            <label>Secret Question Answer:</label>
+                            <input type="text" id="secret_answer" name="secret_answer" ng-model="reset.secret_answer" class="m-wrap" required value="">
+                        </div>
+                        <div class="sub_btns">
+                            <button class="m-btn blue" ng-click="doReset(reset)" data-ng-disabled="resetForm.$invalid">&nbsp;&nbsp;&nbsp;&nbsp;Reset&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                            <button class="m-btn blue" ng-click="activateLoginDv()">&nbsp;&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+        <div id="resetPassDv" name="resetPassDv" ng-if="reset_pass_dv">
+            <div id="hme_lcnt_dv">
+                <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+                <div id="reset_dv">
+                    <br /><br />
+                    <div class="cnt" style="font-size:16px; line-height:25px; text-align:center; color:#333;">
+                        {{reset_password_message}} <br /><a href="" ng-click="activateLoginDv()" style="color:#F0F; text-decoration:underline;">Click Here to try signing in</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+<div style="margin:20px auto; padding:10px; text-align:center; color:black; width:50%">
+    <div style="position:relative">
+      <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+    </div>
+	<h3 style="color:black">Upload Teller/Transaction Receipt</h3>
+    
+        <form id="teller_frm" name="teller_frm" style="margin:10px auto; text-align:center">
+    	<div class="update-field">
+            <label>Select Payment Item:</label>
+            <select name="" ng-model="member.description" class="m-wrap"  required>
+                <option value="" style="font-weight:bold">[  Select Payment Item  ]</option>
+                <option value ="Annual Fee">Annual Fee</option>
+                <option value ="Conference Fee">Conference Fee</option>
+                <option value ="Abuja Secretariat">Abuja Secretariat</option>
+                <option value ="New Abuja Levy">New Abuja Levy</option>
+                <option value ="Benin Levy">Benin Levy</option>
+            </select>
+            
+        </div>
+        
+    	<div class="update-field" ng-if = "member.description == 'Annual Fee' || member.description == 'Conference Fee'">
+            <label>Select Year:</label>
+			<select name="" ng-model="member.year" class="m-wrap"  required>
+                <option value="" style="font-weight:bold">[  Select Year  ]</option>                
+                <option value="{{y}}" ng-repeat = "y in the_years" >{{y}}</option>
+            </select>
+        </div>
+
+        <div class="update-field">
+            <label>Select Bank:</label>
+            <select name="" ng-model="member.bank" class="m-wrap"  required>
+                <option value="" selected>[  Select Bank  ]</option>
+                <option value="First Bank">First Bank</option>
+                <option value="GTB">GTB</option>
+                <option value="Zenith Bank">Zenith Bank</option>
+                <option value="Wema Bank">Wema Bank</option>
+                <option value="UBA Bank">UBA Bank</option>
+                <option value="Eco Bank">Eco Bank</option>
+                <option value="Access Bank">Access Bank</option>
+                <option value="Polaris Bank">Polaris Bank</option>
+                <option value="Stanbic Bank">Stanbic Bank</option>
+                <option value="FCMB">FCMB</option>
+                <option value="Others">Others</option>
+            </select>
+        </div>
+        
+        <div class="update-field" ng-if = "member.bank == 'Others'">
+        	<label>Name of the Bank/Payment Medium:</label>
+        	<input type="text" class="m-wrap" name="" ng-model="member.others" placeholder="Payment Medium" required />
+    	</div>
+
+        <div class="update-field">
+        	<label>Amount:</label>
+        	<input type="number" class="m-wrap" name="" ng-model="member.amount" placeholder="Amount Paid" value="0" required />
+    	</div>
+        
+        <div class="update-field">
+        	<label>Teller/Transaction Number:</label>
+        	<input type="text" class="m-wrap" name="" ng-model="member.teller_number" placeholder="Teller/Transaction Number" required />
+    	</div>
+
+		<div class="update-field">
+                <span class="m-btn green file input-button">
+                    <i class="icon-folder-open"></i>&nbsp;Select file
+                    <input type="file" name="file1" id="file1" onchange="angular.element(this).scope().uploadProfilePicture1(this.files)" 
+                        required="required"/>
+                </span>
+                <button ng-click="uploadProfilePictureExt()" class="m-btn green" style="margin-top:10px" 
+                ng-disabled = "member.bank=='' || member.amount==0 || member.teller_number =='' || member.description==''"><i class="icon-upload-alt" ></i> Upload </button>
+      	</div>
+       	</form>
+</div>

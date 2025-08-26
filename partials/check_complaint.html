@@ -1,0 +1,104 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+    
+    
+    
+    
+    <div style="margin:auto; margin-left:40px; margin-top:50px; padding:10px; color:black;">
+    <!--The toaster -->
+    <div style="position:relative">
+      <toaster-container toaster-options="{'time-out': 3000, 'position-class':'toast-top-full-width'}"></toaster-container>
+    </div>
+    <!--End of the toaster -->
+    </div>
+    
+     <!--The toaster -->
+    
+    
+     <!--Complaint list -->
+     <div ng-if = "complaint_list" style="color:black; width:70%; margin:auto">
+                
+                    <h3 style="color:#006; text-align:center; margin:10px">Complaint List</h3>
+                <!--begining of the table for data display-->
+                <table class="table table-striped" class="">
+                <tr ng-show="complaints.length==0"><td style="vertical-align:middle;"><i class="fa fa-ban fa-2x"></i>&nbsp;&nbsp;No Complaint found</td></tr>
+                
+                <tr ng-show = "complaints.length > 0"><th>Description</th><th>Status</th><th>Action</th></tr>
+            
+                <tr ng-repeat="c in complaints" >
+                    <td>{{c.description}} &nbsp;- &nbsp; (<span ng-if ='c.session !=""'>{{c.session}}</span>
+                    						<span ng-if ='c.course_code !=""'>,{{c.course_code}}</span>
+                                           <span ng-if ='c.cgpa !=""'>{{c.cgpa}}</span>
+                                           <span ng-if ='c.current_department !=""'>{{c.current_department}}</span>
+                                           )</td><td>{{c.status}}</td>
+                    <td style="width:100px">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-primary" ng-click="view_response(c);" ng-disabled = "c.response==''">View Response</button>
+                        </div>
+                    </td>
+                </tr>
+                </table>
+	            <!--end of the table for data display-->
+                
+            
+     </div>
+     <!--End of complaint list -->
+
+
+
+     <!--Complaint Details -->
+     <div ng-if = "complaint_details" style="color:black">
+        <table style="width:60%; margin:auto; border-bottom:solid thin black" >
+        	<tr><th colspan="2" style = "text-align:left"><button class="btn btn-link btn-sm" style="border:none" ng-click = "navigate_to_list()"> 
+               << Back</button></th></tr>
+            <tr><td colspan="2" style = "text-align:center"><h4><span style="font-weight:bold; border-bottom:thick; ">
+               Complaint's Detailed Response</span></h4></td></tr>
+        	<tr>
+            	<td style="text-align:right; font-weight:bold  ">
+                	Matriculation Number
+                </td>
+            	<td style="text-align:left;">
+                	<p style="margin-left:20px; padding:0px">:&nbsp; &nbsp;{{response_details.student_id_fk}}</p>
+                </td>
+            </tr>
+        	<tr>
+            	<td style="text-align:right;font-weight:bold  ">
+                	Complaint Description
+                </td>
+            	<td style="text-align:left; padding-left:10px">
+                	
+                    <p style="margin-left:20px; padding:0px">:&nbsp; &nbsp;{{response_details.description}}
+                                            &nbsp;- &nbsp; (<span ng-if ='response_details.session !=""'>{{response_details.session}}</span>
+                    						<span ng-if ='response_details.course_code !=""'>,{{response_details.course_code}}</span>
+                                           <span ng-if ='response_details.cgpa !=""'>{{response_details.cgpa}}</span>
+                                           <span ng-if ='response_details.current_department !=""'>{{response_details.current_department}}</span>
+                                           )</p>
+                </td>
+            </tr>
+        	<tr>
+            	<td style="text-align:right;font-weight:bold  ">
+                	Complaint Date
+                </td>
+            	<td style="text-align:left;padding-left:10px">
+                	<p style="margin-left:20px; padding:0px">:&nbsp; &nbsp;{{response_details.the_time}}</p>
+                </td>
+            </tr>
+        
+        </table>
+        <div style="width:60%; margin:auto; margin-top:20px">
+        	<label>Response to your complaint:</label>
+        	<p style="font-size:16px; font-family:'Times New Roman', Times, serif; text-align:justify; background-color: 
+               #003C77; color:white; padding:10px">{{response_details.response}}</p>
+    	</div>
+        <div style="width:60%; margin:auto; margin-top:20px">
+        <button style="float:left; margin:10px" class="btn btn-success btn-sm" ng-click = "previous(response_details.sn)">
+            << Previous</button><button style="float:right; margin:10px" class="btn btn-primary btn-sm" ng-click = "next(response_details.sn)">Next >>
+        </button>
+        </div>
+
+     </div>
+     <!--End of complaint Details -->
+
+    
+    </div>
+</div>

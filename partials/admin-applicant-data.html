@@ -1,0 +1,862 @@
+<div style="margin:auto; margin-top:0; margin-bottom:0px; min-height:500px; width:100%;">
+    <div id="hme_cnt_dv" class="tp_cnt_dv">
+        <div class="hd">
+            <a href="#/admin/students/{{applicant_mode}}" class="back_btn"><i class="icon-chevron-left"></i></a> &nbsp; {{applicant.surname}} {{applicant.firstname}} {{applicant.middlename}}
+        </div>
+        
+        <div class="cnt_vl" style="margin-top:20px; font-size:14px;">
+            
+            <div id="mainp_quote" style="">
+                <ul class="side_mnu_cnt" style="">
+                    <li class="side_mnu" ng-class="{active_mnu:basic_info_dv}"><a href="" ng-click="openBasicInfoDv()">Applicant Basic Information</a></li>
+                    <!--<li class="side_mnu"><a href="#/admin/students/applicant-bio-data/{{applicant.jambRegNo}}">View Applicant Bio-Data</a></li>-->
+                    <li class="side_mnu" ng-class="{active_mnu:biodata_dv}"><a href="" ng-click="applicantBioDataDv()">Applicant Bio-Data</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:post_utme_result_dv}"><a href="" ng-click="openPostUTMEResultDv()">Applicant Post-UTME Result</a></li>
+                    <!--<li class="side_mnu"><a href="" ng-click="openApplicantPaymentInfo('sm')">View Applicant Payment Status</a></li>-->
+                    <li class="side_mnu" ng-class="{active_mnu:payment_info_dv}"><a href="" ng-click="openPaymentInfoDv()">Applicant Payment Status</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:eligibility_info_dv}"><a href="" ng-click="openEligibiltyInfoDv()">Applicant Eligibility Status</a></li>
+                    <li class="side_mnu" ng-class="{active_mnu:update_sample_questions_dv}"><a href="" ng-click="updateSampleQuestionsDv()">Edit Applicant Sample Questions</a></li>
+                    <li class="side_mnu" ng-if="reset_password" ng-class="{active_mnu:reset_pass_dv}"><a href="" ng-click="openResetPassDv()">Reset Applicant Password</a></li>
+                    <li class="side_mnu" ng-if="reset_password" ng-class="{active_mnu:delete_auth_dv}"><a href="" ng-click="openDeleteAuthDv()">Delete Applicant Authentication</a></li>
+                    <li class="side_mnu" ng-if="!reset_password" ng-class="{active_mnu:create_auth_dv}"><a href="" ng-click="openCreateAuthDv()">Create Applicant Authentication</a></li>
+                </ul>
+            </div>
+            
+        	<div id="mainp_note" style="">
+            	<div class="confirm_success_message m-body" ng-show="confirm_success_message" style="width:500px; min-height:30px; padding:5px 10px; margin-bottom:20px; background:#35aa47; color:#333;">
+                	<i class="icon-ok-sign modal_icn"></i> <p>{{confirm_success_message}}</p>
+                </div>
+                
+            	<div class="confirm_error_message m-body" ng-show="confirm_error_message" style="width:500px; min-height:30px; padding:5px 10px; margin-bottom:20px; background:#d84a38; color:#FFF;">
+                	<i class="icon-remove-sign modal_icn"></i> <p>{{confirm_error_message}}</p>
+                </div>
+                
+            	<div ng-show="basic_info_dv">
+                    <img style="width:120px; height:120px; background:url(images/no-person-image.png); margin-right:20px; float:left;" ng-src="passport/{{applicant.passportFileName}}" />
+                
+                    <div style="width:400px; padding:0 10px; float:left;">
+                        <div class="binf"><span class="binf_lbl">Surname:</span> {{applicant.surname}}</div>
+                        <div class="binf"><span class="binf_lbl">First Name:</span> {{applicant.firstname}}</div>
+                        <div class="binf"><span class="binf_lbl">Middle Name:</span> {{applicant.middlename}}</div>
+                        <div class="binf"><span class="binf_lbl">JAMB Number:</span> {{applicant.jambRegNo}}</div>
+                        <div class="binf"><span class="binf_lbl">JAMB Score:</span> {{applicant.jambScore}}</div>
+                        <div class="binf"><span class="binf_lbl">State of Origin:</span> {{applicant.stateOfOrigin}}</div>
+                        <div class="binf"><span class="binf_lbl">Local Govt. Area:</span> {{applicant.localGovtArea}}</div>
+                        <div class="binf"><span class="binf_lbl">Faculty Applying To:</span> {{applicant.facultyApplyingTo}}</div>
+                        <div class="binf"><span class="binf_lbl">Department Applying To:</span> {{applicant.departmentApplyingTo}}</div>
+                    </div>
+                </div>
+                
+            	<div ng-show="post_utme_result_dv">
+                	<h4>Applicant Post-UTME Result</h4>
+                    <div class="m-body" style="width:100%; float:left;">
+                    	<p>The Applicant had the following score in his/her Post-UTME Exam:</p>
+                        <p style="font-size:30px;font-weight:bold;">{{applicant.putmeScore}}</p>
+                    </div>
+                </div>
+                
+            	<div ng-show="payment_info_dv">
+                	<h4>Applicant Payment Information</h4>
+                    <div class="m-body" style="width:100%; float:left;">
+                    	<p ng-bind-html="payment_info"></p>
+                    </div>
+                </div>
+                
+            	<div ng-show="eligibility_info_dv">
+                	<h4>Applicant Eligibility Information</h4>
+                    <div class="m-body" style="width:100%; float:left;">
+                    	<p ng-bind-html="eligibility_info"></p>
+                    </div>
+                </div>
+                
+            	<div ng-show="create_auth_dv">
+                	<h4>Create Authentication for Applicant</h4>
+                    <div style="width:100%; float:left;">
+                    	<p>Applicant has no authentication record. Do you want to create one for the user?</p>
+                        <a href="" class="m-btn blue" ng-click="createAuthentication()">Yes, Create Auhentication</a>
+                        <a href="" class="m-btn" ng-click="openBasicInfoDv()">No, Cancel Authentication Creation </a>
+                    </div>
+                </div>
+                
+            	<div ng-show="reset_pass_dv">
+                    <h4>Reset Applicant Password</h4>
+                    <div style="width:100%; float:left;">
+                    	<p>Are you sure that you want to reset the applicant password? This would reset it back to the default password</p>
+                        <p><b>Note: </b> This is not reversible!</p>
+                        <a href="" class="m-btn blue" ng-click="resetPassword()">Yes, Reset Password</a>
+                        <a href="" class="m-btn" ng-click="openBasicInfoDv()">No, Cancel Reset </a>
+                    </div>
+                </div>
+                
+            	<div ng-show="delete_auth_dv">
+                	<h4>Delete Authentication of Applicant</h4>
+                    <div style="width:100%; float:left;">
+                    	<p>Are you sure that you want to delete authentication of this applicant? The appplicant would be unable to log into the admission portal subsequently</p>
+                        <a href="" class="m-btn blue" ng-click="deleteAuthentication()">Yes, Delete Auhentication</a>
+                        <a href="" class="m-btn" ng-click="openBasicInfoDv()">No, Cancel Authentication Creation </a>
+                    </div>
+                </div>
+                
+            	<div ng-show="update_sample_questions_dv">
+                    <h4>Update Sample Question Subjects Download</h4>
+                    <div style="width:100%; float:left;">
+                    	<p>Select the number of etra subject you want to enable the students to be able to download.</p>
+                        <p><b>Note: </b> This is in addition to the four(4) default subjects available for downloads!</p>
+                        
+                        <form id="updateSubjectsForm" name="updateSubjectsForm">
+                        	<div class="update-field" style="text-align:right; float:right; margin:10px; padding:10px;">
+                                <select ng-model="no_subjects" class="m-wrap" required>
+                                    <option value="">Select No of Subjects to add</option>
+                                    <option value="1">1 Subject</option>
+                                    <option value="2">2 Subjects</option>
+                                    <option value="3">3 Subjects</option>
+                                    <option value="4">4 Subjects</option>
+                                </select>
+                            </div>
+                        	<button class="m-btn blue" ng-click="addSampleQuestionSubjects(no_subjects)" data-ng-disabled="updateSubjectsForm.$invalid">Yes, Update Questions</button>
+                        	<button class="m-btn" ng-click="openBasicInfoDv()">No, Cancel Update </button>
+                    	</form>
+                    </div>
+                </div>
+                
+                <div class="bio_edt" style="width:100%;margin-left:20px" ng-show="biodata_dv" ng-if="utme_applicant" ng-controller="biodataCtrl">
+                	<!--<a href="">Bio Data</a> <i class="icon-chevron-right"></i> <a href="">Next of Kin</a> <i class="icon-chevron-right"></i> <a href="">Passport and Signature</a> <i class="icon-chevron-right"></i> <a href="">O Level Result</a>-->
+                    
+					<div ng-show="biodata2Time==true">
+						<h4 style="margin-bottom:20px;">Applicant Bio-Data</h4>
+                         
+                        <form name="data_form1" class="form-horizontal" role="form">
+                            <div class="update-field">
+                               <label>Gender<span style="color:red">*</span>: </label>
+                               <select class="m-wrap" ng-model="applicant1.gender">
+                                   <option value="[ Select Gender ]" selected="selected">[ Select Gender ]</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                               </select>
+                            </div>
+                            
+                            <div class="update-field">
+                               <label>Marital Status<span style="color:red">*</span>: </label>
+                               <select class="m-wrap"  placeholder="Marital Status" ng-model="applicant1.maritalStatus">
+                                    <option selected="selected" value="[ Select Marital Status ]">[ Select Marital Status ]</option>
+                                    <option ng-repeat = "mar in maritalStatus" value="{{mar}}">{{mar}}</option>
+                               </select>
+                            </div>
+                            
+                            <div class="update-field">
+                                <label>Date of Birth<span style="color:red">*</span></label>
+                                <input type="text" class="m-wrap" datepicker-popup="{{format}}"  placeholder="Date of Birth" ng-model="applicant1.dateOfBirth" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions"  name="dob"   close-text="Close" required/>
+                             </div>
+                              
+                            <div class="update-field">
+                                <label>Nationality<span style="color:red">*</span></label>
+                                <select class="m-wrap"  placeholder="Nationality" ng-model="applicant1.nationality">
+                                	<option  value="[ Select Nationality ]">[ Select Nationality ]</option>
+                                	<option ng-repeat = "nation in nationality" value="{{nation.country}}">{{nation.country}}</option>
+                                </select>
+							</div>
+                              
+                            <div class="update-field">  
+                                <label>Permanent Home Address<span style="color:red">*</span></label>
+                                <textarea cols="50" rows="4" class="m-wrap" ng-model="applicant1.permanentHomeAddress" placeholder="Permanent Home Address" required>Permanent Home Address</textarea>
+                            </div>
+                                
+                            <div class="update-field">
+                            	<label>E-Mail Address<span style="color:red">*</span>: </label>
+                            	<input type="email" class="m-wrap" placeholder="E-Mail" ng-model="applicant1.email" required/>
+                            </div>
+                                
+                            <div class="update-field">
+                            	<label>Phone Number<span style="color:red">*</span>: </label>
+                            	<input type="tel" class="m-wrap"  placeholder="Phone Number" ng-model="applicant1.phoneNumber" required/>
+                            </div>
+                               
+                            <div class="update-field">
+                            	<label>Deformity: </label>
+                            	<input type="text" class="m-wrap" placeholder="Deformity" ng-model="applicant1.deformity" />
+                            </div>
+                                
+                            <div class="update-field">
+                            	<button ng-click="saveData();" class="m-btn green" ng-disabled="data_form1.$invalid"><i class="glyphicon glyphicon-floppy-save"></i> Save</button>
+                            	<button ng-click="next();" class="m-btn blue">Next <i class="icon-share-alt"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div ng-show="nextOfKinTime==true">
+                        <h4 style="margin-bottom:20px;">Applicant Data - Next of Kin Data</h4>
+                        
+                        <form name="data_form1" class="form-horizontal" role="form" novalidate>
+                            <div class="update-field">
+                            	<label>Next of Kin Name</label>
+                            	<input type="text" class="m-wrap" placeholder="Next of Kin Name" ng-model="applicant1.nextOfKinName" />
+                            </div>
+                            
+                            <div class="update-field">
+                            	<label>Next of Kin Address</label>
+                            	<textarea cols="30" rows="4" class="m-wrap" ng-model="applicant1.nextOfKinAddress" placeholder="Next of Kin Address">Next of Kin Address</textarea>
+                            </div>
+                            
+                            <div class="update-field">
+                            	<label>Next of Kin Phone Number</label>
+                            	<input type="text" class="m-wrap" placeholder="Next of Kin Phone Number" ng-model="applicant1.nextOfKinPhoneNumber" />
+                            </div>
+                            
+                            <div class="update-field">
+                            	<label>Next of Kin E-Mail Address</label>
+                            	<input type="email" class="m-wrap" placeholder="Next of Kin E-Mail" ng-model="applicant1.nextOfKinEmail" />
+                            </div>
+                            
+                            <div class="update-field">
+                            	<button ng-click = "toBiodata();" class="m-btn blue"><i class="icon-hand-left"></i> Previous</button>
+                                <button ng-click = "saveNextOfKinData();" class="m-btn green"><i class="icon-floppy-save"></i> Save</button>
+                            	<button ng-click = "fromNextOfKin();" class="m-btn blue">Next <i class="icon-share-alt"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div ng-show="photoTime==true">
+                    	<h4 style="margin-bottom:20px;">Applicant Data - Photo and Signature</h4>
+                        
+                        <div class="update-field" style="width:100%;">
+							Your photo should be clean, clear and recent.<br /> Specifications: Max size <strong>50Kb</strong> Type:&nbsp;<strong>JPEG</strong>
+                        </div>
+                        
+                        <div class="update-field" style="width:100%;">
+                            <img style="max-width:120px; height:120px; margin:auto; background:url(images/placeholder.png);" ng-dblclick="uploadProfilePicture()" ng-src="passport/{{applicantPhoto}}" alt="Double Click for Photo" />
+                            <p style="position:absolute; max-width:120px; height:120px; margin:auto;" ng-if="doubleClickedP==true">Double Click to edit</p>
+                        </div>
+                        
+                        <div ng-if="uploadProfileImaage==true">
+							<div class="update-field" style="width:100%;">
+								<form>
+									<span class="m-btn green file input-button">
+										<i class="icon-folder-open"></i>&nbsp;Select file
+										<input type="file" name="file1" id="file1" onchange="angular.element(this).scope().uploadProfilePicture1(this.files)" style="color:white; font-size:13px"/>
+                                  	</span>
+                                    <button ng-click="uploadProfilePictureExt()" class="m-btn green"><i class="icon-upload-alt"></i> Upload</button>
+									<button ng-click="cancelProfileFileUpload()" class="m-btn">Cancel</button>
+                              </form>
+							</div>
+                        </div>
+                        
+                        <div class="update-field" style="width:100%;margin-top:30px;">
+                          Sign on white paper and use black pen preferably.<br /> Specifications: Max size <strong>50Kb. &nbsp;</strong> Type: <strong>JPEG</strong>
+                        </div>
+                        <div class="update-field" style="width:100%;">
+                            <img style="max-width:120px; height:120px; margin:auto; background:url(images/placeholder1.jpg);" ng-dblclick="showSignButton()" ng-src="signature/{{applicantSignature}}" alt="Double Click for Signature" />
+                            <p style="position:absolute; max-width:120px; height:120px; margin:auto;" ng-if="doubleClickedS==true">Double Click to edit</p>
+                            <div style="background-color:red; color:white; text-align:center; margin:0px; padding:0px"><strong>{{messages}}</strong></div>
+                        </div>
+                        
+                        <div ng-if="uploadSignature==true">
+                            <div class="update-field">
+                                <form>
+                                    <span class="m-btn green file input-button">
+                                        <span><i class="icon-folder-open"></i> Select file</span>
+                                        <input type="file" name="file2" id="file2" onchange="angular.element(this).scope().uploadSignatureHandler1(this.files)" style="color:white; font-size:13px;"/>
+                                    </span>																									
+                                    <button ng-click="uploadSignatureHandler()" class="m-btn green"><i class="icon-upload-alt"></i> Upload</button> 
+                                    <button ng-click="uploadSignature=false;" class="m-btn">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+                              
+                        <div class="update-field">
+                          <button ng-click = "toNextOfKin();" class="m-btn blue"><i class="icon-hand-left"></i> Previous</button>
+                          <button ng-click = "toOlevel();" class="m-btn green">Next <i class="icon-share-alt"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div ng-show="olevelTime==true">
+                         <div class=""><h3 style="margin:0px; display:inline">O'Level Subjects </h3><strong>{{sitting}}- &nbsp;(To be filled by applicant)</strong></div>
+                    
+                     <!--grades and subjects selections-->
+                         <div style="color:blue; " class=""> 
+                         
+                         <!--`courseTitle``sitting` `grade` `monthOfSitting` `yearOfSitting``examNumber``examType``examCenter`-->
+                         <div>
+                         <form name="data_form1" class="form-horizontal" role="form" novalidate>
+                                            <div class="update-field">
+                                            <p style="margin-bottom:5px 0px 5px 0px">Examination Type</p>
+                                            <select ng-model="examination.type" class="m-wrap">
+                                                <option value="[ Select Examination Type ]">[ Select Examination Type ]</option>
+                                                <option ng-repeat = "exam in examinationType" value="{{exam}}">{{exam}}</option>
+                                            </select>
+                                            </div>
+                                            
+                                            <div class="update-field">
+                                            <p style="margin-bottom:5px 0px 5px 0px">Examination Year</p>
+                                            <select ng-model="examination.year" class="m-wrap">
+                                                <option value="[ Select Examination Year ]">[ Select Examination Year ]</option>
+                                                <option ng-repeat = "year in years" value="{{year}}">{{year}}</option>
+                                            </select>
+                                            </div>
+                                            <div class="update-field">
+                                            <p style="margin-bottom:5px 0px 5px 0px">Examination Month</p>
+                                            <select ng-model="examination.month" class="m-wrap">
+                                                <option value="[ Select Examination Month ]">[ Select Examination Month ]</option>
+                                                <option ng-repeat = "month in months" value="{{month}}">{{month}}</option>
+                                            </select>
+                                            </div class="update-field">
+                                            <div class="update-field">
+                                            <p style="margin-bottom:5px 0px 5px 0px">Examination Center</p>
+                                            <input type="text" class="m-wrap" placeholder="Examination Center" ng-model ="examination.center"/>
+                                            </div class="update-field">
+                                            <div class="update-field">
+                                            <p style="margin-bottom:5px 0px 5px 0px">Examination Number</p>
+                                            <input type="text" class="m-wrap" placeholder="Examination Number" ng-model ="examination.number" />
+                                            </div>
+                                            
+                                    </form>
+                         
+                         </div>
+                         
+                         <hr />
+                         <div style="text-align:left"> Get All the subjects and grade below. Click <strong>Save</strong> when you have selected them.</div>    
+                        <div class="update-field" style="margin:10px 0 20px">
+                             <label for="subjects">
+                                 O'level Subjects
+                             </label>
+                             <select ng-model="subject" name="subjects" ng-change="changedSubject();" class="form-control">
+                                  <option value="[ Select Subjects ]">[ Select Subjects ]</option>
+                                 <option ng-repeat="olevel in olevelSubjects" value="{{olevel.courseTitle}}">{{olevel.courseTitle}}</option>
+                             </select>
+                             
+                             <div ng-show="olevelSelected==true">
+                                 <label for="grade">
+                                    Grades
+                                 </label>
+                                 <select ng-model="grade" name="grade" class="form-control" >
+                                          <option value="[ Select Grades ]">[ Select Grades ]</option>
+                                          <option ng-repeat="grad in grades" value="{{grad}}">{{grad}}</option>
+                                
+                                 
+                                 </select>
+                             </div>
+                             
+                             <label>
+                             	<button class="btn btn-success btn-sm" ng-click="addSelected()">Add&nbsp;<i class="glyphicon glyphicon-shopping-cart"></i></button>
+                             </label>
+                         </div>
+                    
+                               <!--subject selected panel--> 
+                          <div class="">
+                             <!--this is the heading of the panel-->
+                             <div class=""><h4 style="margin:0px; display:inline">Subjects Selected</h4>&nbsp;-&nbsp;{{subjectCounter}} &nbsp; {{singleOrMore}} Selected for {{sitting}} </div>
+                             
+                             
+                             <!--this is the body of the panel-->
+                              <div class="update-field">
+                              
+                              
+                                  <table class="table stripped"  style="font-size:15px; color:blue">
+                                    <tr ng-repeat = "subject in subjectAndGrade">
+                                        <td>
+                                            {{subject.subj}}
+                                        </td>
+                                        <td>
+                                            {{subject.grade}}
+                                        </td>
+                                        <td style="border-left:thick">
+                                            <a href="" ng-click="deleteSubject($index);"><i class="glyphicon glyphicon-trash" style="color:green">&nbsp;Remove</i></a>
+                                        </td>
+                                    </tr>
+                                    
+                                  </table>
+                            
+                                    
+                              </div>
+                            <!--end of the panel body-->
+                        
+                         </div>
+                         <!--this is the end of the panel-->
+                        <div class="update-field"><button ng-click = "toPhoto();" class="btn blue"><i class="glyphicon glyphicon-hand-left"></i>&nbsp;Previous</button> <p style=" margin:5px; font-weight:bold; display:inline">Number of Subjects&nbsp;=&nbsp;<span style="color:red">{{subjectCounter}}</span> </p><span> <button class="btn btn-success btn-sm" ng-click="saveOlevelSubjects()">Save&nbsp;<span class="badge">{{sitting}}</span></button></span></div>
+                         </div>
+                    </div>
+                    
+                    <div ng-show="questionTime==true">
+                         <div class=""><h3 style="margin:0px; display:inline">Question </h3><strong>To be answered by candidate</strong></div>
+                    
+                     <!--grades and subjects selections-->
+                      <div class="update-field"> 
+                        <h3 style="">Any other O'Level sitting?</h3>
+                            <button ng-click = "no();" class="m-btn">&nbsp;&nbsp;No&nbsp;&nbsp;<i class="icon-remove"></i></button> 
+                            <button class="m-btn blue" ng-click="yes()">&nbsp;&nbsp;Yes&nbsp;&nbsp;<i class="icon-ok"></i></button>
+                      </div>                    
+                    </div> 
+                    
+                    <div style="width:100%;background-color:red; color:white;float:left" ng-show="messages">
+                    	<h4>{{messages}}</h4>
+                    </div>
+                    
+				</div>
+
+				<div class="bio_edt" style="width:100%;margin-left:20px" ng-show="biodata_dv" ng-if="!utme_applicant" ng-controller="biodataDECtrl">
+                	
+                    <div class=""  style="float:right; margin:0px 20px 0px 0px; width:100%" ng-show="biodata2Time==true">
+                         <div class="">
+                         <h3 style="margin:0px; display:inline">
+                            Applicant Data - Part 2&nbsp; </h3>
+                        
+                         </div>
+                        <div class="panel-body" style="color:blue;">
+                                    <form name="data_form1" class="form-horizontal" role="form" >
+                                       <div class="update-field">
+                                       <p style="margin-bottom:5px 0px 5px 0px">Gender<span style="color:red">*</span></p>
+                                       <select class="m-wrap" ng-model="applicant1.gender"  >
+                                           <option value="[ Select Gender ]" selected="selected">[ Select Gender ]</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                       </select>
+                                       
+                                       </div>
+                                       <div class="update-field">
+                                           <p style="margin-bottom:5px 0px 5px 0px">Marital Status<span style="color:red">*</span></p>
+                                           <select class="m-wrap"  placeholder="Marital Status" ng-model="applicant1.maritalStatus">
+                                           <option selected="selected" value="[ Select Marital Status ]">[ Select Marital Status ]</option>
+                                           <option ng-repeat = "mar in maritalStatus" value="{{mar}}">{{mar}}</option>
+                                           </select>
+                                        </div>
+                                        
+                                        <div class="update-field">
+                                         <p style="margin-bottom:5px 0px 5px 0px">Date of Birth<span style="color:red">*</span></p>
+                                         <input type="text" class="m-wrap" datepicker-popup="{{format}}"  placeholder="Date of Birth" ng-model="applicant1.dateOfBirth" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions"  name="dob"   close-text="Close" required />
+                                         </div>
+                                          
+                                          <div class="update-field"  >
+                                         <p style="margin-bottom:5px 0px 5px 0px">Country<span style="color:red">*</span></p>
+                                            <select class="m-wrap"  placeholder="Nationality" ng-model="applicant1.nationality">
+                                            <option  value="Nigeria" selected="selected">Nigeria</option>
+                                           <option  value="[ Select Nationality ]">[ Select Nationality ]</option>
+                                           <option ng-repeat = "nation in nationality" value="{{nation.country}}">{{nation.country}}</option>
+                                           </select>
+                                         
+                                         
+                                            </div>
+                                          
+                                          <div class="update-field"  >  
+                                       		<p style="margin-bottom:5px 0px 5px 0px">Permanent Home Address<span style="color:red">*</span></p>
+                                       		<textarea cols="30" rows="4" class="m-wrap" ng-model="applicant1.permanentHomeAddress" placeholder="Permanent Home Address" required>Permanent Home Address</textarea>
+                                            </div>
+                                            
+                                            <div class="update-field">
+                                            <p style="margin-bottom:5px 0px 5px 0px">E-Mail Address<span style="color:red">*</span></p>
+                                            <input type="email" class="m-wrap" placeholder="E-Mail" ng-model="applicant1.email" required />
+                                            </div>
+                                            
+                                            <div class="update-field">
+                                             <p style="margin-bottom:5px 0px 5px 0px">Phone Number<span style="color:red">*</span></p><input  type="tel" class="m-wrap"  placeholder="Phone Number" ng-model="applicant1.phoneNumber" required/>
+                                            </div>
+                                           
+                                            <div class="update-field">
+                                            <p style="margin-bottom:5px 0px 5px 0px">deformity</p><input type="text" class="m-wrap" placeholder="Deformity" ng-model="applicant1.deformity"/>
+                                            </div>
+                                            
+                                          <div class="update-field">
+                                          <button ng-click = "saveData();" class="btn btn-success" ng-disabled="data_form1.$invalid">Save&nbsp; <i class="glyphicon glyphicon-floppy-save"></i></button>
+                                          <!--<button ng-click = "next();" class="btn blue">Next&nbsp;<i class="glyphicon glyphicon-share-alt"></i></button>-->
+                                          </div>
+                                        </form>
+                        </div> <!--end of panel body-->
+                    
+                    </div>
+                    
+                    <div class=""  style="float:right; margin:0px 20px 0px 0px; width:100%" ng-show="nextOfKinTime==true" >
+                         <div class="">
+                         <h3 style="margin:0px; display:inline">
+                            Applicant Data - Part 3 
+                         </h3><strong>- Next of Kin Data&nbsp;</strong>
+                         </div>
+                        <div class="panel-body" style="color:blue;">
+                                    <form name="data_form1" class="form-horizontal" role="form" novalidate>
+                                            <div class="update-field">
+                                            <p style="margin-bottom:5px 0px 5px 0px">Next of Kin Name</p><input type="text" class="m-wrap"  placeholder="Next of Kin Name" ng-model="applicant1.nextOfKinName"/>
+                                            </div>
+                                            
+                                            <div class="update-field">
+                                            <p style="margin-bottom:5px 0px 5px 0px">Next of Kin Address</p><textarea cols="30" rows="4" class="m-wrap" ng-model="applicant1.nextOfKinAddress" placeholder="Next of Kin Address">Next of Kin Address</textarea>
+                                            </div>
+                                           
+                                            <div class="update-field">
+                                            <p style="margin-bottom:5px 0px 5px 0px">Next of Kin Phone Number</p><input type="text" class="m-wrap"  placeholder="Next of Kin Phone Number" ng-model="applicant1.nextOfKinPhoneNumber"/>
+                                            </div>
+                                           
+                                            <div class="update-field">
+                                             <p style="margin-bottom:5px 0px 5px 0px">Next of Kin E-Mail Address</p><input type="email" class="form-control"  placeholder="Next of Kin E-Mail" ng-model="applicant1.nextOfKinEmail"/>
+                                            </div>
+                                            
+                                            <div class="update-field"><button ng-click = "toBiodata();" class="btn blue"><i class="glyphicon glyphicon-hand-left"></i>&nbsp;Previous</button> <button ng-click = "saveNextOfKinData();" class="btn btn-success" style="margin:20px">Save&nbsp; <i class="glyphicon glyphicon-floppy-save"></i></button><!--<button ng-click = "fromNextOfKin();" class="btn blue">Next&nbsp;<i class="glyphicon glyphicon-share-alt"></i></button>--></div>
+                                    </form>
+                              
+                    
+                         </div>
+                    </div>
+                    
+                    <div class="" style="margin:0px 20px 0px 0px; float:left; width:100%" ng-show="photoTime==true">
+                        <div class="">
+                            <h3 style="margin:0px; display:inline">Candidate Photo</h3><strong>- &nbsp;(To be uploaded by applicant)</strong>
+                        </div>
+                    
+                     <!--grades and subjects selections-->
+                         <div style="color:blue; " class="">
+                             <div style="width:100%;text-align:left;float:left;">
+                                Your photo should be clean, clear and recent.<br /> Specifications: Max size <strong>50Kb</strong> Type:&nbsp;<strong>JPEG</strong>
+                             </div>
+                            <div style="position:relative;width:100%; height:120px;float:left; text-align:left;">
+                                <img style="position:absolute; max-width:120px; height:120px; margin:auto; left:10%;background:url(images/placeholder.png);" ng-dblclick="uploadProfilePicture()" ng-src="passport/{{applicantPhoto}}" alt="Double Click for Photo" />
+                                <p style="position:absolute; max-width:120px; height:120px; margin:auto; left:10%;" ng-if="doubleClickedP==true">Double Click to edit</p>
+                            </div>
+                            
+                            <div style="" ng-if="uploadProfileImaage==true">
+                                <div style="width:100%; margin-top:10px;text-align:left; float:left;" >
+                                    <form>
+                                        <span class="btn btn-success fileinput-button btn-sm">
+                                        <span>Select file&nbsp;<i class="glyphicon glyphicon-folder-open"></i></span>
+                                        <input type="file" name="file1" id="file1" onchange="angular.element(this).scope().uploadProfilePicture1(this.files)"  style=" color:white; font-size:13px"/>
+                                        </span>																									
+                                        <span > <button ng-click="uploadProfilePictureExt()" style="" class="btn btn-success btn-sm"  >Upload&nbsp;<i class="glyphicon glyphicon-upload"></i></button></span>
+                                        <button ng-click="cancelProfileFileUpload()" style="" class="btn btn-sm" >Cancel&nbsp;<i class="glyphicon glyphicon-remove"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <div style="width:100%;margin-top:20px; text-align:left;float:left;">
+                                Sign on white paper and use black pen preferably.<br /> Specifications: Max size <strong>50Kb. &nbsp;</strong> Type: <strong>JPEG</strong>
+                            </div>
+                            <div style="position:relative;width:100%; height:120px;float:left; text-align:left;">
+                                <img style="position:absolute; max-width:120px; height:120px; margin:auto; left:10%; background:url(images/placeholder1.jpg);" ng-dblclick="showSignButton()" ng-src="signature/{{applicantSignature}}" alt="Double Click for Signature" />
+                                <p style="position:absolute; max-width:120px; height:120px; margin:auto; left:10%;" ng-if="doubleClickedS==true">Double Click to edit</p>
+                                <div style="background-color:red; color:white; text-align:left; margin:0px; padding:0px"><strong>{{messages}}</strong></div>
+                            </div>
+                            
+                            <div  style="" ng-if="uploadSignature==true">
+                                <div style="width:100%; margin-top:10px;text-align:left; float:left;" >
+                                    <form>
+                                        <span class="btn btn-success file input-button btn-sm">
+                                            <span>Select file&nbsp;<i class="glyphicon glyphicon-folder-open"></i></span>
+                                            <input type="file" name="file2" id="file2" onchange="angular.element(this).scope().uploadSignatureHandler1(this.files)"  style="color:white; font-size:13px;"/>
+                                        </span>																									
+                                        <span><button ng-click="uploadSignatureHandler()" style="" class="btn btn-success btn-sm"  >Upload&nbsp;<i class="glyphicon glyphicon-upload"></i></button></span> 
+                                        <button ng-click="uploadSignature=false;" style="" class="btn btn-sm" >Cancel&nbsp;<i class="glyphicon glyphicon-remove"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                                    
+                             <div style="width:100%;margin-top:10px; text-align:left;float:left">
+                                <button ng-click = "toNextOfKin();" class="btn blue"><i class="glyphicon glyphicon-hand-left"></i>&nbsp;Previous</button>
+                                <button ng-click = "toOlevel();" class="btn btn-success">Next&nbsp;<i class="glyphicon glyphicon-share-alt"></i></button>
+                             </div>        
+                                    <!--end of signature -->
+                         </div>
+                         
+                    </div>
+                    
+                    <div class="" style="margin:0px 20px 0px 0px; width:100%; float:left" ng-show="olevelTime==true" >
+                         <div class=""><h3 style="margin:0px; display:inline">O'Level Subjects </h3><strong>{{sitting}}- &nbsp;(To be filled by applicant)</strong></div>
+                    
+                     <!--grades and subjects selections-->
+                         <div style="color:blue; " class=""> 
+                         
+                         <!--`courseTitle``sitting` `grade` `monthOfSitting` `yearOfSitting``examNumber``examType``examCenter`-->
+                         <div>
+                         <form name="data_form1" class="form-horizontal" role="form" novalidate>
+                                             <div class="update-field">
+                                            <p style="margin-bottom:5px 0px 5px 0px">Examination Number</p>
+                                            <input type="text" class="m-wrap"  placeholder="Examination Number" ng-model ="examination.number" />
+                                            </div>
+                                            
+                                            <div class="update-field">
+                                            <p style="margin-bottom:5px 0px 5px 0px">Examination Type</p>
+                                            <select ng-model="examination.type" class="m-wrap">
+                                                <option value="[ Select Examination Type ]">[ Select Examination Type ]</option>
+                                                <option ng-repeat = "exam in examinationType" value="{{exam}}">{{exam}}</option>
+                                            </select>
+                                            </div>
+                                            
+                                            <div class="update-field">
+                                            <p style="margin-bottom:5px 0px 5px 0px">Examination Year</p>
+                                            <select ng-model="examination.year" class="m-wrap">
+                                                <option value="[ Select Examination Year ]">[ Select Examination Year ]</option>
+                                                <option ng-repeat = "year in years" value="{{year}}">{{year}}</option>
+                                            </select>
+                                            </div>
+                                            
+                                            <div class="update-field">
+                                            <p style="margin-bottom:5px 0px 5px 0px">Examination Month</p>
+                                            <select ng-model="examination.month" class="m-wrap">
+                                                <option value="[ Select Examination Month ]">[ Select Examination Month ]</option>
+                                                <option ng-repeat = "month in months" value="{{month}}">{{month}}</option>
+                                            </select>
+                                            </div>
+                                            <!--<form-element>
+                                            <p style="margin-bottom:5px 0px 5px 0px">Examination Center</p>
+                                            <input type="text" class="form-control"  placeholder="Examination Center" ng-model ="examination.center"/>
+                                            </form-element>-->
+                                           
+                                            
+                                    </form>
+                         
+                         </div>
+                         
+                         <hr />
+                         <div style="text-align:left"> Get All the subjects and grade below. Click <strong>Save</strong> when you have selected them.</div>    
+                        <div  class="update-field">
+                             <label for="subjects">
+                                 <h4>O'level Subjects</h4>
+                              </label>
+                             <select ng-model="subject" name="subjects" ng-change="changedSubject();" class="m-wrap">
+                                  <option value="[ Select Subjects ]">[ Select Subjects ]</option>
+                                 <option ng-repeat="olevel in olevelSubjects" value="{{olevel.courseTitle}}">{{olevel.courseTitle}}</option>
+                             </select>
+                             
+                             <div ng-show="olevelSelected==true">
+                                 <label for="grade">
+                                    Grades
+                                 </label>
+                                 <select ng-model="grade" name="grade" class="m-wrap" >
+                                          <option value="[ Select Grades ]">[ Select Grades ]</option>
+                                          <option ng-repeat="grad in grades" value="{{grad}}">{{grad}}</option>
+                                
+                                 
+                                 </select>
+                             </div>
+                             <label>
+                             	<button class="btn btn-success btn-sm" ng-click="addSelected()" style="font-size:17px">Add&nbsp;<i class="glyphicon glyphicon-shopping-cart"></i></button>
+                             </label>
+                         </div>
+                    
+                               <!--subject selected panel--> 
+                          <div class=""  style="margin-left:0">
+                             <!--this is the heading of the panel-->
+                             <div class=""><h4 style="margin:0px; display:inline">Subjects Selected</h4>&nbsp;-&nbsp;{{subjectCounter}} &nbsp; {{singleOrMore}} Selected for {{sitting}} </div>
+                             
+                             
+                             <!--this is the body of the panel-->
+                              <div class="" style="color:blue;">
+                              
+                              
+                                  <table class="table stripped"  style="font-size:15px; color:blue">
+                                    <tr ng-repeat = "subject in subjectAndGrade">
+                                        <td>
+                                            {{subject.subj}}
+                                        </td>
+                                        <td>
+                                            {{subject.grade}}
+                                        </td>
+                                        <td style="border-left:thick">
+                                            <a href="" ng-click="deleteSubject($index);"><i class="glyphicon glyphicon-trash" style="color:red">Remove</i></a>
+                                        </td>
+                                    </tr>
+                                    
+                                  </table>
+                            
+                                    
+                              </div>
+                            <!--end of the panel body-->
+                        
+                         </div>
+                         <!--this is the end of the panel-->
+                        <div class="update-field"><button ng-click = "toPhoto();" class="btn blue"><i class="glyphicon glyphicon-hand-left"></i>&nbsp;Previous</button> <p style=" margin:5px; font-weight:bold; display:inline">Number of Subjects&nbsp;=&nbsp;<span style="color:red">{{subjectCounter}}</span> </p><span> <button class="btn btn-success btn-sm" ng-click="saveOlevelSubjects()">Save&nbsp;<span class="badge">{{sitting}}</span></button></span></div>
+                         </div>
+                    </div>
+                    
+                    <div class="" style="margin:0px 20px 0px 0px; width:100%; float:left" ng-show="questionTime==true">
+                         <div class=""><h3 style="margin:0px; display:inline">Question </h3><strong>To be answered by candidate</strong></div>
+                    
+                     <!--grades and subjects selections-->
+                      <div style="color:blue; " class=""> 
+                         
+                         <!--this is the end of the panel-->
+                        <div class="update-field">
+                        <h3 style="">Any other O'Level sitting?</h3>
+                            <button ng-click = "no();" class="btn btn-default">&nbsp;&nbsp;No&nbsp;&nbsp;<i class="glyphicon glyphicon-remove"></i></button> 
+                            <button class="btn btn-primary btn-sm" ng-click="yes()">&nbsp;&nbsp;Yes&nbsp;&nbsp;<i class="glyphicon glyphicon-ok"></i></button>
+                        </div>
+                      </div>
+                      
+                    
+                    </div>
+                    
+                    <div class="" style="margin:0px 20px 0px 0px; width:100%; float:left" ng-show="postSecondaryTime==true" >
+                         <div class=""><h3 style="margin:0px; display:inline">DE Post Secondary Result</h3><strong>- &nbsp;(To be filled by applicant)</strong></div>
+                    
+                             <!--D/E Result selection section-->
+                             <div style="color:blue; " class=""> 
+                                                <div style="width:100%"><!--Examination type-->
+                                                     <form name="data_form1" class="form-horizontal" role="form" novalidate>
+                                                                <div class="update-field">
+                                                                <p style="margin-bottom:5px 0px 5px 0px">Result Type</p>
+                                                                <select ng-model="postSecResult.type" class="m-wrap" ng-change = "resultTypeHandler()">
+                                                                    <option value="[ Select Result Type ]">[ Select Result Type ]</option>
+                                                                    <option ng-repeat = "result in deQualificationType" value="{{result}}">{{result}}</option>
+                                                                </select>
+                                                                </div>
+                                                      </form>
+                                                </div>
+                                 
+                             <!--D/E Result selection section ends here-->
+                             
+                              <!--D/E A/L Result selection section-->
+                                <div ng-show = "DESegment=='A/L'">
+                                    <h4 style="margin-top:40px; color:#000">{{DESegment}}&nbsp; Result Information</h4>
+                                    <hr />
+                                     <div style="width:100%" >
+                                                <form name="data_form1" class="form-horizontal" role="form" novalidate>
+                                                                                
+                                                        <div class="update-field">
+                                                        <p style="margin-bottom:5px 0px 5px 0px"> Examination Year</p>
+                                                        <select ng-model="postSecResult.year" class="m-wrap">
+                                                            <option value="[ Select Examination Year ]">[ Select Examination Year ]</option>
+                                                            <option ng-repeat = "year in years" value="{{year}}">{{year}}</option>
+                                                        </select>
+                                                        </div>
+                                                        
+                                                        <div class="update-field">
+                                                        <p style="margin-bottom:5px 0px 5px 0px">Examination Number</p>
+                                                        <input type="text" class="m-wrap"  placeholder="Examination Number" ng-model ="postSecResult.number" />
+                                                        </div>
+                                                </form>
+                                     
+                                     </div>
+                                     <hr />
+                                    <div class="update-field"> Get All the subjects and grade below. Click <strong>Save</strong> when you are through.</div>    
+                                    <div class="update-field">
+                                         <label for="subjects">
+                                             A'level Subjects
+                                         </label>
+                                         <select ng-model="deSubject" name="subjects" ng-change="achangedSubject();" class="form-control">
+                                              <option value="[ Select Subjects ]">[ Select Subjects ]</option>
+                                              <!--A/L subject and O/L subject are the same-->
+                                             <option ng-repeat="alevel in aLevelSubjects" value="{{alevel.courseTitle}}">{{alevel.courseTitle}}</option>
+                                         </select>
+                                         <div ng-show="alevelSelected==true">
+                                             <label for="grade">
+                                                Grades
+                                             </label>
+                                             <select ng-model="deGrade" name="agrade" class="form-control" >
+                                                      <option value="[ Select Grades ]">[ Select Grades ]</option>
+                                                      <option ng-repeat="grad in aLevelGrades" value="{{grad}}">{{grad}}</option>
+                                            
+                                             
+                                             </select>
+                                          </div>
+                                          <label>
+                                          	<button class="btn btn-success btn-sm" ng-click="aaddSelected()" style="font-size:16px">Add&nbsp;<i class="glyphicon glyphicon-shopping-cart" style="font-size:20px" ></i></button>
+                                         </label>
+                                     </div>
+                                           <!--subject selected panel--> 
+                                    <div class="">
+                                         <!--this is the heading of the panel-->
+                                         <div class=""><h4 style="margin:0px; display:inline">Subjects Selected</h4>&nbsp;-&nbsp;{{asubjectCounter}}  </div>
+                                         
+                                         
+                                         <!--this is the body of the panel-->
+                                          <div class="update-field">
+                                          
+                                          
+                                              <table class="table stripped"  style="font-size:15px; color:blue">
+                                              <tr ng-show = "asubAndGradeLength>0"><th>Subject(s)</th><th>Grade(s)</th><th>Action</th></tr>
+                                                <tr ng-repeat = "asubject in asubjectAndGrade" >
+                                                    <td>
+                                                        {{asubject.subj}}
+                                                    </td>
+                                                    <td>
+                                                        {{asubject.grade}}
+                                                    </td>
+                                                    <td style="border-left:thick">
+                                                        <a href="" ng-click="adeleteSubject($index);"><i class="glyphicon glyphicon-trash" style="color:red"></i>Remove</a>
+                                                    </td>
+                                                </tr>
+                                                
+                                              </table>
+                                        
+                                                
+                                          </div>
+                                        <!--end of the panel body-->
+                                    
+                                     </div>
+                                     <!--this is the end of the panel-->
+                                    <div class="update-field"><button ng-click = "backToOlevel();" class="btn blue"><i class="glyphicon glyphicon-hand-left"></i>&nbsp;Previous</button> <p style=" margin:5px; font-weight:bold; display:inline">Number of Subjects&nbsp;=&nbsp;<span style="color:red">{{asubjectCounter}}</span> </p><span> <button class="btn btn-success btn-sm" ng-click="saveAlevelSubjects()">Save&nbsp;</button></span></div>
+                                     </div>
+                                </div>
+                                
+                             <!--this is the begining of other post secondary education stuff "Degree", "HND", "OND", "NCE", "A/L", "NRN"-->
+                             
+                    
+                    <div ng-show = "DESegment=='HND' || DESegment=='OND' || DESegment=='Degree' || DESegment=='NCE' || DESegment=='NRN'" style="color:blue; margin:20px 0; width:100%">
+                        <h4 style="margin-top:10px; color:black">{{DESegment}}&nbsp; Result Information</h4>
+                        <hr />
+                             <div >
+                             <form name="data_form3" class="form-horizontal" role="form" novalidate>
+                                                                        
+                                                <div class="update-field">
+                                                <p style="margin-bottom:5px 0px 5px 0px"> Graduation Year</p>
+                                                <select ng-model="postSecondaryResult.year" class="m-wrap">
+                                                    <option value="[ Select Examination Year ]">[ Select Examination Year ]</option>
+                                                    <option ng-repeat = "year in years" value="{{year}}">{{year}}</option>
+                                                </select>
+                                                </div>
+                                                
+                                                <div class="update-field">
+                                                <p style="margin-bottom:5px 0px 5px 0px">Institution Name</p>
+                                                <input type="text" class="m-wrap" placeholder="Institution" ng-model ="postSecondaryResult.institution" />
+                                                </div>
+                                                
+                                                <div class="update-field">
+                                                <p style="margin-bottom:5px 0px 5px 0px">Course of Study</p>
+                                                <input type="text" class="m-wrap"  placeholder="Course of Study" ng-model ="postSecondaryResult.course" />
+                                                </div>
+                                                
+                                                 <div class="update-field">
+                                                <p style="margin-bottom:5px 0px 5px 0px">Grade</p>
+                                                <select ng-model="postSecondaryResult.grade" class="m-wrap">
+                                                    <option value="[ Select Grade ]">[ Select Grade ]</option>
+                                                    <option ng-repeat = "grad in postSecondaryResultArray" value="{{grad}}">{{grad}}</option>
+                                                </select>
+                                                </div>
+                                                <div class="update-field"><button class="btn btn-success btn-sm" ng-click="savePostSecondaryResult()" style="float:left; margin-top:10px">&nbsp;Save&nbsp;</button></div>
+                                                
+                                        </form>
+                             
+                             </div>
+                    </div>
+                    
+                    </div>
+                    
+                    <div style="width:100%;background-color:red; color:white;float:left" ng-show="messages">
+                    	<h4>{{messages}}</h4>
+                    </div>
+                    
+				</div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script type="text/ng-template" id="myModalContent.html">
+	<div class="modal-header">
+		<h3 class="modal-title">{{modalHeader}}</h3>
+	</div>
+	<div class="modal-body">
+		<span ng-bind-html="modalDisplay"></span>
+	</div>
+	<div class="modal-footer">
+		<button class="m-btn blue" ng-click="ok()">OK</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="dialogContent.html">
+	<div class="modal-header">
+		<h3 class="modal-title">{{modalHeader}}</h3>
+	</div>
+	<div class="modal-body">
+		<span ng-bind-html="modalDisplay"></span>
+	</div>
+	<div class="modal-footer">
+		<button class="m-btn" ng-click="cancel()">Cancel</button>
+		<button class="m-btn blue" ng-click="ok(form_values)" style="margin-right:20px;">OK</button>
+	</div>
+</script>
