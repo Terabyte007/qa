@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>UI Quality Assurance</title>
+<script src="libraries/angular.min.js"></script>
+<script src="libraries/jquery-1.11.2.min.js"></script>
+<script src="libraries/angular-route.js"></script>
+<script src="bootstrap-3.3.1-dist/dist/js/bootstrap.min.js"></script>
+<script src="libraries/ui-bootstrap-tpls-0.10.0.min.js"></script>
+<script src="libraries/angular-messages.min.js"></script>
+<script src="libraries/angular-animate.min.js"></script>
+<script src="libraries/twitter-bootstrap-hover-dropdown.js"></script>
+<script src="libraries/toaster.js"></script>
+<script src="libraries/angular-sanitize.js"></script>
+<script src="libraries/ngStorage.min.js"></script>
+<script src="libraries/angular-spinkit.min.js"></script>
+<script src="libraries/Chart.min.js"></script>
+<script src="libraries/angular-chart.min.js"></script>
+<script src="libraries/ngprogress.js"></script>
+
+<script src="frontend/main.js"></script>
+<script src="frontend/data.js"></script>
+<script src="controllers/authentication.js"></script>
+<script src="controllers/settings.js"></script>
+<script src="controllers/applicant.js"></script>
+<script src="controllers/admin.js"></script>
+<script src="controllers/quality-assurance.js"></script>
+<script src="controllers/hod.js"></script>
+<script src="controllers/index.js"></script>
+<script src="controllers/validation.js"></script>
+<script src="controllers/body.js"></script>
+<script src="controllers/settingcontroller.js"></script>
+<script src="controllers/alerts.js"></script>
+
+<link href="css/animate1.css">
+<link rel="stylesheet" href="css/bootstrap.css">
+<!--<link rel="stylesheet" href="css/bootstrap-reboot.css">-->
+<link rel="stylesheet" href="css/ecss.css">
+<link rel="stylesheet" href="css/custom.css">
+<link rel="stylesheet" href="css/pgry.css">
+<link rel="stylesheet" href="css/font-awesome.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/m-styles.min.css">
+<link rel="stylesheet" href="css/home_sty.css">
+<link rel="stylesheet" href="css/form_sty.css">
+<link rel="stylesheet" href="css/toaster.css">
+<link rel="stylesheet" href="css/angular-spinkit.min.css">
+
+</head>
+<body ng-controller="bodyCtrl">
+<div class="navbar navbar-fixed-top navbar-inverse" ng-if="authenticated">
+    <div id="nav-cnt">
+    	<div class="top_left pull-left">
+        	<div class="brand" ng-if="!isMain" style="margin:0px">
+            	<img src="images/UI logo.png"  style="margin:0px" width="40px" height="60px"/>
+            </div>
+            
+            <ul class="nav navbar-nav">
+            	<li class="dropdown" ng-repeat="menu_content in menu_contents">
+                  <a href="{{menu_content.url}}" class="dropdown-toggle" ng-class="{'home' : menu_content.isHome, 'active':menu_content.isActive}" data-toggle="dropdown" data-hover="dropdown" role="button" aria-expanded="false" ng-if="menu_content.hasSubMenu">
+                      <i ng-if="menu_content.isBigger" class="{{menu_content.logo}} icn2 nav_icn" ng-show="menu_content.logo"></i>
+                      <i ng-if="!menu_content.isBigger" class="{{menu_content.logo}} icn nav_icn" ng-show="menu_content.logo"></i> 
+                      <span ng-bind="menu_content.name"></span>
+                      <span class="caret" ng-if="menu_content.hasSubMenu"></span>
+                  </a>
+                  
+                   <ul class="dropdown-menu" role="menu" ng-if="menu_content.hasSubMenu">
+                      <li ng-repeat="submenu_content in menu_content.subMenus"><a href="#/{{submenu_content.url}}">{{submenu_content.name}}</a></li>
+                  </ul>
+                  <a href="{{menu_content.url}}" class="dropdown-ntoggle" ng-class="{'home' : menu_content.isHome, 'active':menu_content.isActive}" role="button" aria-expanded="false" ng-if="!menu_content.hasSubMenu">
+                  	  <i ng-if="menu_content.isBigger" class="{{menu_content.logo}} icn2 nav_icn" ng-show="menu_content.logo"></i>
+                      <i ng-if="!menu_content.isBigger" class="{{menu_content.logo}} icn nav_icn" ng-show="menu_content.logo"></i> 
+                      <span ng-bind="menu_content.name"></span>
+                  </a>
+                  
+                </li>
+            </ul>
+        </div>
+    	<!--<div class="top_right pull-right" ng-if="!isMain">
+        	<a href="#/" class="m-btn red" ng-if="!authenticated">&nbsp;&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        	<button class="m-btn red" ng-click = "logout();" ng-if="authenticated" >Logout</button>
+        </div>-->
+        
+        <div class="top_right pull-right" ng-if="!isMain">
+        	<!--<button class="m-btn red" ng-click = "login();" ng-if="!authenticated">&nbsp;&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;&nbsp;</button>-->
+        	<a href="#/" class="m-btn red" ng-if="!authenticated">&nbsp;&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            
+            <ul class="nav navbar-nav">
+                <li class="dropdown" ng-if="authenticated">
+                  <a href="" class="dropdown-toggle" ng-class="{'home' : menu_content.isHome, 'active':menu_content.isActive}" data-toggle="dropdown" data-hover="dropdown" role="button" aria-expanded="false">
+                      <i class="icon-cog icn2 nav_icn"></i> 
+                      
+                      <!--<span style="border-radius:50%; width:50px; height:50px;margin:0px; padding:0px"><img src="images/logo1.png" style="border-radius:50%;width:30px; height:30px; margin:0px; padding:0px" /></span>-->
+                      <!--<span></span>-->
+                      <span class="caret"></span>
+                  </a>
+                  
+                   <ul class="dropdown-menu" style="width:100px;" role="menu">
+                      <li style="border-bottom:1px solid #CCC;">
+						<a href="{{account_menu.url}}">Account Management</a>
+                        <!--#/admin/account-management-->
+                      </li>
+                      <li  ><button class="m-btn red" style="width:90%; margin:10px 5%;" ng-click = "logout();">Logout</button></li>
+                      
+                      <li style ="text-align:center"><img style="border-radius:50%; width:100px; height:100px; margin:0px; padding:0px; text-align:center; border:solid 1px red" ng-src="{{pf_number_img}}" />
+                      
+                      </li>
+                      <li style="text-align:center"><span style="text-align:center; font-size:21px; color:red; text-transform:capitalize">{{portfolio}}</span></li>
+                  </ul>
+                  
+                </li>
+            </ul>
+        	<!--<button class="m-btn red" ng-click = "logout();" ng-if="authenticated">Logout</button>-->
+        </div>
+    </div>
+</div><!---->
+
+<div ng-show="!content_loaded" id="main_cnt_dv2">
+	<div id="hme_cnt_dv">
+        <div class="outer">
+            <div class="middle">
+                <div class="inner">
+                	<span style="width:100%;color:#F0F;font-size:25px;text-align:center;float:left;">
+                    	<wave-spinner></wave-spinner> 
+                        <p style="color:#F0F;margin-top:-70px;">Loading...</p>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-show="content_loaded" id="main_cnt_dv" class="content-layer container-fluid" ng-if="!authenticated">
+    <div ng-view>
+        
+    </div>
+</div>
+
+<div ng-show="content_loaded" id="main_cnt_dv2" class="content-layer container-fluid" ng-if="authenticated">
+	<div ng-view></div>
+</div>
+
+<!--<div id="footer" class="navbar navbar-default  " style="margin-top:20px;">
+    <div id="foot-cnt" class="container">
+    	<p class="navbar-text pull-right" ng-if="isMain">Powered by Information Technology and Media Services, University of Ibadan</p>
+    	<div class="navbar-text pull-right brand" ng-if="!isMain"><img src="images/bottom_logo.png" /></div>
+    </div>
+</div>-->
+
+
+</body>
+
+<script>
+	function printDiv(divName) {
+		 var printContents = document.getElementById(divName).innerHTML;
+		 var originalContents = document.body.innerHTML;
+	
+		 document.body.innerHTML = printContents;
+	
+		 window.print();
+	
+		 document.body.innerHTML = originalContents;
+	}
+</script>
+</html>
